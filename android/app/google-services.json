@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "351011156045",
+    "project_id": "fir-publicarea",
+    "storage_bucket": "fir-publicarea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351011156045:android:fb42ce242f157fc77dac04",
+        "android_client_info": {
+          "package_name": "com.example.demo_publicarea"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU4igNuTin32XJLrmsS0a1MFsBhV35G6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
