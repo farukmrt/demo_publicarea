@@ -2,12 +2,18 @@ class User {
   final String uid;
   final String username;
   final String email;
+  // final String? name;
+  // final String? surname;
+  // final String? building;
   //final String dob;
 
   User({
     required this.uid,
     required this.email,
     required this.username,
+    // this.name,
+    // this.surname,
+    // this.building,
     //required this.dob,
   });
 
