@@ -1,5 +1,5 @@
 import 'package:demo_publicarea/resources/auth_methods.dart';
-import 'package:demo_publicarea/screens/main_screen.dart';
+import 'package:demo_publicarea/screens/tabs_screen.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordController.text,
     );
     if (res) {
-      Navigator.pushReplacementNamed(context, MainScreen.routeName);
+      Navigator.pushReplacementNamed(context, TabsScreen.routeName);
     }
   }
 

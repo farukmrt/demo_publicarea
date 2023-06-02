@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/firebase_options.dart';
-import 'package:demo_publicarea/screens/main_screen.dart';
+//import 'package:demo_publicarea/firebase_options.dart';
+import 'package:demo_publicarea/screens/tabs_screen.dart';
 import 'package:demo_publicarea/screens/login_screen.dart';
 import 'package:demo_publicarea/screens/signup_screen.dart';
 import 'package:demo_publicarea/resources/auth_methods.dart';
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         OnboardingScreen.routeName: (context) => const OnboardingScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
         SignupScreen.routeName: (context) => const SignupScreen(),
-        MainScreen.routeName: (context) => const MainScreen(),
+        TabsScreen.routeName: (context) => const TabsScreen(),
       },
       home: FutureBuilder(
         future: AuthMethods()
@@ -71,9 +71,10 @@ class MyApp extends StatelessWidget {
             return const LoadingIndicator();
           }
 
-          if (snapshot.hasData) {
-            return const MainScreen();
-          }
+          //eger kullanici mevcutsa direk ana ekrana yonlendirir
+          // if (snapshot.hasData) {
+          //   return const MainScreen();
+          // }
           return const OnboardingScreen();
         },
       ),
