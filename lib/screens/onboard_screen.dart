@@ -34,10 +34,11 @@ class OnboardingScreen extends StatelessWidget {
               text: 'Giriş yap',
             ),
             CustomButton(
-                onTap: () {
-                  Navigator.pushNamed(context, SignupScreen.routeName);
-                },
-                text: 'Üye ol'),
+              onTap: () {
+                Navigator.pushNamed(context, SignupScreen.routeName);
+              },
+              text: 'Üye ol',
+            ),
           ],
         ),
       ),

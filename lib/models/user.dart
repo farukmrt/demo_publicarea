@@ -2,18 +2,18 @@ class User {
   final String uid;
   final String username;
   final String email;
-  // final String? name;
-  // final String? surname;
-  // final String? building;
+  final String name;
+  final String surname;
+  //final String building;
   //final String dob;
 
   User({
     required this.uid,
     required this.email,
     required this.username,
-    // this.name,
-    // this.surname,
-    // this.building,
+    required this.name,
+    required this.surname,
+    //this.building,
     //required this.dob,
   });
 
@@ -22,6 +22,9 @@ class User {
       'uid': uid,
       'username': username,
       'email': email,
+      'name': name,
+      'surname': surname,
+      //   'building':building,
     };
   }
 
@@ -30,6 +33,8 @@ class User {
       uid: map['uid'] ?? '',
       username: map['username'] ?? '',
       email: map['email'] ?? '',
+      name: map['name'] ?? '',
+      surname: map['surname'] ?? '',
     );
   }
 }

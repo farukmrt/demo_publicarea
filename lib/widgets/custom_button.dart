@@ -4,11 +4,13 @@ import 'package:demo_publicarea/utils/colors.dart';
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
+  final Icon? icon;
 
   const CustomButton({
     Key? key,
     required this.onTap,
     required this.text,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -29,3 +31,37 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+
+//duzenlenecek silinebilirlik ozelligi
+// Expanded(
+//                 child: Consumer<DescriptionProvider>(
+//                   builder: (context, provider, _) {
+//                     List<Description> descriptions = provider.description;
+//                     var uuid = Uuid(); // Uuid sınıfını oluşturun
+
+//                     return ListView.builder(
+//                       itemCount: descriptions.length,
+//                       itemBuilder: (context, index) {
+//                         Description description = descriptions[index];
+//                         String uniqueKey =
+//                             uuid.v4(); // Benzersiz bir kimlik oluşturun
+//                         return Dismissible(
+//                           key: Key(uniqueKey),
+//                           onDismissed: (direction) {
+//                             provider.removeDescription(description);
+//                           },
+//                           background: Container(
+//                             color: negative,
+//                             child: Icon(Icons.delete),
+//                           ),
+//                           child: CustomListItem(
+//                             title: description.titlee,
+//                             subtitle: description.subtitlee,
+//                           ),
+//                         );
+//                       },
+//                     );
+//                   },
+//                 ),
+//               )

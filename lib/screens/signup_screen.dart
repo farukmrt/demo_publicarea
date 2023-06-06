@@ -17,6 +17,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
   final AuthMethods _authMethods = AuthMethods();
   void signUpUser() async {
     bool res = await _authMethods.signUpUser(
@@ -24,6 +26,8 @@ class _SignupScreenState extends State<SignupScreen> {
       _emailController.text,
       _usernameController.text,
       _passwordController.text,
+      _nameController.text,
+      _surnameController.text,
     );
     if (res) {
       Navigator.pushReplacementNamed(context, TabsScreen.routeName);
@@ -54,6 +58,14 @@ class _SignupScreenState extends State<SignupScreen> {
               CustomTextField(
                 controller: _usernameController,
                 labelText: 'Kullanıcı adınızı oluşturun',
+              ),
+              CustomTextField(
+                controller: _nameController,
+                labelText: 'Adınızı girin',
+              ),
+              CustomTextField(
+                controller: _surnameController,
+                labelText: 'Soyadınızı girin',
               ),
               const SizedBox(height: 15),
               CustomButton(onTap: signUpUser, text: 'Üye ol..')

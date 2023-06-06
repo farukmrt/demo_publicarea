@@ -1,3 +1,6 @@
+import 'package:demo_publicarea/providers/bill_provider.dart';
+import 'package:demo_publicarea/providers/description_provider.dart';
+
 import 'firebase_options.dart';
 import 'models/user.dart' as model;
 import 'package:flutter/material.dart';
@@ -21,9 +24,10 @@ void main() async {
   );
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (_) => UserProvider(),
-    ),
+    ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
+    ChangeNotifierProvider<DescriptionProvider>(
+        create: (_) => DescriptionProvider()),
+    ChangeNotifierProvider<BillProvider>(create: (_) => BillProvider()),
   ], child: const MyApp()));
 }
 

@@ -6,6 +6,8 @@ class UserProvider extends ChangeNotifier {
     uid: '',
     email: '',
     username: '',
+    name: '',
+    surname: '',
   );
 
   User get user => _user;

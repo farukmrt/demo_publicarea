@@ -24,6 +24,8 @@ class AuthMethods {
     String email,
     String username,
     String password,
+    String name,
+    String surname,
   ) async {
     bool res = false;
     try {
@@ -31,6 +33,8 @@ class AuthMethods {
           email: email, password: password);
       if (cred.user != null) {
         model.User user = model.User(
+          surname: surname.trim(),
+          name: name.trim(),
           username: username.trim(),
           email: email.trim(),
           uid: cred.user!.uid,

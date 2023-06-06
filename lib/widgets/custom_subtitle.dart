@@ -16,12 +16,19 @@ class CustomSubtitle extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 6),
-            child: Text(title),
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+            ),
           ),
           if (subtitle != null)
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-              child: Text(subtitle!),
+              child: Text(
+                subtitle!,
+                style:
+                    const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+              ),
             ),
         ],
       ),
