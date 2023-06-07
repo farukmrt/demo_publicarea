@@ -1,7 +1,7 @@
 import 'package:demo_publicarea/screens/login_screen.dart';
 import 'package:demo_publicarea/screens/signup_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -27,13 +27,13 @@ class OnboardingScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            CustomButton(
+            CustomMainButton(
               onTap: () {
                 Navigator.pushNamed(context, LoginScreen.routeName);
               },
               text: 'Giriş yap',
             ),
-            CustomButton(
+            CustomMainButton(
               onTap: () {
                 Navigator.pushNamed(context, SignupScreen.routeName);
               },

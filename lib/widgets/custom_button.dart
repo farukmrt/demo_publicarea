@@ -1,67 +1,51 @@
-import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:flutter/material.dart';
 
-class CustomButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onTap;
-  final Icon? icon;
+class CustomIconbutton extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final VoidCallback ontap;
 
-  const CustomButton({
+  const CustomIconbutton({
     Key? key,
-    required this.onTap,
-    required this.text,
-    this.icon,
+    required this.title,
+    required this.icon,
+    required this.ontap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.fromLTRB(5, 10, 5, 3),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
-          minimumSize: const Size(double.infinity, 40),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(buttonColor),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
         ),
-        onPressed: onTap,
-        child: Text(
-          text,
-          style: const TextStyle(color: mainBackgroundColor),
+        onPressed: ontap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Icon(
+                icon,
+                color: mainBackgroundColor,
+              ),
+            ),
+            Text(
+              title,
+              style: const TextStyle(
+                color: mainBackgroundColor,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
-
-//duzenlenecek silinebilirlik ozelligi
-// Expanded(
-//                 child: Consumer<DescriptionProvider>(
-//                   builder: (context, provider, _) {
-//                     List<Description> descriptions = provider.description;
-//                     var uuid = Uuid(); // Uuid sınıfını oluşturun
-
-//                     return ListView.builder(
-//                       itemCount: descriptions.length,
-//                       itemBuilder: (context, index) {
-//                         Description description = descriptions[index];
-//                         String uniqueKey =
-//                             uuid.v4(); // Benzersiz bir kimlik oluşturun
-//                         return Dismissible(
-//                           key: Key(uniqueKey),
-//                           onDismissed: (direction) {
-//                             provider.removeDescription(description);
-//                           },
-//                           background: Container(
-//                             color: negative,
-//                             child: Icon(Icons.delete),
-//                           ),
-//                           child: CustomListItem(
-//                             title: description.titlee,
-//                             subtitle: description.subtitlee,
-//                           ),
-//                         );
-//                       },
-//                     );
-//                   },
-//                 ),
-//               )

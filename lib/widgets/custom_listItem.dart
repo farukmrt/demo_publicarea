@@ -6,6 +6,8 @@ class CustomListItem extends StatelessWidget {
   final String subtitle;
   final Widget? trailing;
   final Widget? leading;
+  final Color? color;
+  final FontStyle? fontstyle;
 
   const CustomListItem({
     Key? key,
@@ -13,6 +15,8 @@ class CustomListItem extends StatelessWidget {
     required this.subtitle,
     this.trailing,
     this.leading,
+    this.color,
+    this.fontstyle,
   }) : super(key: key);
 
   @override
@@ -31,8 +35,14 @@ class CustomListItem extends StatelessWidget {
               child: ListTile(
                 trailing: trailing,
                 leading: leading,
-                title: Text(title),
-                subtitle: Text(subtitle),
+                title: Text(
+                  title,
+                  style: TextStyle(fontStyle: fontstyle),
+                ),
+                subtitle: Text(
+                  subtitle,
+                  style: TextStyle(color: color),
+                ),
               ),
             ),
           ],

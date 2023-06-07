@@ -1,6 +1,6 @@
 import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/screens/tabs_screen.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 labelText: 'Parolanızı girin',
               ),
               const SizedBox(height: 15),
-              CustomButton(onTap: loginUser, text: 'Giriş yap')
+              CustomMainButton(onTap: loginUser, text: 'Giriş yap')
             ],
           ),
         ),

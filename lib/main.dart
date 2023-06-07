@@ -1,5 +1,6 @@
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/description_provider.dart';
+import 'package:demo_publicarea/screens/main_screen.dart';
 
 import 'firebase_options.dart';
 import 'models/user.dart' as model;
@@ -77,7 +78,7 @@ class MyApp extends StatelessWidget {
 
           //eger kullanici mevcutsa direk ana ekrana yonlendirir
           // if (snapshot.hasData) {
-          //   return const MainScreen();
+          //   return const TabsScreen();
           // }
           return const OnboardingScreen();
         },

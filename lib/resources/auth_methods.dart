@@ -19,14 +19,8 @@ class AuthMethods {
     return null;
   }
 
-  Future<bool> signUpUser(
-    BuildContext context,
-    String email,
-    String username,
-    String password,
-    String name,
-    String surname,
-  ) async {
+  Future<bool> signUpUser(BuildContext context, String email, String username,
+      String password, String name, String surname, String building) async {
     bool res = false;
     try {
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -37,6 +31,7 @@ class AuthMethods {
           name: name.trim(),
           username: username.trim(),
           email: email.trim(),
+          building: building.trim(),
           uid: cred.user!.uid,
         );
         await _userRef.doc(cred.user!.uid).set(user.toMap());

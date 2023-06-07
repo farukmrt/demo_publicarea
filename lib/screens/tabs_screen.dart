@@ -37,6 +37,8 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     //final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
+      drawerScrimColor: Colors.red,
+      //backgroundColor: Colors.red,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: buttonColor,
         unselectedItemColor: mainColor,

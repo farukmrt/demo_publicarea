@@ -4,7 +4,7 @@ class User {
   final String email;
   final String name;
   final String surname;
-  //final String building;
+  final String building;
   //final String dob;
 
   User({
@@ -13,7 +13,7 @@ class User {
     required this.username,
     required this.name,
     required this.surname,
-    //this.building,
+    required this.building,
     //required this.dob,
   });
 
@@ -24,7 +24,7 @@ class User {
       'email': email,
       'name': name,
       'surname': surname,
-      //   'building':building,
+      'building': building,
     };
   }
 
@@ -35,6 +35,7 @@ class User {
       email: map['email'] ?? '',
       name: map['name'] ?? '',
       surname: map['surname'] ?? '',
+      building: map['building'] ?? '',
     );
   }
 }

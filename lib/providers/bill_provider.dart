@@ -1,121 +1,51 @@
 import 'package:demo_publicarea/models/bill.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class BillProvider with ChangeNotifier {
   List<Bill> bills = [
     Bill(
         name: 'Aidat ödemesi',
         date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
-    Bill(
-        name: 'Aidat ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
-    Bill(
-        name: 'Aidat ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
-    Bill(
-        name: 'Aidat ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
-    Bill(
-        name: 'Aidat ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
-    Bill(
-        name: 'Aidat ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
-    Bill(
-        name: 'Aidat ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
+        amount: 355.55,
+        //  userId: 5,
+        isPaid: true),
     Bill(
         name: 'Yakıt ödemesi',
         date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: false),
-    Bill(
-        name: 'Demirbaş gidrleri',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Asansör bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
+        amount: 849.99,
         isPaid: true),
     Bill(
         name: 'Demirbaş gidrleri',
         date: DateTime(2021, 6, 12),
-        amount: 759.35,
+        amount: 1199.99,
         isPaid: true),
     Bill(
         name: 'Asansör bakımı',
         date: DateTime(2021, 6, 12),
-        amount: 759.35,
+        amount: 275.75,
         isPaid: true),
     Bill(
         name: 'Demirbaş gidrleri',
         date: DateTime(2021, 6, 12),
-        amount: 759.35,
+        amount: 100,
         isPaid: true),
     Bill(
-        name: 'Asansör bakımı',
+        name: 'Bahçe bakımı',
         date: DateTime(2021, 6, 12),
-        amount: 759.35,
+        amount: 450,
         isPaid: true),
     Bill(
-        name: 'Demirbaş gidrleri',
+        name: 'Çatı bakımı',
         date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Asansör bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Demirbaş gidrleri',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Asansör bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Demirbaş gidrleri',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Asansör bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Demirbaş gidrleri',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
-        isPaid: true),
-    Bill(
-        name: 'Asansör bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 759.35,
+        amount: 858.1,
         isPaid: true),
   ];
+
+  List<Bill> get unpaidBills => bills.where((bill) => !bill.isPaid).toList();
+  List<Bill> get paidBills => bills.where((bill) => bill.isPaid).toList();
 
   // @override
   // Widget build(BuildContext context) {
@@ -136,3 +66,23 @@ class BillProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+
+
+
+  //  double amountTotal = 0;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   calculateTotalAmount();
+  // }
+
+  // void calculateTotalAmount() {
+  //   final provider = Provider.of<BillProvider>(context, listen: false);
+  //   final unpaidBills = provider.bill.where((bill) => !bill.isPaid).toList();
+  //   amountTotal = 0;
+  //   unpaidBills.forEach((bill) {
+  //     amountTotal += bill.amount;
+  //   });
+  // }

@@ -1,6 +1,6 @@
 import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/screens/tabs_screen.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 
 import 'package:flutter/material.dart';
@@ -19,6 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _buildingController = TextEditingController();
   final AuthMethods _authMethods = AuthMethods();
   void signUpUser() async {
     bool res = await _authMethods.signUpUser(
@@ -28,6 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
       _passwordController.text,
       _nameController.text,
       _surnameController.text,
+      _buildingController.text,
     );
     if (res) {
       Navigator.pushReplacementNamed(context, TabsScreen.routeName);
@@ -67,8 +69,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 controller: _surnameController,
                 labelText: 'Soyadınızı girin',
               ),
+              CustomTextField(
+                controller: _buildingController,
+                labelText: 'Bina adını girin',
+              ),
               const SizedBox(height: 15),
-              CustomButton(onTap: signUpUser, text: 'Üye ol..')
+              CustomMainButton(onTap: signUpUser, text: 'Üye ol..')
             ],
           ),
         ),
