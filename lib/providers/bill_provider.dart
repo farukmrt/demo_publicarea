@@ -11,32 +11,32 @@ class BillProvider with ChangeNotifier {
         date: DateTime(2021, 6, 12),
         amount: 355.55,
         //  userId: 5,
-        isPaid: true),
+        isPaid: false),
     Bill(
         name: 'Yakıt ödemesi',
         date: DateTime(2021, 6, 12),
         amount: 849.99,
-        isPaid: true),
+        isPaid: false),
     Bill(
         name: 'Demirbaş gidrleri',
         date: DateTime(2021, 6, 12),
         amount: 1199.99,
-        isPaid: true),
+        isPaid: false),
     Bill(
         name: 'Asansör bakımı',
         date: DateTime(2021, 6, 12),
         amount: 275.75,
-        isPaid: true),
+        isPaid: false),
     Bill(
         name: 'Demirbaş gidrleri',
         date: DateTime(2021, 6, 12),
         amount: 100,
-        isPaid: true),
+        isPaid: false),
     Bill(
         name: 'Bahçe bakımı',
         date: DateTime(2021, 6, 12),
         amount: 450,
-        isPaid: true),
+        isPaid: false),
     Bill(
         name: 'Çatı bakımı',
         date: DateTime(2021, 6, 12),
