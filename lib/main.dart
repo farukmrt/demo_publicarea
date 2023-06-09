@@ -77,9 +77,9 @@ class MyApp extends StatelessWidget {
           }
 
           //eger kullanici mevcutsa direk ana ekrana yonlendirir
-          // if (snapshot.hasData) {
-          //   return const TabsScreen();
-          // }
+          if (snapshot.hasData) {
+            return const TabsScreen();
+          }
           return const OnboardingScreen();
         },
       ),
