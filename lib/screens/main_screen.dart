@@ -1,11 +1,17 @@
-import 'package:demo_publicarea/models/description.dart';
-import 'package:demo_publicarea/models/user.dart';
-import 'package:demo_publicarea/providers/description_provider.dart';
+// import 'package:uuid/uuid.dart';
+// import 'package:demo_publicarea/utils/utils.dart';
+// import 'package:demo_publicarea/widgets/custom_main_button.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:demo_publicarea/models/announcement.dart';
+// import 'package:demo_publicarea/models/user.dart';
+import 'package:demo_publicarea/providers/announcement_provider.dart';
+import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
+import 'package:demo_publicarea/utils/date_amount_formatter.dart';
 import 'package:demo_publicarea/widgets/custom_column_button.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +26,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-
     // DescriptionProvider descriptionProvider =
     //     Provider.of<DescriptionProvider>(context);
     // for (int i = 0; i < 3; i++) {
@@ -76,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
                                           color: mainBackgroundColor),
                                     ),
                                     Text(
-                                      '${userProvider.user.building}',
+                                      userProvider.user.building,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         color: mainBackgroundColor,
@@ -102,18 +107,44 @@ class _MainScreenState extends State<MainScreen> {
                                 padding: const EdgeInsets.all(10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
+                                  children: [
+                                    const Text(
                                       'Borcunuz',
                                       style: TextStyle(
                                           fontSize: 15, color: Colors.white),
                                     ),
-                                    Text(
-                                      'amountot',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                    Consumer<BillProvider>(
+                                      builder: (context, data, index) {
+                                        return FutureBuilder<double>(
+                                          future: data
+                                              .fetchAmountTotalStatus(false),
+                                          builder:
+                                              (BuildContext context, snapshot) {
+                                            //var bill = snapshot.data?;
+                                            if (snapshot.hasData) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Center(
+                                                  child: LoadingIndicator(),
+                                                );
+                                              } else {
+                                                return Text(
+                                                  NoyaFormatter.generateAmount(
+                                                      snapshot.data),
+                                                  style: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                );
+                                              }
+                                            } else if (snapshot.hasError) {
+                                              return const Text('no data');
+                                            }
+                                            return const LoadingIndicator();
+                                          },
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -131,100 +162,82 @@ class _MainScreenState extends State<MainScreen> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomCIconbutton(
                       title: 'Ödeme\nYap',
                       icon: Icons.wallet_outlined,
                       ontap: () {}),
+                  const SizedBox(width: 135),
                   CustomCIconbutton(
-                      title: 'Ödeme\nYap',
-                      icon: Icons.wallet_outlined,
-                      ontap: () {}),
-                  CustomCIconbutton(
-                      title: 'Ödeme\nYap',
-                      icon: Icons.wallet_outlined,
-                      ontap: () {}),
-                  CustomCIconbutton(
-                      title: 'Ödeme\nYap',
-                      icon: Icons.wallet_outlined,
-                      ontap: () {}),
-                  CustomCIconbutton(
-                      title: 'Ödeme\nYap',
-                      icon: Icons.wallet_outlined,
+                      title: 'Acil\nDurum',
+                      icon: Icons.warning_rounded,
                       ontap: () {}),
                 ],
               ),
             ),
-            Expanded(
-              child: Consumer<DescriptionProvider>(
-                builder: (context, provider, _) {
-                  List<Description> descriptions = provider.description;
+            Expanded(child: Consumer<AnnouncementProvider>(
+              builder: (context, data, index) {
+                // var announcements = await data.fetchAnnouncement();
 
-                  return ListView.builder(
-                    itemCount: descriptions.length,
-                    itemBuilder: (context, index) {
-                      Description description = descriptions[index];
-                      return CustomListItem(
-                        title: (description.titlee),
-                        subtitle: description.subtitlee,
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                        leading: const CircleAvatar(
-                          radius: 25,
-                          backgroundImage:
-                              AssetImage('assets/images/notice.png'),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+                return FutureBuilder(
+                  future: data.fetchAnnouncement(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: LoadingIndicator(),
+                        );
+                      } else {
+                        return ListView.builder(
+                          itemCount: snapshot.data?.length,
+                          itemBuilder: (context, index) {
+                            var announcement = snapshot.data?[index];
+
+                            return CustomListItem(
+                              title: announcement!['title'],
+                              subtitle: announcement['subtitle'],
+                              trailing: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.arrow_forward_ios),
+                              ),
+                              leading: const CircleAvatar(
+                                radius: 25,
+                                backgroundImage:
+                                    AssetImage('assets/images/notice.png'),
+                              ),
+                            );
+
+                            // ListTile(
+                            //   title: Text(announcement!['title']),
+                            //   subtitle: Text(announcement!['subtitle']),
+                            //   //  IconButton(
+                            //   //   icon: Icon(Icons.edit),
+                            //   //   onPressed: () async {
+                            //   //     try {
+                            //   //       AnnouncementProvider().updateAnnouncement(
+                            //   //         announcement['id'],
+                            //   //         announcement['title'],
+                            //   //         announcement['subtitle'],
+                            //   //       );
+                            //   //     } on Exception catch (_) {}
+                            //   //   },
+                            //   // ),
+                            // );
+                          },
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      return const Text('no data');
+                    }
+                    return const LoadingIndicator();
+                  },
+                );
+              },
+            )),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-/*
-Expanded(
-                child: Consumer<DescriptionProvider>(
-                  builder: (context, provider, _) {
-                    List<Description> descriptions = provider.description;
-                    var uuid = Uuid(); // Uuid sınıfını oluşturun
-
-                    return ListView.builder(
-                      itemCount: descriptions.length,
-                      itemBuilder: (context, index) {
-                        Description description = descriptions[index];
-                        String uniqueKey =
-                            uuid.v4(); // Benzersiz bir kimlik oluşturun
-                        return Dismissible(
-                          key: Key(uniqueKey),
-                          onDismissed: (direction) {
-                            provider.removeDescription(description);
-                          },
-                          background: Container(
-                            color: Colors.red,
-                            child: Icon(Icons.delete),
-                          ),
-                          child: CustomListItem(
-                            title: description.titlee,
-                            subtitle: description.subtitlee,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              )
-*/

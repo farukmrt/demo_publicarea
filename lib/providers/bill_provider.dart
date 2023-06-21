@@ -1,88 +1,70 @@
-import 'package:demo_publicarea/models/bill.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:demo_publicarea/models/bill.dart';
+//import 'package:demo_publicarea/utils/colors.dart';
+//import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 class BillProvider with ChangeNotifier {
-  List<Bill> bills = [
-    Bill(
-        name: 'Aidat ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 355.55,
-        //  userId: 5,
-        isPaid: false),
-    Bill(
-        name: 'Yakıt ödemesi',
-        date: DateTime(2021, 6, 12),
-        amount: 849.99,
-        isPaid: false),
-    Bill(
-        name: 'Demirbaş gidrleri',
-        date: DateTime(2021, 6, 12),
-        amount: 1199.99,
-        isPaid: false),
-    Bill(
-        name: 'Asansör bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 275.75,
-        isPaid: false),
-    Bill(
-        name: 'Demirbaş gidrleri',
-        date: DateTime(2021, 6, 12),
-        amount: 100,
-        isPaid: false),
-    Bill(
-        name: 'Bahçe bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 450,
-        isPaid: false),
-    Bill(
-        name: 'Çatı bakımı',
-        date: DateTime(2021, 6, 12),
-        amount: 858.1,
-        isPaid: true),
-  ];
-
-  List<Bill> get unpaidBills => bills.where((bill) => !bill.isPaid).toList();
-  List<Bill> get paidBills => bills.where((bill) => bill.isPaid).toList();
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   initializeDateFormatting('tr_TR', null);
-  //   final DateFormat dateFormatter = DateFormat('dd MMMM yyyy', 'tr_TR');
-  //   final NumberFormat amountFormatter =
-  //       NumberFormat.currency(locale: 'tr_TR', symbol: '₺');
-
-  List<Bill> get bill => bills;
-
-  void addBill(Bill bill) {
-    bills.add(bill);
-    notifyListeners();
-  }
-
-  void removeBill(Bill bill) {
-    bills.remove(bill);
-    notifyListeners();
-  }
-}
-
-
-
-
-
-  //  double amountTotal = 0;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   calculateTotalAmount();
-  // }
-
-  // void calculateTotalAmount() {
-  //   final provider = Provider.of<BillProvider>(context, listen: false);
-  //   final unpaidBills = provider.bill.where((bill) => !bill.isPaid).toList();
-  //   amountTotal = 0;
-  //   unpaidBills.forEach((bill) {
-  //     amountTotal += bill.amount;
+  //static List<Map<String, dynamic>> _bills = [];
+  // Future<List<Map<String, dynamic>>> fetchBill() async {
+  //   var collectionn = FirebaseFirestore.instance.collection('bills');
+  //   print(collectionn);
+  //   List<Map<String, dynamic>> tempList = [];
+  //   var data = await collectionn.get();
+  //   data.docs.forEach((element) {
+  //     tempList.add(element.data());
   //   });
+  //   return tempList;
   // }
+
+  Future<List<Map<String, dynamic>>> fetchBillByPaidStatus(
+      bool paidStatus) async {
+    var collection = FirebaseFirestore.instance.collection('bills');
+    //print(collection);
+
+    final query = collection.where("isPaid", isEqualTo: paidStatus);
+
+    List<Map<String, dynamic>> tempList = [];
+    var data = await query.get();
+    data.docs.forEach((element) {
+      tempList.add(element.data());
+    });
+    // notifyListeners();
+    //notify acildiginde liste donguye giriyor
+    return tempList;
+  }
+
+  Future<double> fetchAmountTotalStatus(bool paidStatus) async {
+    var collection = FirebaseFirestore.instance.collection('bills');
+    final query = collection.where("isPaid", isEqualTo: paidStatus);
+
+    double total = 0;
+
+    var data = await query.get();
+    data.docs.forEach((bills) {
+      total += bills.data()['amount'];
+    });
+    //notifyListeners();
+    return total;
+  }
+  // Future updateBill(
+  //     double amount, DateTime date, String id, bool isPaid, String name) async {
+  //   try {
+  //     await FirebaseFirestore.instance.collection('bills').doc(id).update(
+  //         {'amount': amount, 'date': date, 'isPaid': isPaid, 'name': name});
+  //     var updateBill = bills.firstWhere((element) => element['id'] == id);
+  //     updateBill['amount'] = amount;
+  //     updateBill['date'] = date;
+  //     updateBill['isPaid'] = isPaid;
+  //     updateBill['name'] = name;
+  //     notifyListeners();
+  //   } catch (e) {
+  //     throw (e);
+  //   }
+  // }
+  //
+  // List<Map<String, dynamic>> get getBills {
+  //   return _bills;
+  // }
+}

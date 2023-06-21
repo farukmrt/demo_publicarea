@@ -1,11 +1,11 @@
-import 'package:demo_publicarea/providers/user_providers.dart';
+// import 'package:provider/provider.dart';
+// import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/main_screen.dart';
 import 'package:demo_publicarea/screens/request_screen.dart';
 import 'package:demo_publicarea/screens/settings_screen.dart';
 import 'package:demo_publicarea/screens/statement_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TabsScreen extends StatefulWidget {
   static String routeName = '/tabs';
@@ -38,7 +38,7 @@ class _TabsScreenState extends State<TabsScreen> {
     //final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       drawerScrimColor: Colors.red,
-      //backgroundColor: Colors.red,
+      backgroundColor: mainBackgroundColor,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: buttonColor,
         unselectedItemColor: mainColor,

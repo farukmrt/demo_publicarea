@@ -1,19 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_publicarea/models/bill.dart';
-import 'package:demo_publicarea/providers/bill_provider.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
+// import 'package:intl/intl.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:demo_publicarea/models/bill.dart';
+// import 'package:intl/date_symbol_data_local.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:demo_publicarea/widgets/custom_main_button.dart';
+// import 'package:demo_publicarea/widgets/custom_column_button.dart';
+import 'package:demo_publicarea/screens/payment_select_screen.dart';
+import 'package:demo_publicarea/screens/tabs_screen.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_column_button.dart';
+import 'package:demo_publicarea/widgets/custom_text_button.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../utils/date_amount_formatter.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/providers/bill_provider.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:demo_publicarea/widgets/custom_subtitle.dart';
 import 'package:demo_publicarea/widgets/custom_title.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
-import '../utils/date_amount_formatter.dart';
+import 'package:demo_publicarea/widgets/loading_indicator.dart';
 
 class StatementScreen extends StatefulWidget {
   const StatementScreen({Key? key}) : super(key: key);
@@ -25,7 +31,8 @@ class StatementScreen extends StatefulWidget {
 class _StatementScreenState extends State<StatementScreen> {
   @override
   Widget build(BuildContext context) {
-    var outputFormat = DateFormat('MM/dd/yyyy');
+    //var outputFormat = DateFormat('MM/dd/yyyy');
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return SafeArea(
       child: Scaffold(
         // backgroundColor: backgroundColor,
@@ -33,45 +40,50 @@ class _StatementScreenState extends State<StatementScreen> {
         body: Column(
           children: [
             const CustomTitle(mainTitle: 'Hesap Özeti'),
-            const CustomSubtitle(
+            CustomSubtitle(
               title: 'Ödenmemişler',
-              subtitle: 'Hill Tower Göksu Sitesi',
+              subtitle: userProvider.user.building,
             ),
             Expanded(
               child: Consumer<BillProvider>(
-                builder: (context, provider, _) {
-                  List<Bill> unpaidBills = provider.unpaidBills;
-                  if (unpaidBills.isNotEmpty) {
-                    return ListView.builder(
-                      itemCount: unpaidBills.length,
-                      itemBuilder: (context, index) {
-                        Bill bill = unpaidBills[index];
-                        return CustomListItem(
-                          title: bill.name,
-                          subtitle:
-                              'Son Ödeme T: ${NoyaFormatter.generate(bill.date)}',
-                          color: unpaidc,
-                          trailing: Text('${bill.amount}'),
-                          leading: const Icon(
-                            Icons.receipt_long_outlined,
-                            color: unpaidc,
-                            size: 30,
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return const CustomListItem(
-                      title: 'Ödenmemiş fatura bulunmamaktadır',
-                      subtitle: 'Teşekkürler..',
-                      color: positive,
-                      leading: Icon(
-                        Icons.done_outlined,
-                        size: 40,
-                        color: positive,
-                      ),
-                    );
-                  }
+                builder: (context, data, index) {
+                  return FutureBuilder(
+                    future: data.fetchBillByPaidStatus(false),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: LoadingIndicator(),
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: snapshot.data?.length,
+                            itemBuilder: (context, index) {
+                              var bill = snapshot.data?[index];
+
+                              return CustomListItem(
+                                title: bill!['name'],
+                                subtitle:
+                                    'Son Ödeme T: ${NoyaFormatter.generate(bill['date'])}',
+                                color: unpaidc,
+                                trailing: Text(NoyaFormatter.generateAmount(
+                                    bill['amount'])),
+                                leading: const Icon(
+                                  Icons.receipt_long_outlined,
+                                  color: unpaidc,
+                                  size: 30,
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        return const Text('no data');
+                      }
+                      return const LoadingIndicator();
+                    },
+                  );
                 },
               ),
             ),
@@ -84,52 +96,96 @@ class _StatementScreenState extends State<StatementScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Toplam'),
-                    Text('amountTotal'),
+                    const Text('Toplam'),
+                    Consumer<BillProvider>(
+                      builder: (context, data, index) {
+                        return FutureBuilder<double>(
+                          future: data.fetchAmountTotalStatus(false),
+                          builder: (BuildContext context, snapshot) {
+                            //var bill = snapshot.data?;
+                            if (snapshot.hasData) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: LoadingIndicator(),
+                                );
+                              } else {
+                                return Text(NoyaFormatter.generateAmount(
+                                    snapshot.data));
+                              }
+                            } else if (snapshot.hasError) {
+                              return const Text('no data');
+                            }
+                            return const LoadingIndicator();
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
-            const CustomSubtitle(
-              title: 'Ödenmişler',
-              subtitle: 'Hill Tower Göksu Sitesi',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomSubtitle(
+                  title: 'Ödenmişler',
+                  subtitle: userProvider.user.building,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child:
+                          CustomTextButton(onTap: () {}, text: 'Tümünü Gör ->'),
+                    ),
+                  ],
+                )
+              ],
             ),
             Expanded(
               child: Consumer<BillProvider>(
-                builder: (context, provider, _) {
-                  List<Bill> paidBills = provider.paidBills;
-                  if (paidBills.isNotEmpty) {
-                    return ListView.builder(
-                      itemCount: paidBills.length,
-                      itemBuilder: (context, index) {
-                        Bill bill = paidBills[index];
-                        return CustomListItem(
-                          title: bill.name,
-                          subtitle:
-                              'Ödeme Tarihi: ${NoyaFormatter.generate(bill.date)}',
-                          color: paidc,
-                          trailing: Text(
-                              '${NoyaFormatter.generateAmount(bill.amount)}'),
-                          leading: const Icon(
-                            Icons.receipt_long_outlined,
-                            color: paidc,
-                            size: 30,
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return const CustomListItem(
-                      title: 'Ödenmiş fatura bulunmamaktadır',
-                      subtitle: 'Lütfen Ödeme Yapın..',
-                      color: negative,
-                      leading: Icon(
-                        Icons.priority_high_outlined,
-                        size: 40,
-                        color: negative,
-                      ),
-                    );
-                  }
+                builder: (context, data, index) {
+                  return FutureBuilder(
+                    future: data.fetchBillByPaidStatus(true),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: LoadingIndicator(),
+                          );
+                        } else {
+                          return ListView.builder(
+                            reverse: true,
+                            //itemCount:snapshot.data?.length,
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              var bill = snapshot.data?[index];
+
+                              return CustomListItem(
+                                title: bill!['name'],
+                                subtitle:
+                                    'Ödeme Tarihi: ${NoyaFormatter.generate(bill['date'])}',
+                                color: paidc,
+                                trailing: Text(NoyaFormatter.generateAmount(
+                                    bill['amount'])),
+                                leading: const Icon(
+                                  Icons.receipt_long_outlined,
+                                  color: paidc,
+                                  size: 30,
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        return const Text('no data');
+                      }
+                      return const LoadingIndicator();
+                    },
+                  );
                 },
               ),
             ),
@@ -146,7 +202,10 @@ class _StatementScreenState extends State<StatementScreen> {
                   CustomIconbutton(
                     title: 'Ödeme Yap',
                     icon: Icons.wallet_outlined,
-                    ontap: () {},
+                    ontap: () {
+                      Navigator.pushNamed(
+                          context, PaymentSelectScreen.routeName);
+                    },
                   ),
                 ],
               ),

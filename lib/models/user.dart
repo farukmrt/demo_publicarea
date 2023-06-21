@@ -5,7 +5,6 @@ class User {
   final String name;
   final String surname;
   final String building;
-  //final String dob;
 
   User({
     required this.uid,
@@ -14,7 +13,6 @@ class User {
     required this.name,
     required this.surname,
     required this.building,
-    //required this.dob,
   });
 
   Map<String, dynamic> toMap() {

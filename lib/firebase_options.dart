@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:351011156045:android:fb42ce242f157fc77dac04',
     messagingSenderId: '351011156045',
     projectId: 'fir-publicarea',
+    databaseURL: 'https://fir-publicarea-default-rtdb.firebaseio.com',
     storageBucket: 'fir-publicarea.appspot.com',
   );
 
@@ -62,6 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:351011156045:ios:5af139645198c2147dac04',
     messagingSenderId: '351011156045',
     projectId: 'fir-publicarea',
+    databaseURL: 'https://fir-publicarea-default-rtdb.firebaseio.com',
     storageBucket: 'fir-publicarea.appspot.com',
     iosBundleId: 'com.example.demoPublicarea',
   );

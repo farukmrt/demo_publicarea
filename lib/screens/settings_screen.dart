@@ -17,18 +17,3 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
-
-
-
-//  children: [
-//         // CustomTextField(
-//         //   controller: ,
-//         //   labelText: 'İsminizi giriniz',
-//         // ), CustomTextField(
-//         //   controller: controller,
-//         //   labelText: 'Soyisminizi giriniz',
-//         // ), CustomTextField(
-//         //   controller: controller,
-//         //   labelText: 'Oturduğunuz binanın adını giriniz',
-//         // ),
-//       ],

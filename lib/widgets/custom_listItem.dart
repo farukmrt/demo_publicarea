@@ -1,5 +1,5 @@
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomListItem extends StatelessWidget {
   final String title;
@@ -39,10 +39,10 @@ class CustomListItem extends StatelessWidget {
                   title,
                   style: TextStyle(fontStyle: fontstyle),
                 ),
-                subtitle: Text(
-                  subtitle,
-                  style: TextStyle(color: color),
-                ),
+                subtitle: Text(subtitle,
+                    style: TextStyle(color: color),
+                    // alttaki kod verilerin tek satir ve sonunda '...' olmasini sagliyor
+                    overflow: TextOverflow.ellipsis),
               ),
             ),
           ],

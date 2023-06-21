@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class NoyaFormatter {
-  static String generate(date) {
+  static String generate(Timestamp timestamp) {
+    DateTime date = timestamp.toDate();
     initializeDateFormatting('tr', 'TR');
-    var outputFormat = DateFormat('dd/MMMM/yyyy', 'tr_TR');
+    var outputFormat = DateFormat('dd MMMM yyyy', 'tr_TR');
     return outputFormat.format(date);
   }
 
@@ -15,7 +18,12 @@ class NoyaFormatter {
 }
 
 
-
+// static String generate(int timestamp) {
+//     DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+//     initializeDateFormatting('tr', 'TR');
+//     var outputFormat = DateFormat('dd/MMMM/yyyy', 'tr_TR');
+//     return outputFormat.format(date);
+//   }
 
 
 

@@ -1,8 +1,8 @@
-import 'package:demo_publicarea/resources/auth_methods.dart';
-import 'package:demo_publicarea/screens/tabs_screen.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_textfield.dart';
+//import 'package:demo_publicarea/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/resources/auth_methods.dart';
+import 'package:demo_publicarea/widgets/custom_textfield.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordController.text,
     );
     if (res) {
-      Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+      //Navigator.pushReplacementNamed(context, TabsScreen.routeName);
     }
   }
 
