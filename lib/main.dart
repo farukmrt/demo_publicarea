@@ -1,8 +1,9 @@
 import 'package:demo_publicarea/providers/bill_provider.dart';
-import 'package:demo_publicarea/providers/description_provider.dart';
-import 'package:demo_publicarea/screens/main_screen.dart';
+import 'package:demo_publicarea/screens/payment_select_screen.dart';
+import 'package:demo_publicarea/providers/announcement_provider.dart';
+//import 'package:demo_publicarea/screens/main_screen.dart';
 
-import 'firebase_options.dart';
+//import 'firebase_options.dart';
 import 'models/user.dart' as model;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,13 +22,13 @@ import 'package:demo_publicarea/widgets/loading_indicator.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      //options: DefaultFirebaseOptions.currentPlatform,
+      );
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
-    ChangeNotifierProvider<DescriptionProvider>(
-        create: (_) => DescriptionProvider()),
+    ChangeNotifierProvider<AnnouncementProvider>(
+        create: (_) => AnnouncementProvider()),
     ChangeNotifierProvider<BillProvider>(create: (_) => BillProvider()),
   ], child: const MyApp()));
 }
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (context) => const LoginScreen(),
         SignupScreen.routeName: (context) => const SignupScreen(),
         TabsScreen.routeName: (context) => const TabsScreen(),
+        PaymentSelectScreen.routeName: (context) => const PaymentSelectScreen(),
       },
       home: FutureBuilder(
         future: AuthMethods()

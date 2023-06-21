@@ -1,35 +1,37 @@
+import 'dart:convert';
+
 class Bill {
-  //final String? bill_uid;
-  final String name;
-  final DateTime date;
-  final double amount;
-  final bool isPaid;
+  String bill_uid;
+  String name;
+  DateTime date;
+  double amount;
+  bool isPaid;
 
   Bill({
-    // this.bill_uid,
+    required this.bill_uid,
     required this.name,
     required this.date,
     required this.amount,
     required this.isPaid,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      // 'bill_uid': bill_uid,
-      'name': name,
-      'date': date,
-      'amount': amount,
-      'isPaid': isPaid,
-    };
-  }
+  factory Bill.fromRawJson(String str) => Bill.fromJson(json.decode(str));
 
-  factory Bill.fromMap(Map<String, dynamic> map) {
-    return Bill(
-      //bill_uid: map['bill_uid'] ?? '',
-      name: map['name'] ?? '',
-      date: map['date'] ?? '',
-      amount: map['amount'] ?? '',
-      isPaid: map['isPaid'] ?? '',
-    );
-  }
+  String toRawJson() => json.encode(toJson());
+
+  factory Bill.fromJson(Map<String, dynamic> json) => Bill(
+        bill_uid: json["bill_uid"],
+        name: json["name"],
+        date: json["date"]?.toDate(),
+        amount: json["amount"].toDouble(),
+        isPaid: json["isPaid"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "bill_uid": bill_uid,
+        "name": name,
+        "date": date,
+        "amount": amount,
+        "isPaid": isPaid,
+      };
 }
