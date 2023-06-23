@@ -1,4 +1,5 @@
 //import 'package:demo_publicarea/screens/tabs_screen.dart';
+import 'package:demo_publicarea/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordController.text,
     );
     if (res) {
-      //Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+      Navigator.pushReplacementNamed(context, TabsScreen.routeName);
     }
   }
 
@@ -50,7 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 labelText: 'Parolanızı girin',
               ),
               const SizedBox(height: 15),
-              CustomMainButton(onTap: loginUser, text: 'Giriş yap')
+              CustomMainButton(
+                onTap: loginUser,
+                text: 'Giriş yap',
+                edgeInsets: const EdgeInsets.symmetric(vertical: 8),
+              ),
             ],
           ),
         ),

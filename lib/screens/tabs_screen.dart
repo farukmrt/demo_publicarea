@@ -1,11 +1,14 @@
 // import 'package:provider/provider.dart';
 // import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/main_screen.dart';
-import 'package:demo_publicarea/screens/request_screen.dart';
-import 'package:demo_publicarea/screens/settings_screen.dart';
-import 'package:demo_publicarea/screens/statement_screen.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
+import 'package:demo_publicarea/screens/request/request_screen.dart';
+import 'package:demo_publicarea/screens/settings/settings_screen.dart';
+import 'package:demo_publicarea/screens/statement/statement_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TabsScreen extends StatefulWidget {
   static String routeName = '/tabs';
@@ -22,6 +25,8 @@ class _TabsScreenState extends State<TabsScreen> {
     const StatementScreen(),
     const RequestScreen(),
     const SettingsScreen(),
+    //const PaymentSelectScreen(),
+    //
     // const Center(
     //   child: Text('slşdfkg'),
     // )
@@ -37,7 +42,7 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     //final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-      drawerScrimColor: Colors.red,
+      //drawerScrimColor: Colors.red,
       backgroundColor: mainBackgroundColor,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: buttonColor,
@@ -72,6 +77,7 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
             label: 'Ayarlar',
           ),
+          //BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'deneme'),
         ],
       ),
       body: pages[_page],

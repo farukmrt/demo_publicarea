@@ -1,5 +1,5 @@
-import 'package:demo_publicarea/screens/login_screen.dart';
-import 'package:demo_publicarea/screens/signup_screen.dart';
+import 'package:demo_publicarea/screens/login/login_screen.dart';
+import 'package:demo_publicarea/screens/login/signup_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +28,14 @@ class OnboardingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             CustomMainButton(
+              edgeInsets: const EdgeInsets.symmetric(vertical: 8),
               onTap: () {
                 Navigator.pushNamed(context, LoginScreen.routeName);
               },
               text: 'Giriş yap',
             ),
             CustomMainButton(
+              edgeInsets: const EdgeInsets.symmetric(vertical: 8),
               onTap: () {
                 Navigator.pushNamed(context, SignupScreen.routeName);
               },

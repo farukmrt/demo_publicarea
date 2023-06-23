@@ -5,18 +5,20 @@ class CustomMainButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final Icon? icon;
+  final EdgeInsets? edgeInsets;
 
   const CustomMainButton({
     Key? key,
     required this.onTap,
     required this.text,
     this.icon,
+    this.edgeInsets,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: edgeInsets!,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor,

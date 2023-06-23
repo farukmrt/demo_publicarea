@@ -5,13 +5,14 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:demo_publicarea/widgets/custom_main_button.dart';
 // import 'package:demo_publicarea/widgets/custom_column_button.dart';
-import 'package:demo_publicarea/screens/payment_select_screen.dart';
+import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/screens/tabs_screen.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../utils/date_amount_formatter.dart';
+import '../../utils/date_amount_formatter.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
@@ -35,7 +36,7 @@ class _StatementScreenState extends State<StatementScreen> {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor,
         appBar: null,
         body: Column(
           children: [
@@ -137,11 +138,18 @@ class _StatementScreenState extends State<StatementScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child:
-                          CustomTextButton(onTap: () {}, text: 'Tümünü Gör ->'),
+                      child: CustomTextButton(
+                          onTap: () {
+                            Navigator.of(context, rootNavigator: false).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ItemizedAccountScreen(),
+                                    maintainState: true));
+                          },
+                          text: 'Tümünü Gör ->'),
                     ),
                   ],
-                )
+                ),
               ],
             ),
             Expanded(
@@ -158,8 +166,12 @@ class _StatementScreenState extends State<StatementScreen> {
                           );
                         } else {
                           return ListView.builder(
+                            //son girilen degeri en uste almak istedigim icin listeyi ters cevirdim
                             reverse: true,
-                            //itemCount:snapshot.data?.length,
+                            //itemCount: snapshot.data?.length,
+                            //
+                            //eger odenen fatura sayisi alttaki degerden az ise
+                            //liste asagi kaydirildiginda ustte hata cikiyor
                             itemCount: 4,
                             itemBuilder: (context, index) {
                               var bill = snapshot.data?[index];
@@ -202,10 +214,25 @@ class _StatementScreenState extends State<StatementScreen> {
                   CustomIconbutton(
                     title: 'Ödeme Yap',
                     icon: Icons.wallet_outlined,
+                    // ontap: () {
+                    //   Navigator.pushNamed(
+                    //       context, PaymentSelectScreen.routeName);
+                    // },
+
                     ontap: () {
-                      Navigator.pushNamed(
-                          context, PaymentSelectScreen.routeName);
+                      Navigator.of(context, rootNavigator: false).push(
+                          MaterialPageRoute(
+                              builder: (context) => const PaymentSelectScreen(),
+                              maintainState: true));
                     },
+
+                    // ontap: () {
+                    //   Navigator.of(context).push(
+                    //     MaterialPageRoute(
+                    //       builder: (ctx) => const PaymentSelectScreen(),
+                    //     ),
+                    //   );
+                    // },
                   ),
                 ],
               ),

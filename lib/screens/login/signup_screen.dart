@@ -74,7 +74,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 labelText: 'Bina adını girin',
               ),
               const SizedBox(height: 15),
-              CustomMainButton(onTap: signUpUser, text: 'Üye ol..')
+              CustomMainButton(
+                  onTap: signUpUser,
+                  text: 'Üye ol..',
+                  edgeInsets: const EdgeInsets.symmetric(vertical: 8))
             ],
           ),
         ),
