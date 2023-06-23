@@ -1,5 +1,6 @@
 import 'package:demo_publicarea/providers/bill_provider.dart';
-import 'package:demo_publicarea/screens/payment_select_screen.dart';
+import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 //import 'package:demo_publicarea/screens/main_screen.dart';
 
@@ -12,8 +13,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 //import 'package:demo_publicarea/firebase_options.dart';
 import 'package:demo_publicarea/screens/tabs_screen.dart';
-import 'package:demo_publicarea/screens/login_screen.dart';
-import 'package:demo_publicarea/screens/signup_screen.dart';
+import 'package:demo_publicarea/screens/login/login_screen.dart';
+import 'package:demo_publicarea/screens/login/signup_screen.dart';
 import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/screens/onboard_screen.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
@@ -42,6 +43,12 @@ class MyApp extends StatelessWidget {
       title: 'publicarea',
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: backgroundColor,
+        //elevatedbutton'un varsayilan rengi veriliyor
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(buttonColor),
+          ),
+        ),
         appBarTheme: AppBarTheme.of(context).copyWith(
           backgroundColor: backgroundColor,
           elevation: 0,
@@ -59,6 +66,8 @@ class MyApp extends StatelessWidget {
         SignupScreen.routeName: (context) => const SignupScreen(),
         TabsScreen.routeName: (context) => const TabsScreen(),
         PaymentSelectScreen.routeName: (context) => const PaymentSelectScreen(),
+        ItemizedAccountScreen.routeName: (context) =>
+            const ItemizedAccountScreen(),
       },
       home: FutureBuilder(
         future: AuthMethods()
@@ -79,9 +88,9 @@ class MyApp extends StatelessWidget {
           }
 
           //eger kullanici mevcutsa direk ana ekrana yonlendirir
-          if (snapshot.hasData) {
-            return const TabsScreen();
-          }
+          // if (snapshot.hasData) {
+          //   return const TabsScreen();
+          // }
           return const OnboardingScreen();
         },
       ),

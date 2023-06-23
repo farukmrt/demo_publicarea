@@ -6,6 +6,9 @@ class CustomIconbutton extends StatelessWidget {
   final IconData icon;
   final VoidCallback ontap;
   final Color? color;
+  final String? rightText;
+  final double? size;
+  final Opacity? opacity;
 
   const CustomIconbutton({
     Key? key,
@@ -13,6 +16,9 @@ class CustomIconbutton extends StatelessWidget {
     required this.icon,
     required this.ontap,
     this.color,
+    this.rightText,
+    this.size,
+    this.opacity,
   }) : super(key: key);
 
   @override
@@ -21,7 +27,7 @@ class CustomIconbutton extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(5, 10, 5, 3),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(buttonColor),
+          backgroundColor: MaterialStateProperty.all(color),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
@@ -37,13 +43,32 @@ class CustomIconbutton extends StatelessWidget {
               child: Icon(
                 icon,
                 color: mainBackgroundColor,
+                size: size,
               ),
             ),
-            Text(
-              title,
-              style: const TextStyle(
-                color: mainBackgroundColor,
-              ),
+            Column(
+              children: [
+                if (rightText != null)
+                  Text(
+                    rightText!,
+                    style: const TextStyle(
+                      color: mainBackgroundColor,
+                    ),
+                  ),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: mainBackgroundColor,
+                  ),
+                ),
+
+                // Text(
+                //   rightText!,
+                //   style: const TextStyle(
+                //     color: mainBackgroundColor,
+                //   ),
+                // ),
+              ],
             ),
           ],
         ),
