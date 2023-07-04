@@ -5,18 +5,20 @@ class CustomCIconbutton extends StatelessWidget {
   final String title;
   final IconData icon;
   final VoidCallback ontap;
+  final double? size;
 
   const CustomCIconbutton({
     Key? key,
     required this.title,
     required this.icon,
     required this.ontap,
+    this.size,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 3),
+      padding: const EdgeInsets.fromLTRB(5, 3, 5, 3),
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(buttonColor),

@@ -1,16 +1,19 @@
 // import 'package:uuid/uuid.dart';
 // import 'package:demo_publicarea/utils/utils.dart';
 // import 'package:demo_publicarea/widgets/custom_main_button.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:demo_publicarea/models/announcement.dart';
 // import 'package:demo_publicarea/models/user.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
+import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_column_button.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -158,24 +161,53 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomCIconbutton(
-                      title: 'Ödeme\nYap',
-                      icon: Icons.wallet_outlined,
-                      ontap: () {}),
-                  const SizedBox(width: 135),
-                  CustomCIconbutton(
-                      title: 'Acil\nDurum',
-                      icon: Icons.warning_rounded,
-                      ontap: () {}),
-                ],
-              ),
-            ),
+            CustomMainButton(
+                edgeInsets: //custommain'e bu deger verilmediginde hata ekrani geliyor
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                onTap: () {
+                  Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                          builder: (context) => const PaymentSelectScreen(),
+                          maintainState: true));
+                },
+                icon: Icons.redo_outlined,
+                text: 'Ödeme Yap'),
+            // const SizedBox(height: 10),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child:
+            // CustomCIconbutton(
+            //   title: 'ödemeyap',
+            //   icon: Icons.wallet_outlined,
+            //   ontap: () {
+            //     Navigator.of(context, rootNavigator: false).push(
+            //         MaterialPageRoute(
+            //             builder: (context) => const PaymentSelectScreen(),
+            //             maintainState: true));
+            //   },
+            // ),
+            // CustomMainButton(
+            //     edgeInsets: const EdgeInsets.symmetric(vertical: 8),
+            //     onTap: () {
+            //       Navigator.of(context, rootNavigator: false).push(
+            //           MaterialPageRoute(
+            //               builder: (context) =>
+            //                   const PaymentSelectScreen(),
+            //               maintainState: true));
+            //     },
+            //     text: 'ödeme yap')
+            //       CustomIconbutton(
+            //     size: 50,
+            //     title: 'Ödeme\nYap',
+            //     icon: Icons.wallet_outlined,
+            //     ontap: () {
+            //       Navigator.of(context, rootNavigator: false).push(
+            //           MaterialPageRoute(
+            //               builder: (context) => const PaymentSelectScreen(),
+            //               maintainState: true));
+            //     },
+            //   ),
+            // ),
             Expanded(child: Consumer<AnnouncementProvider>(
               builder: (context, data, index) {
                 // var announcements = await data.fetchAnnouncement();

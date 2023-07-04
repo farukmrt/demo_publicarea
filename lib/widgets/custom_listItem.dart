@@ -34,7 +34,7 @@ class CustomListItem extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              margin: const EdgeInsets.fromLTRB(5, 8, 5, 8),
+              margin: const EdgeInsets.fromLTRB(5, 3, 5, 3),
               color: mainBackgroundColor,
               child: ListTile(
                 trailing: trailing,

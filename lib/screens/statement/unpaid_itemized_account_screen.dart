@@ -1,5 +1,6 @@
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
@@ -12,16 +13,18 @@ import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ItemizedAccountScreen extends StatefulWidget {
-  static String routeName = '/itemizedAccount';
+class UnpaidItemizedAccountScreen extends StatefulWidget {
+  static String routeName = '/unpaidItemizedAccount';
 
-  const ItemizedAccountScreen({Key? key}) : super(key: key);
+  const UnpaidItemizedAccountScreen({Key? key}) : super(key: key);
 
   @override
-  State<ItemizedAccountScreen> createState() => _ItemizedAccountScreenState();
+  State<UnpaidItemizedAccountScreen> createState() =>
+      _UnpaidItemizedAccountScreenState();
 }
 
-class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
+class _UnpaidItemizedAccountScreenState
+    extends State<UnpaidItemizedAccountScreen> {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
@@ -37,14 +40,14 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
           children: [
             //const CustomTitle(mainTitle: 'Ödeme'),
             CustomSubtitle(
-              title: 'Ödenen Faturalar',
+              title: 'Ödenmeyen Faturalar',
               subtitle: userProvider.user.building,
             ),
             Expanded(
               child: Consumer<BillProvider>(
                 builder: (context, data, index) {
                   return FutureBuilder(
-                    future: data.fetchBillByPaidStatus(true),
+                    future: data.fetchBillByPaidStatus(false),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.connectionState ==
@@ -61,13 +64,13 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                               return CustomListItem(
                                 title: bill!['name'],
                                 subtitle:
-                                    'Ödeme Tarihi: ${NoyaFormatter.generate(bill['date'])}',
-                                color: paidc,
+                                    'Son Ödeme T: ${NoyaFormatter.generate(bill['date'])}',
+                                color: unpaidc,
                                 trailing: Text(NoyaFormatter.generateAmount(
                                     bill['amount'])),
                                 leading: const Icon(
                                   Icons.receipt_long_outlined,
-                                  color: paidc,
+                                  color: unpaidc,
                                   size: 30,
                                 ),
                               );
@@ -90,13 +93,26 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                 padding: const EdgeInsets.all(1.0),
                 child: Column(
                   children: [
+                    CustomMainButton(
+                        edgeInsets: //custommain'e bu deger verilmediginde hata ekrani geliyor
+                            const EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 8),
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: false).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PaymentSelectScreen(),
+                                  maintainState: true));
+                        },
+                        icon: Icons.redo_outlined,
+                        color: positive.shade400,
+                        text: 'Ödeme Yap'),
                     Row(
                       //mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       //crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         //toplam borc ve odenen tutarlari gosterebilmek icin verileri cekiyoruz
-                        //??? tekrara dusuldu hatali bir islem mi
                         Consumer<BillProvider>(
                           builder: (context, data, index) {
                             return FutureBuilder<double>(

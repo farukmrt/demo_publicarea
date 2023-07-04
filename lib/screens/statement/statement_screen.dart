@@ -7,7 +7,8 @@
 // import 'package:demo_publicarea/widgets/custom_column_button.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
-import 'package:demo_publicarea/screens/tabs_screen.dart';
+import 'package:demo_publicarea/screens/main/tabs_screen.dart';
+import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +42,31 @@ class _StatementScreenState extends State<StatementScreen> {
         body: Column(
           children: [
             const CustomTitle(mainTitle: 'Hesap Özeti'),
-            CustomSubtitle(
-              title: 'Ödenmemişler',
-              subtitle: userProvider.user.building,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomSubtitle(
+                  title: 'Ödenmemişler',
+                  subtitle: userProvider.user.building,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: CustomTextButton(
+                          onTap: () {
+                            Navigator.of(context, rootNavigator: false).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UnpaidItemizedAccountScreen(),
+                                    maintainState: true));
+                          },
+                          text: 'Tümünü Gör ->'),
+                    ),
+                  ],
+                ),
+              ],
             ),
             Expanded(
               child: Consumer<BillProvider>(
@@ -171,7 +194,7 @@ class _StatementScreenState extends State<StatementScreen> {
                             //itemCount: snapshot.data?.length,
                             //
                             //eger odenen fatura sayisi alttaki degerden az ise
-                            //liste asagi kaydirildiginda ustte hata cikiyor
+                            //liste asagi kaydirildiginda ustte hata(kirmizilik) cikiyor
                             itemCount: 4,
                             itemBuilder: (context, index) {
                               var bill = snapshot.data?[index];
@@ -214,17 +237,21 @@ class _StatementScreenState extends State<StatementScreen> {
                   CustomIconbutton(
                     title: 'Ödeme Yap',
                     icon: Icons.wallet_outlined,
-                    // ontap: () {
-                    //   Navigator.pushNamed(
-                    //       context, PaymentSelectScreen.routeName);
-                    // },
-
                     ontap: () {
-                      Navigator.of(context, rootNavigator: false).push(
-                          MaterialPageRoute(
-                              builder: (context) => const PaymentSelectScreen(),
-                              maintainState: true));
+                      Navigator.pushNamed(
+                          context, PaymentSelectScreen.routeName);
                     },
+
+                    // ontap: () {
+                    //   Navigator.of(context, rootNavigator: true).push(
+                    //       //rootnavigator sifirdan sayfa olusturma yada üstüne acma özelligi
+                    //       //ancak calismiyor
+                    //       MaterialPageRoute(
+                    //           fullscreenDialog: true,
+                    //           builder: (context) => const PaymentSelectScreen(),
+                    //           maintainState: true));
+                    //   //^^rotanin etkin olmadiginde bellekte kalmasi gerekip gerekmedigi
+                    // },
 
                     // ontap: () {
                     //   Navigator.of(context).push(

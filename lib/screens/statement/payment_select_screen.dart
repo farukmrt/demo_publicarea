@@ -1,14 +1,14 @@
-import 'package:custom_navigator/custom_navigation.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_checkbox.dart';
+//import 'package:demo_publicarea/widgets/custom_checkbox.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_subtitle.dart';
-import 'package:demo_publicarea/widgets/custom_title.dart';
+//import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +29,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    return CustomScaffold(
-      children: pages,
-      onItemTap: onPageChange,
-      scaffold: Scaffold(
+    return SafeArea(
+      child: Scaffold(
         appBar: AppBar(
           title: const Text('Ödemeler'),
           backgroundColor: mainBackgroundColor,
@@ -61,24 +59,16 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                             itemCount: snapshot.data?.length,
                             itemBuilder: (context, index) {
                               var bill = snapshot.data?[index];
-                              bool check_bill = false;
-                              // return CustomListItem(
-                              //   title: bill!['name'],
-                              //   subtitle:
-                              //       'Son Ödeme T: ${NoyaFormatter.generate(bill['date'])}',
-                              //   color: unpaidc,
-                              //   trailing: Text(NoyaFormatter.generateAmount(
-                              //       bill['amount'])),
-                              //   leading: Checkbox(
-                              //       value: check_bill,
-                              //       activeColor: negative,
-                              //       onChanged: (check) {
-                              //         setState(() {
-                              //           check_bill = check!;
-                              //         });
-                              //       },
-                              //       ),
-                              // );
+
+                              return CustomCheckBoxListItem(
+                                title: bill!['name'],
+                                subtitle:
+                                    'Son Ödeme T: ${NoyaFormatter.generate(bill['date'])}',
+                                color: unpaidc,
+                                leading: Text(NoyaFormatter.generateAmount(
+                                    bill['amount'])),
+                                isSelected: false,
+                              );
 
                               // return CheckboxListTile(
 
@@ -118,7 +108,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                   children: [
                     CustomMainButton(
                         onTap: () {},
-                        text: 'Devam et >',
+                        icon: Icons.start_outlined,
+                        text: 'Devam et ',
                         edgeInsets: const EdgeInsets.symmetric(horizontal: 20)),
                     Row(
                       //mainAxisSize: MainAxisSize.max,
@@ -126,17 +117,42 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                       //crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CustomIconbutton(
-                            title: 'Hizmet\nBedeli',
-                            rightText: NoyaFormatter.generateAmount(234),
-                            icon: Icons.heart_broken_outlined,
-                            size: 60,
-                            ontap: () {}),
-                        CustomIconbutton(
-                            title: 'Toplam\nTutar',
-                            rightText: NoyaFormatter.generateAmount(346),
-                            icon: Icons.credit_card_outlined,
-                            size: 60,
-                            ontap: () {})
+                          title: 'Hizmet\nBedeli',
+                          rightText: NoyaFormatter.generateAmount(234),
+                          icon: Icons.heart_broken_outlined,
+                          size: 60,
+                          // ontap: () {}
+                        ),
+                        Consumer<BillProvider>(
+                          builder: (context, data, index) {
+                            return FutureBuilder<double>(
+                              future: data.fetchAmountTotalStatus(false),
+                              builder: (BuildContext context, snapshot) {
+                                //var bill = snapshot.data?;
+                                if (snapshot.hasData) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: LoadingIndicator(),
+                                    );
+                                  } else {
+                                    return CustomIconbutton(
+                                      title: 'Toplam\nTutar',
+                                      rightText: NoyaFormatter.generateAmount(
+                                          snapshot.data),
+                                      icon: Icons.credit_card_outlined,
+                                      size: 60,
+                                      // ontap: () {}
+                                    );
+                                  }
+                                } else if (snapshot.hasError) {
+                                  return const Text('no data');
+                                }
+                                return const LoadingIndicator();
+                              },
+                            );
+                          },
+                        ),
                       ],
                     )
                   ],

@@ -4,8 +4,9 @@ import 'package:demo_publicarea/utils/colors.dart';
 class CustomMainButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
-  final Icon? icon;
+  final IconData? icon;
   final EdgeInsets? edgeInsets;
+  final Color? color;
 
   const CustomMainButton({
     Key? key,
@@ -13,6 +14,7 @@ class CustomMainButton extends StatelessWidget {
     required this.text,
     this.icon,
     this.edgeInsets,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -21,13 +23,19 @@ class CustomMainButton extends StatelessWidget {
       padding: edgeInsets!,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
+          backgroundColor: color,
           minimumSize: const Size(double.infinity, 40),
         ),
         onPressed: onTap,
-        child: Text(
-          text,
-          style: const TextStyle(color: mainBackgroundColor),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              style: const TextStyle(color: mainBackgroundColor),
+            ),
+            Icon(icon),
+          ],
         ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:demo_publicarea/resources/auth_methods.dart';
-import 'package:demo_publicarea/screens/tabs_screen.dart';
+import 'package:demo_publicarea/screens/main/tabs_screen.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 

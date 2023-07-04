@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CustomIconbutton extends StatelessWidget {
   final String title;
   final IconData icon;
-  final VoidCallback ontap;
+  final VoidCallback? ontap;
   final Color? color;
   final String? rightText;
   final double? size;
@@ -14,7 +14,7 @@ class CustomIconbutton extends StatelessWidget {
     Key? key,
     required this.title,
     required this.icon,
-    required this.ontap,
+    this.ontap,
     this.color,
     this.rightText,
     this.size,
@@ -24,7 +24,7 @@ class CustomIconbutton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 3),
+      padding: const EdgeInsets.fromLTRB(5, 1, 5, 3),
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(color),
