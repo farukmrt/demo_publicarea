@@ -71,4 +71,12 @@ class AuthMethods {
     }
     return res;
   }
+
+  // Future<bool> signOut(
+  //   BuildContext context,
+  // ) async {
+  //   bool res = true;
+  //   await FirebaseAuth.instance.signOut();
+  //   bool res = false;
+  // }
 }

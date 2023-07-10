@@ -161,6 +161,7 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
+            // //1.TASARIM
             CustomMainButton(
                 edgeInsets: //custommain'e bu deger verilmediginde hata ekrani geliyor
                     const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
@@ -172,12 +173,11 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 icon: Icons.redo_outlined,
                 text: 'Ödeme Yap'),
-            // const SizedBox(height: 10),
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child:
-            // CustomCIconbutton(
-            //   title: 'ödemeyap',
+
+            // //2.TASARIM
+            // CustomIconbutton(
+            //   title: 'Ödeme Yap',
+            //   size: 50,
             //   icon: Icons.wallet_outlined,
             //   ontap: () {
             //     Navigator.of(context, rootNavigator: false).push(
@@ -186,28 +186,7 @@ class _MainScreenState extends State<MainScreen> {
             //             maintainState: true));
             //   },
             // ),
-            // CustomMainButton(
-            //     edgeInsets: const EdgeInsets.symmetric(vertical: 8),
-            //     onTap: () {
-            //       Navigator.of(context, rootNavigator: false).push(
-            //           MaterialPageRoute(
-            //               builder: (context) =>
-            //                   const PaymentSelectScreen(),
-            //               maintainState: true));
-            //     },
-            //     text: 'ödeme yap')
-            //       CustomIconbutton(
-            //     size: 50,
-            //     title: 'Ödeme\nYap',
-            //     icon: Icons.wallet_outlined,
-            //     ontap: () {
-            //       Navigator.of(context, rootNavigator: false).push(
-            //           MaterialPageRoute(
-            //               builder: (context) => const PaymentSelectScreen(),
-            //               maintainState: true));
-            //     },
-            //   ),
-            // ),
+
             Expanded(child: Consumer<AnnouncementProvider>(
               builder: (context, data, index) {
                 // var announcements = await data.fetchAnnouncement();
@@ -227,8 +206,8 @@ class _MainScreenState extends State<MainScreen> {
                             var announcement = snapshot.data?[index];
 
                             return CustomListItem(
-                              title: announcement!['title'],
-                              subtitle: announcement['subtitle'],
+                              title: announcement!.title,
+                              subtitle: announcement.subtitle,
                               trailing: IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.arrow_forward_ios),
@@ -260,7 +239,7 @@ class _MainScreenState extends State<MainScreen> {
                         );
                       }
                     } else if (snapshot.hasError) {
-                      return const Text('no data');
+                      return Text('Hata: ${snapshot.error}');
                     }
                     return const LoadingIndicator();
                   },

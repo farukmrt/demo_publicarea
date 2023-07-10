@@ -11,7 +11,7 @@ class NoyaFormatter {
     return outputFormat.format(date);
   }
 
-  static String generateAmount(amount) {
+  static String generateAmount(dynamic amount) {
     var outputFormat = NumberFormat.currency(locale: 'tr_TR', symbol: '₺');
     return outputFormat.format(amount);
   }

@@ -35,6 +35,7 @@ class CustomCIconbutton extends StatelessWidget {
             Icon(
               icon,
               color: mainBackgroundColor,
+              size: size!,
             ),
             Text(
               title,

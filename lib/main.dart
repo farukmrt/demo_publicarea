@@ -1,4 +1,9 @@
 import 'package:demo_publicarea/providers/bill_provider.dart';
+import 'package:demo_publicarea/screens/request/complete_request_screen.dart';
+import 'package:demo_publicarea/screens/request/live_request_screen.dart';
+import 'package:demo_publicarea/screens/request/create_request_screen.dart';
+import 'package:demo_publicarea/screens/request/request_screen.dart';
+import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
@@ -34,9 +39,14 @@ void main() async {
   ], child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -70,6 +80,12 @@ class MyApp extends StatelessWidget {
             const ItemizedAccountScreen(),
         UnpaidItemizedAccountScreen.routeName: (context) =>
             const UnpaidItemizedAccountScreen(),
+        CreditCardScreen.routeName: (context) => const CreditCardScreen(),
+        LiveRequestScreen.routeName: (context) => const LiveRequestScreen(),
+        CreateRequestScreen.routeName: (context) => const CreateRequestScreen(),
+        RequestScreen.routeName: (context) => const RequestScreen(),
+        CompleteRequestScreen.routeName: (context) =>
+            const CompleteRequestScreen(),
       },
       home: FutureBuilder(
         future: AuthMethods()

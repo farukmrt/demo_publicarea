@@ -5,23 +5,22 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:demo_publicarea/widgets/custom_main_button.dart';
 // import 'package:demo_publicarea/widgets/custom_column_button.dart';
-import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
-import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
-import 'package:demo_publicarea/screens/main/tabs_screen.dart';
-import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_text_button.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../utils/date_amount_formatter.dart';
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
+import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:demo_publicarea/widgets/custom_subtitle.dart';
+import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/date_amount_formatter.dart';
 
 class StatementScreen extends StatefulWidget {
   const StatementScreen({Key? key}) : super(key: key);
@@ -72,7 +71,7 @@ class _StatementScreenState extends State<StatementScreen> {
               child: Consumer<BillProvider>(
                 builder: (context, data, index) {
                   return FutureBuilder(
-                    future: data.fetchBillByPaidStatus(false),
+                    future: data.fetchBillByPaidStatus(false, limit: 4),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.connectionState ==
@@ -87,12 +86,12 @@ class _StatementScreenState extends State<StatementScreen> {
                               var bill = snapshot.data?[index];
 
                               return CustomListItem(
-                                title: bill!['name'],
-                                subtitle:
-                                    'Son Ödeme T: ${NoyaFormatter.generate(bill['date'])}',
+                                title: bill!.name,
+                                subtitle: //'Son Ödeme T: ${bill.date}',
+                                    'Son Ödeme T: ${NoyaFormatter.generate(bill.date)}',
                                 color: unpaidc,
-                                trailing: Text(NoyaFormatter.generateAmount(
-                                    bill['amount'])),
+                                trailing: Text(
+                                    NoyaFormatter.generateAmount(bill.amount)),
                                 leading: const Icon(
                                   Icons.receipt_long_outlined,
                                   color: unpaidc,
@@ -103,7 +102,7 @@ class _StatementScreenState extends State<StatementScreen> {
                           );
                         }
                       } else if (snapshot.hasError) {
-                        return const Text('no data');
+                        return Text('Hata: ${snapshot.error}');
                       }
                       return const LoadingIndicator();
                     },
@@ -179,7 +178,7 @@ class _StatementScreenState extends State<StatementScreen> {
               child: Consumer<BillProvider>(
                 builder: (context, data, index) {
                   return FutureBuilder(
-                    future: data.fetchBillByPaidStatus(true),
+                    future: data.fetchBillByPaidStatus(true, limit: 4),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.connectionState ==
@@ -190,22 +189,22 @@ class _StatementScreenState extends State<StatementScreen> {
                         } else {
                           return ListView.builder(
                             //son girilen degeri en uste almak istedigim icin listeyi ters cevirdim
-                            reverse: true,
-                            //itemCount: snapshot.data?.length,
+                            //reverse: true,
+                            itemCount: snapshot.data?.length,
                             //
                             //eger odenen fatura sayisi alttaki degerden az ise
                             //liste asagi kaydirildiginda ustte hata(kirmizilik) cikiyor
-                            itemCount: 4,
+
                             itemBuilder: (context, index) {
                               var bill = snapshot.data?[index];
 
                               return CustomListItem(
-                                title: bill!['name'],
-                                subtitle:
-                                    'Ödeme Tarihi: ${NoyaFormatter.generate(bill['date'])}',
+                                title: bill!.name,
+                                subtitle: //'Ödeme Tarihi: ${bill.date}',
+                                    'Ödeme Tarihi: ${NoyaFormatter.generate(bill.date)}',
                                 color: paidc,
-                                trailing: Text(NoyaFormatter.generateAmount(
-                                    bill['amount'])),
+                                trailing: Text(
+                                    NoyaFormatter.generateAmount(bill.amount)),
                                 leading: const Icon(
                                   Icons.receipt_long_outlined,
                                   color: paidc,
@@ -216,7 +215,7 @@ class _StatementScreenState extends State<StatementScreen> {
                           );
                         }
                       } else if (snapshot.hasError) {
-                        return const Text('no data');
+                        return Text('Hata: ${snapshot.error}');
                       }
                       return const LoadingIndicator();
                     },
@@ -232,12 +231,12 @@ class _StatementScreenState extends State<StatementScreen> {
                   CustomIconbutton(
                     title: 'Hesap Grafiği',
                     icon: Icons.insert_chart_outlined,
-                    ontap: () {},
+                    onTap: () {},
                   ),
                   CustomIconbutton(
                     title: 'Ödeme Yap',
                     icon: Icons.wallet_outlined,
-                    ontap: () {
+                    onTap: () {
                       Navigator.pushNamed(
                           context, PaymentSelectScreen.routeName);
                     },

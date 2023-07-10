@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 
 class CustomTitle extends StatelessWidget {
   final String mainTitle;
-  const CustomTitle({Key? key, required this.mainTitle}) : super(key: key);
+  final IconData? button;
+  final VoidCallback? onTap;
+
+  const CustomTitle({
+    Key? key,
+    required this.mainTitle,
+    this.button,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +19,30 @@ class CustomTitle extends StatelessWidget {
       width: double.infinity,
       height: 30,
       color: mainBackgroundColor,
-      child: Center(
-        child: Text(
-          mainTitle,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                mainTitle,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          if (button != null)
+            Positioned(
+              right: 0,
+              child: IconButton(
+                onPressed: onTap,
+                icon: Icon(button!),
+              ),
+            ),
+        ],
       ),
     );
   }

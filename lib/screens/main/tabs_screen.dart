@@ -1,6 +1,3 @@
-// import 'package:provider/provider.dart';
-// import 'package:demo_publicarea/providers/user_providers.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -86,7 +83,7 @@ class _TabsScreenState extends State<TabsScreen> {
     );
   }
 }
-
+///////////////
 // import 'package:custom_navigator/custom_scaffold.dart';
 // import 'package:demo_publicarea/screens/main_screen.dart';
 // import 'package:demo_publicarea/screens/request/request_screen.dart';

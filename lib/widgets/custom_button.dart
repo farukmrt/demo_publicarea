@@ -1,62 +1,71 @@
+import 'dart:ffi';
+
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomIconbutton extends StatelessWidget {
+class CustomIconbutton extends StatefulWidget {
   final String title;
   final IconData icon;
-  final VoidCallback? ontap;
+  final VoidCallback? onTap;
   final Color? color;
   final String? rightText;
   final double? size;
   final Opacity? opacity;
+  //final TextField? textff;
 
   const CustomIconbutton({
     Key? key,
     required this.title,
     required this.icon,
-    this.ontap,
+    this.onTap,
     this.color,
     this.rightText,
     this.size,
     this.opacity,
+    //this.textff,
   }) : super(key: key);
 
+  @override
+  State<CustomIconbutton> createState() => _CustomIconbuttonState();
+}
+
+class _CustomIconbuttonState extends State<CustomIconbutton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 1, 5, 3),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(color),
+          backgroundColor: MaterialStateProperty.all(widget.color),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
           ),
         ),
-        onPressed: ontap,
+        onPressed: widget.onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Icon(
-                icon,
+                widget.icon,
                 color: mainBackgroundColor,
-                size: size,
+                size: widget.size,
               ),
             ),
             Column(
               children: [
-                if (rightText != null)
+                if (widget.rightText != null)
                   Text(
-                    rightText!,
+                    widget.rightText!,
                     style: const TextStyle(
                       color: mainBackgroundColor,
                     ),
                   ),
                 Text(
-                  title,
+                  widget.title,
                   style: const TextStyle(
                     color: mainBackgroundColor,
                   ),

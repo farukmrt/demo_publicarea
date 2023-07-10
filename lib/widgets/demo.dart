@@ -8,10 +8,6 @@ class CustomCheckBoxListItem extends StatefulWidget {
   final Widget? leading;
   final Color? color;
   final FontStyle? fontstyle;
-  final Function(bool?) onChanged;
-  final bool? valuee;
-
-  final dynamic mainList;
 
   const CustomCheckBoxListItem({
     Key? key,
@@ -21,21 +17,14 @@ class CustomCheckBoxListItem extends StatefulWidget {
     this.leading,
     this.color,
     this.fontstyle,
-    //required this.valuee,
-    required this.onChanged,
-    required this.valuee,
-    this.mainList,
   }) : super(key: key);
 
   @override
   State<CustomCheckBoxListItem> createState() => _CustomCheckBoxListItemState();
 }
 
-@override
-State<CustomCheckBoxListItem> createState() => _CustomCheckBoxListItemState();
-
 class _CustomCheckBoxListItemState extends State<CustomCheckBoxListItem> {
-  //bool _isChecked = false;
+  bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -50,7 +39,13 @@ class _CustomCheckBoxListItemState extends State<CustomCheckBoxListItem> {
               margin: const EdgeInsets.fromLTRB(5, 3, 5, 3),
               color: mainBackgroundColor,
               child: CheckboxListTile(
-                controlAffinity: ListTileControlAffinity.leading,
+                value: _isChecked,
+                onChanged: (bool? newValue) {
+                  setState(() {
+                    //setState icerisnde duzenleme lazim
+                    //var _isChecked = newValue;
+                  });
+                },
                 secondary: widget.leading,
                 title: Text(
                   widget.title,
@@ -61,27 +56,10 @@ class _CustomCheckBoxListItemState extends State<CustomCheckBoxListItem> {
                   style: TextStyle(color: widget.color),
                   overflow: TextOverflow.ellipsis,
                 ),
-                value: widget.valuee, //_isChecked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    widget.onChanged(value);
-                  });
-                },
-
-                // onChanged: (bool? value) {
-                //   if (widget.onChanged != null) {
-                //     widget.onChanged(value!);
-                //   }
-                //   if (value == true) {
-                //     setState(() {
-                //       widget.selectedList.add(widget.mainList);
-                //     });
-                //   } else {
-                //     setState(() {
-                //       widget.selectedList.remove(widget.mainList);
-                //     });
-                //   }
-                // },
+                autofocus: false,
+                activeColor: paidc,
+                checkColor: Colors.white,
+                controlAffinity: ListTileControlAffinity.leading,
               ),
             ),
           ],

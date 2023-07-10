@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:demo_publicarea/models/bill.dart';
-//import 'package:demo_publicarea/utils/colors.dart';
-//import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:demo_publicarea/models/bill.dart';
+
 import 'package:flutter/material.dart';
-//import 'package:provider/provider.dart';
 
 class BillProvider with ChangeNotifier {
   //static List<Map<String, dynamic>> _bills = [];
@@ -18,21 +16,51 @@ class BillProvider with ChangeNotifier {
   //   return tempList;
   // }
 
-  Future<List<Map<String, dynamic>>> fetchBillByPaidStatus(
-      bool paidStatus) async {
+  Future<List<Bill>> fetchBillByPaidStatus(bool paidStatus,
+      {int? limit}) async {
     var collection = FirebaseFirestore.instance.collection('bills');
     //print(collection);
+    var query = collection.where("isPaid",
+        isEqualTo: paidStatus); //.limit(limit != null?);
+    query = limit != null ? query.limit(limit) : query;
+    // if (limit != null) {
+    //   query.limit(limit);
+    // }
 
-    final query = collection.where("isPaid", isEqualTo: paidStatus);
-
-    List<Map<String, dynamic>> tempList = [];
+    //en kotu ihtimal
+    List<Bill> bills = [];
     var data = await query.get();
     data.docs.forEach((element) {
-      tempList.add(element.data());
+      var bill = Bill(
+        bill_uid: element.data()['id'],
+        name: element.data()['name'],
+        date: element.data()['date'],
+        amount: element.data()['amount'],
+        isPaid: element.data()['isPaid'],
+      );
+      bills.add(bill);
     });
+    return bills;
+
+    // Map<String,Bill> Map(){
+    //   return{
+    //     'bill_uid': BillProvider,
+    //     "name":,
+    //     "date":this._date,
+    //     "amount":this._amount,
+    //     "isPaid":this._paidStatues,
+    //   };
+    // }
+
+    // //eski duzen fetchbill kismi guncellenmeli(foto var)
+    // List<Map<String, dynamic>> tempList = [];
+    // var data = await query.get();
+    // data.docs.forEach((element) {
+    //   tempList.add(element.data());
+    // });
     // notifyListeners();
-    //notify acildiginde liste donguye giriyor
-    return tempList;
+    // //notify acildiginde liste donguye giriyor
+    // return tempList;
   }
 
   Future<double> fetchAmountTotalStatus(bool paidStatus) async {

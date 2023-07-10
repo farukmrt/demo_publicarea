@@ -20,7 +20,8 @@ class CustomMainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: edgeInsets!,
+      padding:
+          edgeInsets!, //custommain'e bu deger verilmediginde hata ekrani geliyor
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
