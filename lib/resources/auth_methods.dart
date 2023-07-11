@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/utils/utils.dart';
@@ -19,8 +21,15 @@ class AuthMethods {
     return null;
   }
 
-  Future<bool> signUpUser(BuildContext context, String email, String username,
-      String password, String name, String surname, String building) async {
+  Future<bool> signUpUser(
+    BuildContext context,
+    String email,
+    String username,
+    String password,
+    String name,
+    String surname,
+    String building,
+  ) async {
     bool res = false;
     try {
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -33,6 +42,10 @@ class AuthMethods {
           email: email.trim(),
           building: building.trim(),
           uid: cred.user!.uid,
+          apartmentId: '',
+          buildingId: '',
+          // apartmentId: null,
+          // buildingId: null,
         );
         await _userRef.doc(cred.user!.uid).set(user.toMap());
 
