@@ -1,4 +1,7 @@
 import 'package:demo_publicarea/providers/bill_provider.dart';
+import 'package:demo_publicarea/providers/payment_provider.dart';
+import 'package:demo_publicarea/screens/main/all_announcement_screen.dart';
+import 'package:demo_publicarea/screens/main/an_announcement_screen.dart';
 import 'package:demo_publicarea/screens/request/complete_request_screen.dart';
 import 'package:demo_publicarea/screens/request/live_request_screen.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
@@ -36,6 +39,7 @@ void main() async {
     ChangeNotifierProvider<AnnouncementProvider>(
         create: (_) => AnnouncementProvider()),
     ChangeNotifierProvider<BillProvider>(create: (_) => BillProvider()),
+    ChangeNotifierProvider<PaymentProvider>(create: (_) => PaymentProvider()),
   ], child: const MyApp()));
 }
 
@@ -80,12 +84,18 @@ class _MyAppState extends State<MyApp> {
             const ItemizedAccountScreen(),
         UnpaidItemizedAccountScreen.routeName: (context) =>
             const UnpaidItemizedAccountScreen(),
-        CreditCardScreen.routeName: (context) => const CreditCardScreen(),
+        CreditCardScreen.routeName: (context) => const CreditCardScreen(
+              arguments: {},
+            ),
         LiveRequestScreen.routeName: (context) => const LiveRequestScreen(),
         CreateRequestScreen.routeName: (context) => const CreateRequestScreen(),
         RequestScreen.routeName: (context) => const RequestScreen(),
         CompleteRequestScreen.routeName: (context) =>
             const CompleteRequestScreen(),
+        AllAnnouncementScreen.routeName: (context) =>
+            const AllAnnouncementScreen(),
+        AnAnnouncementScreen.routeName: (context) =>
+            const AnAnnouncementScreen(),
       },
       home: FutureBuilder(
         future: AuthMethods()

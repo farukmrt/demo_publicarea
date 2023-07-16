@@ -46,7 +46,9 @@ class _CustomListItemState extends State<CustomListItem> {
                 leading: widget.leading,
                 title: Text(
                   widget.title,
-                  style: TextStyle(fontStyle: widget.fontstyle),
+                  style: TextStyle(
+                      fontStyle: widget.fontstyle,
+                      overflow: TextOverflow.ellipsis),
                 ),
                 subtitle: Text(widget.subtitle,
                     style: TextStyle(color: widget.color),

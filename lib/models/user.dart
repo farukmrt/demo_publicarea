@@ -5,6 +5,8 @@ class User {
   final String name;
   final String surname;
   final String building;
+  final String apartmentId;
+  final String buildingId;
 
   User({
     required this.uid,
@@ -13,6 +15,8 @@ class User {
     required this.name,
     required this.surname,
     required this.building,
+    required this.apartmentId,
+    required this.buildingId,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,6 +27,8 @@ class User {
       'name': name,
       'surname': surname,
       'building': building,
+      'apartmentId': apartmentId,
+      'buildingId': buildingId,
     };
   }
 
@@ -34,6 +40,8 @@ class User {
       name: map['name'] ?? '',
       surname: map['surname'] ?? '',
       building: map['building'] ?? '',
+      apartmentId: map['apartmentId'] ?? '',
+      buildingId: map['buildingId'] ?? '',
     );
   }
 }

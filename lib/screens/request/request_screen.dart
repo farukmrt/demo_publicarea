@@ -1,13 +1,12 @@
 import 'package:demo_publicarea/screens/request/live_request_screen.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
-import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_subtitle.dart';
 import 'package:demo_publicarea/widgets/custom_text_block.dart';
 import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class RequestScreen extends StatefulWidget {
   static String routeName = '/request';
@@ -32,7 +31,14 @@ class _RequestScreenState extends State<RequestScreen> {
                 mainTitle: 'Yeni Talep',
                 button: Icons.add,
                 onTap: () {
-                  Navigator.pushNamed(context, CreateRequestScreen.routeName);
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    context,
+                    settings:
+                        RouteSettings(name: CreateRequestScreen.routeName),
+                    screen: const CreateRequestScreen(),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
                 },
               ),
               Container(
@@ -45,10 +51,16 @@ class _RequestScreenState extends State<RequestScreen> {
                       icon: Icons.pending_outlined,
                       color: paidc.shade400,
                       onTap: () {
-                        Navigator.of(context, rootNavigator: false).push(
-                            MaterialPageRoute(
-                                builder: (context) => const LiveRequestScreen(),
-                                maintainState: true));
+                        PersistentNavBarNavigator
+                            .pushNewScreenWithRouteSettings(
+                          context,
+                          settings:
+                              RouteSettings(name: LiveRequestScreen.routeName),
+                          screen: const LiveRequestScreen(),
+                          withNavBar: true,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
                       },
                     ),
                     CustomIconbutton(
@@ -81,7 +93,14 @@ class _RequestScreenState extends State<RequestScreen> {
               CustomMainButton(
                 edgeInsets: const EdgeInsets.symmetric(horizontal: 55),
                 onTap: () {
-                  Navigator.pushNamed(context, CreateRequestScreen.routeName);
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    context,
+                    settings:
+                        RouteSettings(name: CreateRequestScreen.routeName),
+                    screen: const CreateRequestScreen(),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
                 },
                 text: 'Yeni Talep ',
                 icon: Icons.add,

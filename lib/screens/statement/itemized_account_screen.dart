@@ -30,6 +30,7 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
       color: mainBackgroundColor,
       child: SafeArea(
         child: Scaffold(
+          //bottomNavigationBar: PersistentTabView(items),
           appBar: AppBar(
             title: const Text('Hesap Dökümü'),
             backgroundColor: mainBackgroundColor,
@@ -45,8 +46,9 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
               Expanded(
                 child: Consumer<BillProvider>(
                   builder: (context, data, index) {
-                    return FutureBuilder(
-                      future: data.fetchBillByPaidStatus(true),
+                    return StreamBuilder(
+                      stream: data.fetchBillByPaidStatus(
+                          true, userProvider.user.apartmentId),
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.hasData) {
                           if (snapshot.connectionState ==
@@ -101,8 +103,9 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                           //??? tekrara dusuldu hatali bir islem mi
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
-                              return FutureBuilder<double>(
-                                future: data.fetchAmountTotalStatus(false),
+                              return StreamBuilder<double>(
+                                stream: data.fetchAmountTotalStatus(
+                                    false, userProvider.user.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;
                                   if (snapshot.hasData) {
@@ -131,8 +134,9 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                           ),
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
-                              return FutureBuilder<double>(
-                                future: data.fetchAmountTotalStatus(true),
+                              return StreamBuilder<double>(
+                                stream: data.fetchAmountTotalStatus(
+                                    true, userProvider.user.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;
                                   if (snapshot.hasData) {

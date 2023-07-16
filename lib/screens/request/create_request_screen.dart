@@ -1,5 +1,6 @@
 import 'package:demo_publicarea/screens/request/request_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/widgets/custom_dropdownbutton.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class CreateRequestScreen extends StatefulWidget {
 }
 
 class _CreateRequestScreenState extends State<CreateRequestScreen> {
+  String? selectedValue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +23,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Talep oluştur'),
+            title: const Text('Talep oluştur'),
             backgroundColor: mainBackgroundColor,
           ),
           body: Container(
@@ -32,30 +34,41 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                 padding: const EdgeInsets.all(1),
                 child: Column(
                   children: [
-                    CustomTextField(
+                    const CustomTextField(
                       labelText: 'Konu',
                     ),
-                    CustomTextField(
+                    const CustomTextField(
                       labelText: 'Daire',
                     ),
                     //DropdownButtonFormField(items:, onChanged: (){})
-                    CustomTextField(
+
+                    CustomDropdownButton(
                       labelText: 'Talep Tipi',
+                      value: selectedValue,
+                      items: ['Arıza', 'Soru', 'Öneri', 'Şikayet'],
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue = newValue;
+                        });
+                      },
                     ),
-                    CustomTextField(
+                    // const CustomTextField(
+                    //   labelText: 'Talep Tipi',
+                    // ),
+                    const CustomTextField(
                       labelText: 'Yaşam Alanı Tipi',
                     ),
-                    CustomTextField(
+                    const CustomTextField(
                       labelText: 'Açıklama',
                       minlinee: 5,
                       //maxline: minLine + 1,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     CustomMainButton(
                       text: 'Talebi Gönder..',
-                      edgeInsets: EdgeInsets.symmetric(vertical: 25),
+                      edgeInsets: const EdgeInsets.symmetric(vertical: 25),
                       onTap: () {
                         Navigator.pushNamed(context, RequestScreen.routeName);
                       },

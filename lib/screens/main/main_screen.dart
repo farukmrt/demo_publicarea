@@ -7,6 +7,8 @@
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/screens/main/all_announcement_screen.dart';
+import 'package:demo_publicarea/screens/main/an_announcement_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
@@ -14,8 +16,11 @@ import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_column_button.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
+import 'package:demo_publicarea/widgets/custom_text_block.dart';
+import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -118,33 +123,34 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                     Consumer<BillProvider>(
                                       builder: (context, data, index) {
-                                        return FutureBuilder<double>(
-                                          future: data
-                                              .fetchAmountTotalStatus(false),
-                                          builder:
-                                              (BuildContext context, snapshot) {
-                                            //var bill = snapshot.data?;
-                                            if (snapshot.hasData) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return const Center(
-                                                  child: LoadingIndicator(),
-                                                );
-                                              } else {
-                                                return Text(
-                                                  NoyaFormatter.generateAmount(
-                                                      snapshot.data),
-                                                  style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                                );
-                                              }
+                                        return StreamBuilder<double>(
+                                          stream: data.fetchAmountTotalStatus(
+                                              false,
+                                              userProvider.user.apartmentId),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<double> snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
                                             } else if (snapshot.hasError) {
-                                              return const Text('no data');
+                                              return const Text(
+                                                  'Hata: Veriler alınamadı.');
+                                            } else {
+                                              double totalAmount =
+                                                  snapshot.data ?? 0.0;
+                                              return Text(
+                                                NoyaFormatter.generateAmount(
+                                                    totalAmount),
+                                                style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              );
                                             }
-                                            return const LoadingIndicator();
                                           },
                                         );
                                       },
@@ -166,10 +172,14 @@ class _MainScreenState extends State<MainScreen> {
                 edgeInsets: //custommain'e bu deger verilmediginde hata ekrani geliyor
                     const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                 onTap: () {
-                  Navigator.of(context, rootNavigator: false).push(
-                      MaterialPageRoute(
-                          builder: (context) => const PaymentSelectScreen(),
-                          maintainState: true));
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    context,
+                    settings:
+                        RouteSettings(name: PaymentSelectScreen.routeName),
+                    screen: const PaymentSelectScreen(),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
                 },
                 icon: Icons.redo_outlined,
                 text: 'Ödeme Yap'),
@@ -186,66 +196,106 @@ class _MainScreenState extends State<MainScreen> {
             //             maintainState: true));
             //   },
             // ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomTextButton(
+                    onTap: () {
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        settings: RouteSettings(
+                            name: AllAnnouncementScreen.routeName),
+                        screen: const AllAnnouncementScreen(),
+                        withNavBar: true,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      );
+                    },
+                    text: 'Tümünü gör ->'),
+                const SizedBox(width: 10),
+              ],
+            ),
 
-            Expanded(child: Consumer<AnnouncementProvider>(
-              builder: (context, data, index) {
-                // var announcements = await data.fetchAnnouncement();
+            Expanded(
+              child: Consumer<AnnouncementProvider>(
+                builder: (context, data, index) {
+                  // var announcements = await data.fetchAnnouncement();
 
-                return FutureBuilder(
-                  future: data.fetchAnnouncement(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: LoadingIndicator(),
-                        );
-                      } else {
-                        return ListView.builder(
-                          itemCount: snapshot.data?.length,
-                          itemBuilder: (context, index) {
-                            var announcement = snapshot.data?[index];
+                  return StreamBuilder(
+                    stream: data.fetchAnnouncement(userProvider.user.buildingId,
+                        limit: 6),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: LoadingIndicator(),
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: snapshot.data?.length,
+                            itemBuilder: (context, index) {
+                              var announcement = snapshot.data?[index];
 
-                            return CustomListItem(
-                              title: announcement!.title,
-                              subtitle: announcement.subtitle,
-                              trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.arrow_forward_ios),
-                              ),
-                              leading: const CircleAvatar(
-                                radius: 25,
-                                backgroundImage:
-                                    AssetImage('assets/images/notice.png'),
-                              ),
-                            );
+                              return CustomListItem(
+                                title: announcement!.title,
+                                subtitle: announcement.subtitle,
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    AnnouncementProvider().fetchAnAnnouncement(
+                                        announcement.id.toString());
 
-                            // ListTile(
-                            //   title: Text(announcement!['title']),
-                            //   subtitle: Text(announcement!['subtitle']),
-                            //   //  IconButton(
-                            //   //   icon: Icon(Icons.edit),
-                            //   //   onPressed: () async {
-                            //   //     try {
-                            //   //       AnnouncementProvider().updateAnnouncement(
-                            //   //         announcement['id'],
-                            //   //         announcement['title'],
-                            //   //         announcement['subtitle'],
-                            //   //       );
-                            //   //     } on Exception catch (_) {}
-                            //   //   },
-                            //   // ),
-                            // );
-                          },
-                        );
+                                    print(index);
+                                    PersistentNavBarNavigator
+                                        .pushNewScreenWithRouteSettings(
+                                      context,
+                                      settings: RouteSettings(
+                                        name: AnAnnouncementScreen.routeName,
+                                        arguments: announcement.id.toString(),
+                                      ),
+                                      screen: const AnAnnouncementScreen(),
+                                      withNavBar: true,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
+                                    );
+                                  },
+                                  icon: const Icon(Icons.arrow_forward_ios),
+                                ),
+                                leading: const CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage:
+                                      AssetImage('assets/images/notice.png'),
+                                ),
+                              );
+
+                              // ListTile(
+                              //   title: Text(announcement!['title']),
+                              //   subtitle: Text(announcement!['subtitle']),
+                              //   //  IconButton(
+                              //   //   icon: Icon(Icons.edit),
+                              //   //   onPressed: () async {
+                              //   //     try {
+                              //   //       AnnouncementProvider().updateAnnouncement(
+                              //   //         announcement['id'],
+                              //   //         announcement['title'],
+                              //   //         announcement['subtitle'],
+                              //   //       );
+                              //   //     } on Exception catch (_) {}
+                              //   //   },
+                              //   // ),
+                              // );
+                            },
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        return Text('Hata: ${snapshot.error}');
                       }
-                    } else if (snapshot.hasError) {
-                      return Text('Hata: ${snapshot.error}');
-                    }
-                    return const LoadingIndicator();
-                  },
-                );
-              },
-            )),
+                      return const LoadingIndicator();
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

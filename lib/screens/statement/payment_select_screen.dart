@@ -15,6 +15,7 @@ import 'package:demo_publicarea/widgets/custom_subtitle.dart';
 //import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 class PaymentSelectScreen extends StatefulWidget {
@@ -77,8 +78,9 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
               Expanded(
                 child: Consumer<BillProvider>(
                   builder: (context, data, index) {
-                    return FutureBuilder(
-                      future: data.fetchBillByPaidStatus(false),
+                    return StreamBuilder(
+                      stream: data.fetchBillByPaidStatus(
+                          false, userProvider.user.apartmentId),
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.hasData) {
                           if (snapshot.connectionState ==
@@ -115,8 +117,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                                       bill.amount)),
                                   //valuee: selectedBill.contains(bill),
 
-                                  valuee: selectedBill.any((element) =>
-                                      element.bill_uid == bill.bill_uid),
+                                  valuee: selectedBill
+                                      .any((element) => element.id == bill.id),
                                   mainList: bill,
                                   // onChanged: (bool) {},
 
@@ -133,8 +135,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                                       if (value == true) {
                                         selectedBill.add(bill);
                                       } else if (value == false) {
-                                        selectedBill.removeWhere((element) =>
-                                            element.bill_uid == bill.bill_uid);
+                                        selectedBill.removeWhere(
+                                            (element) => element.id == bill.id);
                                       }
                                       //(_buildTotalAmountWidget(selectedBill));
                                       summary = selectedBill.fold<num>(
@@ -182,14 +184,29 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                   child: Column(
                     children: [
                       CustomMainButton(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, CreditCardScreen.routeName);
-                          },
-                          icon: Icons.start_outlined,
-                          text: 'Devam et ',
-                          edgeInsets:
-                              const EdgeInsets.symmetric(horizontal: 20)),
+                        onTap: () {
+                          PersistentNavBarNavigator
+                              .pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(
+                                name: CreditCardScreen.routeName,
+                                arguments: {
+                                  'summary':
+                                      NoyaFormatter.generateAmount(summary),
+                                  'selectedBill': selectedBill,
+                                }),
+                            screen: const CreditCardScreen(
+                              arguments: {},
+                            ),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                        icon: Icons.start_outlined,
+                        text: 'Devam et ',
+                        edgeInsets: const EdgeInsets.symmetric(horizontal: 20),
+                      ),
                       Row(
                         //mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -197,8 +214,9 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                         children: [
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
-                              return FutureBuilder<double>(
-                                future: data.fetchAmountTotalStatus(false),
+                              return StreamBuilder<double>(
+                                stream: data.fetchAmountTotalStatus(
+                                    false, userProvider.user.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;
                                   if (snapshot.hasData) {

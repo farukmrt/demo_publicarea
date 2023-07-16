@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -25,7 +26,13 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordController.text,
     );
     if (res) {
-      Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+        context,
+        settings: RouteSettings(name: TabsScreen.routeName),
+        screen: const TabsScreen(),
+        withNavBar: false,
+        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+      );
     }
   }
 

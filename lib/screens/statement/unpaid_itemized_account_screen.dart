@@ -48,8 +48,9 @@ class _UnpaidItemizedAccountScreenState
               Expanded(
                 child: Consumer<BillProvider>(
                   builder: (context, data, index) {
-                    return FutureBuilder(
-                      future: data.fetchBillByPaidStatus(false),
+                    return StreamBuilder(
+                      stream: data.fetchBillByPaidStatus(
+                          false, userProvider.user.apartmentId),
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.hasData) {
                           if (snapshot.connectionState ==
@@ -117,8 +118,9 @@ class _UnpaidItemizedAccountScreenState
                           //toplam borc ve odenen tutarlari gosterebilmek icin verileri cekiyoruz
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
-                              return FutureBuilder<double>(
-                                future: data.fetchAmountTotalStatus(false),
+                              return StreamBuilder<double>(
+                                stream: data.fetchAmountTotalStatus(
+                                    false, userProvider.user.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;
                                   if (snapshot.hasData) {
@@ -147,8 +149,9 @@ class _UnpaidItemizedAccountScreenState
                           ),
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
-                              return FutureBuilder<double>(
-                                future: data.fetchAmountTotalStatus(true),
+                              return StreamBuilder<double>(
+                                stream: data.fetchAmountTotalStatus(
+                                    true, userProvider.user.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;
                                   if (snapshot.hasData) {

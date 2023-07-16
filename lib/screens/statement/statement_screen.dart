@@ -7,6 +7,7 @@
 // import 'package:demo_publicarea/widgets/custom_column_button.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
@@ -18,6 +19,7 @@ import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/date_amount_formatter.dart';
@@ -70,8 +72,10 @@ class _StatementScreenState extends State<StatementScreen> {
             Expanded(
               child: Consumer<BillProvider>(
                 builder: (context, data, index) {
-                  return FutureBuilder(
-                    future: data.fetchBillByPaidStatus(false, limit: 4),
+                  return StreamBuilder(
+                    stream: data.fetchBillByPaidStatus(
+                        false, userProvider.user.apartmentId,
+                        limit: 4),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.connectionState ==
@@ -122,8 +126,9 @@ class _StatementScreenState extends State<StatementScreen> {
                     const Text('Toplam'),
                     Consumer<BillProvider>(
                       builder: (context, data, index) {
-                        return FutureBuilder<double>(
-                          future: data.fetchAmountTotalStatus(false),
+                        return StreamBuilder<double>(
+                          stream: data.fetchAmountTotalStatus(
+                              false, userProvider.user.apartmentId),
                           builder: (BuildContext context, snapshot) {
                             //var bill = snapshot.data?;
                             if (snapshot.hasData) {
@@ -177,8 +182,10 @@ class _StatementScreenState extends State<StatementScreen> {
             Expanded(
               child: Consumer<BillProvider>(
                 builder: (context, data, index) {
-                  return FutureBuilder(
-                    future: data.fetchBillByPaidStatus(true, limit: 4),
+                  return StreamBuilder(
+                    stream: data.fetchBillByPaidStatus(
+                        true, userProvider.user.apartmentId,
+                        limit: 4),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.connectionState ==
@@ -237,8 +244,15 @@ class _StatementScreenState extends State<StatementScreen> {
                     title: 'Ödeme Yap',
                     icon: Icons.wallet_outlined,
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, PaymentSelectScreen.routeName);
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        settings:
+                            RouteSettings(name: PaymentSelectScreen.routeName),
+                        screen: const PaymentSelectScreen(),
+                        withNavBar: true,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      );
                     },
 
                     // ontap: () {

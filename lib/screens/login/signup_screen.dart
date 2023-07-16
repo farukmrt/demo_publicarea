@@ -1,9 +1,11 @@
 import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
+import 'package:demo_publicarea/widgets/custom_image_input.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class SignupScreen extends StatefulWidget {
   static const String routeName = '/sign';
@@ -32,7 +34,13 @@ class _SignupScreenState extends State<SignupScreen> {
       _buildingController.text,
     );
     if (res) {
-      Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+        context,
+        settings: RouteSettings(name: TabsScreen.routeName),
+        screen: const TabsScreen(),
+        withNavBar: false,
+        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+      );
     }
   }
 
@@ -72,6 +80,11 @@ class _SignupScreenState extends State<SignupScreen> {
               CustomTextField(
                 controller: _buildingController,
                 labelText: 'Bina adını girin',
+              ),
+              ImageInput(
+                onPickImage: (image) {
+                  // _selectedImage = image;
+                },
               ),
               const SizedBox(height: 15),
               CustomMainButton(
