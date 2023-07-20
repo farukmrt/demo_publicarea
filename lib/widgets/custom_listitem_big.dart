@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:flutter/material.dart';
 
 class CustomBigListItem extends StatefulWidget {
   final String title;
-  final String? subtitle;
+  final String subtitle;
   final String text;
   final Widget? trailing;
   final Widget? leading;
   final Color? color;
   final FontStyle? fontstyle;
   final String? threeline;
+  final String? image;
 
   // final bool? isCheckeda;
   // final bool? isCheckBoxa;
@@ -17,13 +18,14 @@ class CustomBigListItem extends StatefulWidget {
   const CustomBigListItem({
     Key? key,
     required this.title,
-    this.subtitle,
+    required this.subtitle,
     required this.text,
     this.trailing,
     this.leading,
     this.color,
     this.fontstyle,
     this.threeline,
+    this.image,
     // this.isCheckBoxa,
     // this.isCheckeda,
   }) : super(key: key);
@@ -50,7 +52,7 @@ class _CustomBigListItemState extends State<CustomBigListItem> {
                 ),
               ),
               subtitle: Text(
-                widget.subtitle!,
+                widget.subtitle,
                 style: TextStyle(
                   color: widget.color,
                 ),
@@ -68,7 +70,14 @@ class _CustomBigListItemState extends State<CustomBigListItem> {
                 ),
               ),
             ),
-            Image(image: AssetImage('assets/images/announcement_image1.png')),
+            if (widget.image != null)
+              Container(
+                color: buttonColor2,
+                child: Padding(
+                  padding: const EdgeInsets.all(45),
+                  child: Image.network(widget.image!),
+                ),
+              ),
           ],
         ),
       ),

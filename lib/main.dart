@@ -1,11 +1,13 @@
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/payment_provider.dart';
+import 'package:demo_publicarea/providers/photo_provider.dart';
+import 'package:demo_publicarea/providers/request_provider.dart';
 import 'package:demo_publicarea/screens/main/all_announcement_screen.dart';
 import 'package:demo_publicarea/screens/main/an_announcement_screen.dart';
-import 'package:demo_publicarea/screens/request/complete_request_screen.dart';
-import 'package:demo_publicarea/screens/request/live_request_screen.dart';
+import 'package:demo_publicarea/screens/request/a_request_screen.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
+import 'package:demo_publicarea/screens/settings/profile_settings_screen.dart';
 import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
@@ -40,6 +42,8 @@ void main() async {
         create: (_) => AnnouncementProvider()),
     ChangeNotifierProvider<BillProvider>(create: (_) => BillProvider()),
     ChangeNotifierProvider<PaymentProvider>(create: (_) => PaymentProvider()),
+    ChangeNotifierProvider<RequestProvider>(create: (_) => RequestProvider()),
+    ChangeNotifierProvider<PhotoProvider>(create: (_) => PhotoProvider()),
   ], child: const MyApp()));
 }
 
@@ -87,41 +91,71 @@ class _MyAppState extends State<MyApp> {
         CreditCardScreen.routeName: (context) => const CreditCardScreen(
               arguments: {},
             ),
-        LiveRequestScreen.routeName: (context) => const LiveRequestScreen(),
+        // LiveRequestScreen.routeName: (context) => const LiveRequestScreen(),
         CreateRequestScreen.routeName: (context) => const CreateRequestScreen(),
         RequestScreen.routeName: (context) => const RequestScreen(),
-        CompleteRequestScreen.routeName: (context) =>
-            const CompleteRequestScreen(),
+        // CompleteRequestScreen.routeName: (context) =>
+        //     const CompleteRequestScreen(),
         AllAnnouncementScreen.routeName: (context) =>
             const AllAnnouncementScreen(),
         AnAnnouncementScreen.routeName: (context) =>
             const AnAnnouncementScreen(),
+        ARequestScreen.routeName: (context) => const ARequestScreen(),
+        ProfileSettingsScreen.routeName: (context) =>
+            const ProfileSettingsScreen(),
       },
-      home: FutureBuilder(
-        future: AuthMethods()
-            .getCurrentUser(FirebaseAuth.instance.currentUser != null
+      home: FutureBuilder<model.UserModel?>(
+        future: UserProvider().getCurrentUser(
+            FirebaseAuth.instance.currentUser != null
                 ? FirebaseAuth.instance.currentUser!.uid
-                : null)
-            .then((value) {
-          if (value != null) {
-            Provider.of<UserProvider>(context, listen: false).setUser(
-              model.User.fromMap(value),
-            );
-          }
-          return value;
-        }),
+                : null),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingIndicator();
           }
 
-          //eger kullanici mevcutsa direk ana ekrana yonlendirir
-          if (snapshot.hasData) {
+          // eger kullanici mevcutsa direk ana ekrana yonlendirir
+          if (snapshot.hasData && snapshot.data != null) {
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(snapshot.data!);
             return const TabsScreen();
           }
+
           return const OnboardingScreen();
         },
       ),
+      // FutureBuilder(
+      //   future:
+
+      //       // UserProvider().getCurrentUser(
+      //       //     FirebaseAuth.instance.currentUser != null
+      //       //         ? FirebaseAuth.instance.currentUser!.uid
+      //       //         : null),
+
+      //       UserProvider()
+      //           .getCurrentUser(FirebaseAuth.instance.currentUser != null
+      //               ? FirebaseAuth.instance.currentUser!.uid
+      //               : null)
+      //           .then((value) {
+      //     if (value != null) {
+      //       Provider.of<UserProvider>(context, listen: false).setUser(
+      //         model.UserModel.fromMap(value as Map<String, dynamic>),
+      //       );
+      //     }
+      //     return value;
+      //   }),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const LoadingIndicator();
+      //     }
+
+      //     //eger kullanici mevcutsa direk ana ekrana yonlendirir
+      //     if (snapshot.hasData) {
+      //       return const TabsScreen();
+      //     }
+      //     return const OnboardingScreen();
+      //   },
+      // ),
     );
   }
 }

@@ -15,8 +15,8 @@ class CustomTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Text(text),
       onTap: onTap,
+      child: Text(text),
     );
   }
 }

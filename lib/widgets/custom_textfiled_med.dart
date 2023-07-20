@@ -1,7 +1,7 @@
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextFieldMedium extends StatelessWidget {
   final TextEditingController? controller;
   final String? labelText;
   final String? hintText;
@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   final int? minlinee;
   final int? maxlinee;
 
-  const CustomTextField({
+  const CustomTextFieldMedium({
     Key? key,
     this.controller,
     this.labelText,
@@ -24,6 +24,8 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        minLines: 2,
+        maxLines: 4,
         controller: controller!,
         decoration: InputDecoration(
           filled: true,
@@ -44,10 +46,6 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
         ),
-
-        // if(minlinee != null)
-        // minLines: minlinee,
-        // maxLines: (minlinee! + 1),
       ),
     );
   }

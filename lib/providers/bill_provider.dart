@@ -151,6 +151,7 @@ class BillProvider with ChangeNotifier {
     // StreamController'ları temizleyin
     // İlgili yerde kullanılan StreamController'ları dispose edin
     // Ayrıca diğer gereksiz nesneleri de burada temizleyebilirsiniz
+    _billStreamController.close();
     super.dispose();
   }
 }

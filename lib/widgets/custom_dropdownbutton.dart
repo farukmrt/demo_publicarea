@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomDropdownButton extends StatelessWidget {
+  final TextEditingController? controller;
   final String? value;
   final List<String>? items;
   final void Function(String?)? onChanged;
@@ -13,6 +14,7 @@ class CustomDropdownButton extends StatelessWidget {
     this.items,
     this.onChanged,
     this.labelText,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class CustomDropdownButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: DropdownButtonFormField<String>(
+        //itemHeight: 150,
         value: value,
         decoration: InputDecoration(
           //contentPadding: const EdgeInsets.symmetric(vertical: 10),

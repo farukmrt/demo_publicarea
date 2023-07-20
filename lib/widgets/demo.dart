@@ -24,7 +24,7 @@ class CustomCheckBoxListItem extends StatefulWidget {
 }
 
 class _CustomCheckBoxListItemState extends State<CustomCheckBoxListItem> {
-  bool _isChecked = false;
+  final bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

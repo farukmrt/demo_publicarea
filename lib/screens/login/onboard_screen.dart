@@ -37,7 +37,7 @@ class OnboardingScreen extends StatelessWidget {
                 onTap: () {
                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                     context,
-                    settings: RouteSettings(name: LoginScreen.routeName),
+                    settings: const RouteSettings(name: LoginScreen.routeName),
                     screen: const LoginScreen(),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
@@ -50,7 +50,7 @@ class OnboardingScreen extends StatelessWidget {
                 onTap: () {
                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                     context,
-                    settings: RouteSettings(name: SignupScreen.routeName),
+                    settings: const RouteSettings(name: SignupScreen.routeName),
                     screen: const SignupScreen(),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_publicarea/models/bill.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class PaymentProvider with ChangeNotifier {
@@ -82,32 +81,3 @@ class PaymentProvider with ChangeNotifier {
     }
   }
 }
-// // Future<void> updateBillPaidStatus(List<Bill> selectedBills) async {
-// //   bool newValue = true;
-// //   Timestamp newDate = Timestamp.now();
-// //   var collection = FirebaseFirestore.instance.collection('bills');
-// //   var billIds = selectedBills.map((bill) => bill.id).toList();
-
-// //   for (var billId in billIds) {
-// //     DocumentReference documentRef = collection.doc(billId);
-// //     try {
-// //       await documentRef.update({
-// //         'isPaid': newValue,
-// //         'date': newDate,
-// //       });
-// //       print('Belge güncellendi: $billId');
-// //     } catch (error) {
-// //       print('Hata oluştu: ${error.toString()}');
-// //     }
-// //   }
-// // }
-
-// // class CardCheckMethods {
-// //   final _cardCheck = FirebaseFirestore.instance.collection('cards');
-
-// //   Future<bool> checkCardNumber(String cardNumber) async {
-// //     bool isMatched = false;
-
-// //     return isMatched;
-// //   }
-// // }

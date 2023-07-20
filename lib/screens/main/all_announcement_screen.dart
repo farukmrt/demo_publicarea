@@ -68,7 +68,7 @@ class _AllAnnouncementScreenState extends State<AllAnnouncementScreen> {
                                     AnnouncementProvider().fetchAnAnnouncement(
                                         announcement.id.toString());
 
-                                    print(index);
+                                    // print(index);
                                     PersistentNavBarNavigator
                                         .pushNewScreenWithRouteSettings(
                                       context,

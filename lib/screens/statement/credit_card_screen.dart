@@ -145,7 +145,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    border = OutlineInputBorder(
+    border = const OutlineInputBorder(
       borderSide: BorderSide(
         color: buttonColor,
         width: 2.0,

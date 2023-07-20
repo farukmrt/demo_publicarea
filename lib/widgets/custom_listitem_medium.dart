@@ -79,9 +79,9 @@ class _CustomMediumListItemState extends State<CustomMediumListItem> {
                       maxLines: 3,
                     ),
                   ),
-                  Image(
-                      image:
-                          AssetImage('assets/images/announcement_image1.png')),
+                  const Image(
+                    image: AssetImage('assets/images/announcement_image1.png'),
+                  ),
                 ],
               ),
             ),

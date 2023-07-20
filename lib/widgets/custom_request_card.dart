@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 class CustomRequestCard extends StatefulWidget {
   final String requestType;
-  final String requestExplanation;
+  final String requestTitle;
   final String apartmentNumber;
   final bool status;
   final VoidCallback onTap;
 
   const CustomRequestCard({
     required this.requestType,
-    required this.requestExplanation,
+    required this.requestTitle,
     required this.apartmentNumber,
     required this.status,
     required this.onTap,
@@ -34,7 +34,7 @@ class _CustomRequestCardState extends State<CustomRequestCard> {
         borderRadius: BorderRadius.circular(10),
       ),
       margin: const EdgeInsets.fromLTRB(5, 4, 5, 4),
-      color: mainBackgroundColor,
+      color: mainBackgroundColor.withOpacity(1),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -61,7 +61,7 @@ class _CustomRequestCardState extends State<CustomRequestCard> {
           const SizedBox(
             height: 2,
           ),
-          Text(widget.requestExplanation),
+          Text(widget.requestTitle),
           // SizedBox(
           //   height: 0,
           // ),

@@ -93,7 +93,7 @@ class _MyWidgetScreenState extends State<MyWidgetScreen> {
   TextEditingController cardHolderNameController = TextEditingController();
   TextEditingController cvvCodeController = TextEditingController();
 
-  var ide = 6; // Declare ide as an instance variable
+  var ide = 6;
 //veri girisi yapilirken guncel degere göre ide degiskeninin degistirilmesi lazım
   Future<void> sendDataToFirestore() async {
     try {
