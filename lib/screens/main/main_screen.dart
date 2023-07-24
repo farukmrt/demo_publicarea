@@ -340,7 +340,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   // Kullanıcı verilerini saklamak için bir değişken
   // UserModel? _user; // Kullanıcı verilerini saklamak için bir değişken
-  UserModel? _user; // Kullanıcı verilerini saklamak için bir değişken
 
   // @override
   // void initState() {
@@ -356,11 +355,17 @@ class _MainScreenState extends State<MainScreen> {
   // }
 
   @override
+  void dispose() {
+    // Kaynakları serbest bırakmak veya gereken temizlik işlemlerini yapmak için kullanılır
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+        Provider.of<UserProvider>(context, listen: false); //degistirr
 
     return SafeArea(
       child: Scaffold(
@@ -450,12 +455,14 @@ class _MainScreenState extends State<MainScreen> {
                                       style: TextStyle(
                                           fontSize: 15, color: Colors.white),
                                     ),
+
                                     Consumer<BillProvider>(
                                       builder: (context, data, index) {
                                         return StreamBuilder<double>(
                                           stream: data.fetchAmountTotalStatus(
-                                              false,
-                                              userProvider.user.apartmentId),
+                                            false,
+                                            userProvider.user.apartmentId,
+                                          ),
                                           builder: (BuildContext context,
                                               AsyncSnapshot<double> snapshot) {
                                             if (snapshot.connectionState ==
@@ -467,9 +474,10 @@ class _MainScreenState extends State<MainScreen> {
                                             } else if (snapshot.hasError) {
                                               return const Text(
                                                   'Hata: Veriler alınamadı.');
-                                            } else {
+                                            } else if (snapshot.hasData) {
+                                              // Veri mevcut olduğunda erişim yapın
                                               double totalAmount =
-                                                  snapshot.data ?? 0.0;
+                                                  snapshot.data!;
                                               return Text(
                                                 NoyaFormatter.generateAmount(
                                                     totalAmount),
@@ -479,11 +487,49 @@ class _MainScreenState extends State<MainScreen> {
                                                   color: Colors.white,
                                                 ),
                                               );
+                                            } else {
+                                              return const Text(
+                                                  'Veri bulunamadı veya hata oluştu.');
                                             }
                                           },
                                         );
                                       },
                                     ),
+
+                                    // Consumer<BillProvider>(
+                                    //   builder: (context, data, index) {
+                                    //     return StreamBuilder<double>(
+                                    //       stream: data.fetchAmountTotalStatus(
+                                    //           false,
+                                    //           userProvider.user.apartmentId),
+                                    //       builder: (BuildContext context,
+                                    //           AsyncSnapshot<double> snapshot) {
+                                    //         if (snapshot.connectionState ==
+                                    //             ConnectionState.waiting) {
+                                    //           return const Center(
+                                    //             child:
+                                    //                 CircularProgressIndicator(),
+                                    //           );
+                                    //         } else if (snapshot.hasError) {
+                                    //           return const Text(
+                                    //               'Hata: Veriler alınamadı.');
+                                    //         } else {
+                                    //           double totalAmount =
+                                    //               snapshot.data ?? 0.0;
+                                    //           return Text(
+                                    //             NoyaFormatter.generateAmount(
+                                    //                 totalAmount),
+                                    //             style: const TextStyle(
+                                    //               fontSize: 20,
+                                    //               fontWeight: FontWeight.bold,
+                                    //               color: Colors.white,
+                                    //             ),
+                                    //           );
+                                    //         }
+                                    //       },
+                                    //     );
+                                    //   },
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -584,7 +630,7 @@ class _MainScreenState extends State<MainScreen> {
                                   backgroundImage:
                                       AssetImage('assets/images/notice.png'),
                                 ),
-                              );
+                              ); /////
                             },
                           );
                         }

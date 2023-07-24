@@ -221,6 +221,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _buildingController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   // final AuthMethods _authMethods = AuthMethods();
 
   File? selectedImage;
@@ -269,6 +270,7 @@ class _SignupScreenState extends State<SignupScreen> {
       _surnameController.text,
       _buildingController.text,
       imageUrl!,
+      _phoneNumberController.text,
     );
     if (res) {
       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
@@ -391,6 +393,10 @@ class _SignupScreenState extends State<SignupScreen> {
               CustomTextField(
                 controller: _buildingController,
                 labelText: 'Bina adını girin',
+              ),
+              CustomTextField(
+                controller: _phoneNumberController,
+                labelText: 'Telefon numarnızı girin',
               ),
               const SizedBox(height: 15),
               CustomMainButton(

@@ -57,29 +57,42 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                               child: LoadingIndicator(),
                             );
                           } else {
-                            return ListView.builder(
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index) {
-                                var bill = snapshot.data?[index];
-
-                                return CustomListItem(
-                                  title: bill!.name,
-                                  subtitle: //'Ödeme Tarihi: ${bill.date}',
-                                      'Ödeme Tarihi: ${NoyaFormatter.generate(bill.date)}',
-                                  color: paidc,
-                                  trailing: Text(NoyaFormatter.generateAmount(
-                                      bill.amount)),
-                                  leading: const Icon(
-                                    Icons.receipt_long_outlined,
+                            var bill = snapshot.data;
+                            if (bill == null || bill.isEmpty) {
+                              return const CustomListItem(
+                                title: 'Lütfen Ödeme Yapın..',
+                                subtitle: 'Ödenmiş Faturanız Bulunmamaktadır!!',
+                                color: unpaidc,
+                                leading: Icon(
+                                  Icons.priority_high_outlined,
+                                  color: unpaidc,
+                                  size: 40,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: bill.length,
+                                itemBuilder: (context, index) {
+                                  var paidBills = bill[index];
+                                  return CustomListItem(
+                                    title: paidBills.name,
+                                    subtitle:
+                                        'Ödeme Tarihi: ${NoyaFormatter.generate(paidBills.date)}',
                                     color: paidc,
-                                    size: 30,
-                                  ),
-                                );
-                              },
-                            );
+                                    trailing: Text(NoyaFormatter.generateAmount(
+                                        paidBills.amount)),
+                                    leading: const Icon(
+                                      Icons.receipt_long_outlined,
+                                      color: paidc,
+                                      size: 30,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
                           }
                         } else if (snapshot.hasError) {
-                          return const Text('no data');
+                          return Text('Hata: ${snapshot.error}');
                         }
                         return const LoadingIndicator();
                       },

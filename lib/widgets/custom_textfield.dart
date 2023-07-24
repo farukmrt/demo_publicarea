@@ -8,6 +8,8 @@ class CustomTextField extends StatelessWidget {
   final Color? color;
   final int? minlinee;
   final int? maxlinee;
+  final String? textType;
+  final bool? readOnly;
 
   const CustomTextField({
     Key? key,
@@ -17,6 +19,8 @@ class CustomTextField extends StatelessWidget {
     this.color,
     this.minlinee,
     this.maxlinee,
+    this.textType,
+    this.readOnly,
   }) : super(key: key);
 
   @override
@@ -24,8 +28,10 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        readOnly: readOnly ?? false,
         controller: controller!,
         decoration: InputDecoration(
+          suffixText: textType,
           filled: true,
           fillColor: color,
           labelText: labelText,

@@ -7,7 +7,6 @@
 // import 'package:demo_publicarea/widgets/custom_column_button.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
@@ -86,26 +85,40 @@ class _StatementScreenState extends State<StatementScreen> {
                               child: LoadingIndicator(),
                             );
                           } else {
-                            return ListView.builder(
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index) {
-                                var bill = snapshot.data?[index];
-
-                                return CustomListItem(
-                                  title: bill!.name,
-                                  subtitle: //'Son Ödeme T: ${bill.date}',
-                                      'Son Ödeme T: ${NoyaFormatter.generate(bill.date)}',
-                                  color: unpaidc,
-                                  trailing: Text(NoyaFormatter.generateAmount(
-                                      bill.amount)),
-                                  leading: const Icon(
-                                    Icons.receipt_long_outlined,
-                                    color: unpaidc,
-                                    size: 30,
-                                  ),
-                                );
-                              },
-                            );
+                            var bill = snapshot.data;
+                            if (bill == null || bill.isEmpty) {
+                              return const CustomListItem(
+                                title: 'Teşekkürler..',
+                                subtitle:
+                                    'Ödenmemiş Faturanız Bulunmamaktadır!!',
+                                color: positive,
+                                leading: Icon(
+                                  Icons.done_outline_outlined,
+                                  color: positive,
+                                  size: 40,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: bill.length,
+                                itemBuilder: (context, index) {
+                                  var unpaidBills = bill[index];
+                                  return CustomListItem(
+                                    title: unpaidBills.name,
+                                    subtitle:
+                                        'Ödeme Tarihi: ${NoyaFormatter.generate(unpaidBills.date)}',
+                                    color: paidc,
+                                    trailing: Text(NoyaFormatter.generateAmount(
+                                        unpaidBills.amount)),
+                                    leading: const Icon(
+                                      Icons.receipt_long_outlined,
+                                      color: paidc,
+                                      size: 30,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
                           }
                         } else if (snapshot.hasError) {
                           return Text('Hata: ${snapshot.error}');
@@ -196,32 +209,39 @@ class _StatementScreenState extends State<StatementScreen> {
                               child: LoadingIndicator(),
                             );
                           } else {
-                            return ListView.builder(
-                              //son girilen degeri en uste almak istedigim icin listeyi ters cevirdim
-                              //reverse: true,
-                              itemCount: snapshot.data?.length,
-                              //
-                              //eger odenen fatura sayisi alttaki degerden az ise
-                              //liste asagi kaydirildiginda ustte hata(kirmizilik) cikiyor
-
-                              itemBuilder: (context, index) {
-                                var bill = snapshot.data?[index];
-
-                                return CustomListItem(
-                                  title: bill!.name,
-                                  subtitle: //'Ödeme Tarihi: ${bill.date}',
-                                      'Ödeme Tarihi: ${NoyaFormatter.generate(bill.date)}',
-                                  color: paidc,
-                                  trailing: Text(NoyaFormatter.generateAmount(
-                                      bill.amount)),
-                                  leading: const Icon(
-                                    Icons.receipt_long_outlined,
+                            var bill = snapshot.data;
+                            if (bill == null || bill.isEmpty) {
+                              return const CustomListItem(
+                                title: 'Lütfen Ödeme Yapın..',
+                                subtitle: 'Ödenmiş Faturanız Bulunmamaktadır!!',
+                                color: unpaidc,
+                                leading: Icon(
+                                  Icons.priority_high_outlined,
+                                  color: unpaidc,
+                                  size: 40,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: bill.length,
+                                itemBuilder: (context, index) {
+                                  var paidBills = bill[index];
+                                  return CustomListItem(
+                                    title: paidBills.name,
+                                    subtitle:
+                                        'Ödeme Tarihi: ${NoyaFormatter.generate(paidBills.date)}',
                                     color: paidc,
-                                    size: 30,
-                                  ),
-                                );
-                              },
-                            );
+                                    trailing: Text(NoyaFormatter.generateAmount(
+                                        paidBills.amount)),
+                                    leading: const Icon(
+                                      Icons.receipt_long_outlined,
+                                      color: paidc,
+                                      size: 30,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
                           }
                         } else if (snapshot.hasError) {
                           return Text('Hata: ${snapshot.error}');

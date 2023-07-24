@@ -7,25 +7,23 @@ import 'package:demo_publicarea/screens/main/an_announcement_screen.dart';
 import 'package:demo_publicarea/screens/request/a_request_screen.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
+import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
 import 'package:demo_publicarea/screens/settings/profile_settings_screen.dart';
+import 'package:demo_publicarea/screens/settings/user_agreement.dart';
 import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
-//import 'package:demo_publicarea/screens/main_screen.dart';
-//import 'firebase_options.dart';
 import 'models/user.dart' as model;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-//import 'package:demo_publicarea/firebase_options.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
 import 'package:demo_publicarea/screens/login/login_screen.dart';
 import 'package:demo_publicarea/screens/login/signup_screen.dart';
-import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/screens/login/onboard_screen.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
@@ -103,6 +101,8 @@ class _MyAppState extends State<MyApp> {
         ARequestScreen.routeName: (context) => const ARequestScreen(),
         ProfileSettingsScreen.routeName: (context) =>
             const ProfileSettingsScreen(),
+        KvkkScreen.routeName: (context) => const KvkkScreen(),
+        UserAgreementScreen.routeName: (context) => const UserAgreementScreen(),
       },
       home: FutureBuilder<model.UserModel?>(
         future: UserProvider().getCurrentUser(
@@ -115,9 +115,11 @@ class _MyAppState extends State<MyApp> {
           }
 
           // eger kullanici mevcutsa direk ana ekrana yonlendirir
+
+          //snapashot'ın datasını incele
           if (snapshot.hasData && snapshot.data != null) {
             Provider.of<UserProvider>(context, listen: false)
-                .setUser(snapshot.data!);
+                .updateUser(snapshot.data!);
             return const TabsScreen();
           }
 

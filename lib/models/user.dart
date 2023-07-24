@@ -73,6 +73,7 @@ class UserModel {
   final String apartmentId;
   final String buildingId;
   final String imageUrl;
+  final String phoneNumber;
 
   UserModel({
     required this.uid,
@@ -84,6 +85,7 @@ class UserModel {
     required this.apartmentId,
     required this.buildingId,
     required this.imageUrl,
+    required this.phoneNumber,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -97,6 +99,7 @@ class UserModel {
       apartmentId: map['apartmentId'] ?? '',
       buildingId: map['buildingId'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
+      phoneNumber: map['phoneNumber'] ?? '',
     );
   }
   factory UserModel.fromFirestore(Map<String, dynamic> map) {
@@ -110,6 +113,7 @@ class UserModel {
       apartmentId: map['apartmentId'],
       buildingId: map['buildingId'],
       imageUrl: map['imageUrl'],
+      phoneNumber: map['phoneNumber'], // firebase returns a number as an object
     );
   }
 
@@ -124,6 +128,7 @@ class UserModel {
       'apartmentId': apartmentId,
       'buildingId': buildingId,
       'imageUrl': imageUrl,
+      'phoneNumber': phoneNumber,
     };
   }
 
@@ -137,6 +142,7 @@ class UserModel {
     String? apartmentId,
     String? buildingId,
     String? imageUrl,
+    String? phoneNumber,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -148,6 +154,7 @@ class UserModel {
       apartmentId: apartmentId ?? this.apartmentId,
       buildingId: buildingId ?? this.buildingId,
       imageUrl: imageUrl ?? this.imageUrl,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
     );
   }
 }

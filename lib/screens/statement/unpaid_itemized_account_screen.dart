@@ -59,29 +59,43 @@ class _UnpaidItemizedAccountScreenState
                               child: LoadingIndicator(),
                             );
                           } else {
-                            return ListView.builder(
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index) {
-                                var bill = snapshot.data?[index];
-
-                                return CustomListItem(
-                                  title: bill!.name,
-                                  subtitle: //'Son Ödeme T: ${bill.date}',
-                                      'Son Ödeme T: ${NoyaFormatter.generate(bill.date)}',
-                                  color: unpaidc,
-                                  trailing: Text(NoyaFormatter.generateAmount(
-                                      bill.amount)),
-                                  leading: const Icon(
-                                    Icons.receipt_long_outlined,
-                                    color: unpaidc,
-                                    size: 30,
-                                  ),
-                                );
-                              },
-                            );
+                            var bill = snapshot.data;
+                            if (bill == null || bill.isEmpty) {
+                              return const CustomListItem(
+                                title: 'Teşekkürler..',
+                                subtitle:
+                                    'Ödenmemiş Faturanız Bulunmamaktadır!!',
+                                color: positive,
+                                leading: Icon(
+                                  Icons.done_outline_outlined,
+                                  color: positive,
+                                  size: 40,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: bill.length,
+                                itemBuilder: (context, index) {
+                                  var unpaidBills = bill[index];
+                                  return CustomListItem(
+                                    title: unpaidBills.name,
+                                    subtitle:
+                                        'Ödeme Tarihi: ${NoyaFormatter.generate(unpaidBills.date)}',
+                                    color: paidc,
+                                    trailing: Text(NoyaFormatter.generateAmount(
+                                        unpaidBills.amount)),
+                                    leading: const Icon(
+                                      Icons.receipt_long_outlined,
+                                      color: paidc,
+                                      size: 30,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
                           }
                         } else if (snapshot.hasError) {
-                          return const Text('no data');
+                          return Text('Hata: ${snapshot.error}');
                         }
                         return const LoadingIndicator();
                       },
