@@ -107,12 +107,12 @@ class _StatementScreenState extends State<StatementScreen> {
                                     title: unpaidBills.name,
                                     subtitle:
                                         'Ödeme Tarihi: ${NoyaFormatter.generate(unpaidBills.date)}',
-                                    color: paidc,
+                                    color: unpaidc,
                                     trailing: Text(NoyaFormatter.generateAmount(
                                         unpaidBills.amount)),
                                     leading: const Icon(
                                       Icons.receipt_long_outlined,
-                                      color: paidc,
+                                      color: unpaidc,
                                       size: 30,
                                     ),
                                   );

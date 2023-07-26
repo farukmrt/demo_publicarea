@@ -150,6 +150,7 @@ class AnnouncementProvider with ChangeNotifier {
           title: element.data()['title'],
           subtitle: element.data()['subtitle'],
           date: element.data()['date'],
+          imageUrl: element.data()['imageUrl'],
         );
         tempList.add(announcement);
       });
@@ -166,12 +167,12 @@ class AnnouncementProvider with ChangeNotifier {
         var document = querySnapshot.docs.first;
 
         var announcement = Announcement(
-          id: document.data()['id'],
-          build_uid: document.data()['build_id'],
-          title: document.data()['title'],
-          subtitle: document.data()['subtitle'],
-          date: document.data()['date'],
-        );
+            id: document.data()['id'],
+            build_uid: document.data()['build_id'],
+            title: document.data()['title'],
+            subtitle: document.data()['subtitle'],
+            date: document.data()['date'],
+            imageUrl: document.data()['imageUrl']);
         return announcement;
       } else {
         return null;

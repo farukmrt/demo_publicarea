@@ -196,7 +196,6 @@
 import 'dart:io';
 import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
@@ -246,7 +245,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
 //default olan değer    firebasestorage
 //resim seçilen         /data/
-  void signUpUser() async {
+  signUpUser() async {
     if (selectedImage == null) {
       // Eğer resim yüklenmediyse default resmi URL'sini kullanmak istiyorum
       // ancak olmuyor, sendPP içerisinde taskSnapshot kısmında patlıyor.
@@ -269,13 +268,14 @@ class _SignupScreenState extends State<SignupScreen> {
       _nameController.text,
       _surnameController.text,
       _buildingController.text,
-      imageUrl!,
+      imageUrl ?? defaultImageUrl,
       _phoneNumberController.text,
     );
     if (res) {
       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
         context,
-        settings: RouteSettings(name: TabsScreen.routeName),
+        settings:
+            RouteSettings(name: TabsScreen.routeName, arguments: UserProvider),
         screen: const TabsScreen(),
         withNavBar: false,
         pageTransitionAnimation: PageTransitionAnimation.cupertino,
@@ -396,7 +396,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               CustomTextField(
                 controller: _phoneNumberController,
-                labelText: 'Telefon numarnızı girin',
+                labelText: 'Telefon numaranızı girin',
               ),
               const SizedBox(height: 15),
               CustomMainButton(

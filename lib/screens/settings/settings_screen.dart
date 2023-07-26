@@ -46,17 +46,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     text: 'Profil Ayarlar',
-                    edgeInsets: const EdgeInsets.symmetric(horizontal: 40),
+                    edgeInsets: const EdgeInsets.symmetric(horizontal: 30),
                   ),
                   CustomMainButton(
                     onTap: () {},
                     text: 'Dil Ayarları',
-                    edgeInsets: const EdgeInsets.symmetric(horizontal: 38),
+                    edgeInsets: const EdgeInsets.symmetric(horizontal: 30),
                   ),
                   CustomMainButton(
                     onTap: () {},
                     text: 'Yeni Siteye Kayıt Olma',
-                    edgeInsets: const EdgeInsets.symmetric(horizontal: 36),
+                    edgeInsets: const EdgeInsets.symmetric(horizontal: 30),
                   ),
                   CustomMainButton(
                     onTap: () {
@@ -68,7 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     text: 'KVKK Metni',
-                    edgeInsets: const EdgeInsets.symmetric(horizontal: 34),
+                    edgeInsets: const EdgeInsets.symmetric(horizontal: 30),
                   ),
                   CustomMainButton(
                     onTap: () {
@@ -81,7 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     text: 'Kullanıcı Sözleşmesi',
-                    edgeInsets: const EdgeInsets.symmetric(horizontal: 32),
+                    edgeInsets: const EdgeInsets.symmetric(horizontal: 30),
                   ),
                   const SizedBox(
                     height: 50,

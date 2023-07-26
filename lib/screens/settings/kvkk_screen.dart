@@ -1,8 +1,6 @@
-import 'package:demo_publicarea/widgets/custom_numbered_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/widgets/custom_numbered_list.dart';
 
 class KvkkScreen extends StatefulWidget {
   static String routeName = '/kvkkscreen';

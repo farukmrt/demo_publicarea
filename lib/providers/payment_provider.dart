@@ -14,7 +14,7 @@ class PaymentProvider with ChangeNotifier {
     try {
       var collection = FirebaseFirestore.instance.collection('cards');
       var query = collection
-          //.where('cardNumber', isEqualTo: cardNumber)
+          .where('cardNumber', isEqualTo: cardNumber)
           .where('cardHolderName', isEqualTo: cardHolderName)
           .where('cvvCode', isEqualTo: cvvCode)
           .where('expiryDate', isEqualTo: expiryDate)

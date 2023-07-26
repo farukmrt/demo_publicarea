@@ -1,4 +1,3 @@
-import 'package:demo_publicarea/resources/auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
@@ -19,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   //final AuthMethods _authMethods = AuthMethods();
 
-  loginUser() async {
+  void loginUser() async {
     bool res = await UserProvider().loginUser(
       context,
       _emailController.text,
@@ -27,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     if (res) {
       //dispose(); //
+
       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
         context,
         settings: RouteSettings(name: TabsScreen.routeName),

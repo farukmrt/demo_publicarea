@@ -14,14 +14,11 @@
 // import 'package:flutter/material.dart';
 // import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 // import 'package:provider/provider.dart';
-
 // class MainScreen extends StatefulWidget {
 //   const MainScreen({Key? key}) : super(key: key);
-
 //   @override
 //   State<MainScreen> createState() => _MainScreenState();
 // }
-
 // class _MainScreenState extends State<MainScreen> {
 //   @override
 //   Widget build(BuildContext context) {
@@ -36,7 +33,6 @@
 //     //   descriptionProvider.addDescription(description);
 //     // }
 //     UserProvider userProvider = Provider.of<UserProvider>(context);
-
 //     return SafeArea(
 //       child: Scaffold(
 //         body: Column(
@@ -98,11 +94,11 @@
 //                                 child:
 //                                     //  Consumer<UserProvider>(
 //                                     //   builder: (context, data, index) {
-//                                     StreamBuilder<User>(
+//                                     StreamBuilder<UserModel>(
 //                                   stream: userProvider.userStream,
 //                                   builder: (context, snapshot) {
 //                                     if (snapshot.hasData) {
-//                                       User auser = snapshot.data!;
+//                                       UserModel auser = snapshot.data!;
 //                                       return CircleAvatar(
 //                                         foregroundImage:
 //                                             NetworkImage(auser.imageUrl),
@@ -193,7 +189,6 @@
 //                 },
 //                 icon: Icons.redo_outlined,
 //                 text: 'Ödeme Yap'),
-
 //             // //2.TASARIM
 //             // CustomIconbutton(
 //             //   title: 'Ödeme Yap',
@@ -225,12 +220,10 @@
 //                 const SizedBox(width: 10),
 //               ],
 //             ),
-
 //             Expanded(
 //               child: Consumer<AnnouncementProvider>(
 //                 builder: (context, data, index) {
 //                   // var announcements = await data.fetchAnnouncement();
-
 //                   return StreamBuilder(
 //                     stream: data.fetchAnnouncement(userProvider.user.buildingId,
 //                         limit: 6),
@@ -246,7 +239,6 @@
 //                             itemCount: snapshot.data?.length,
 //                             itemBuilder: (context, index) {
 //                               var announcement = snapshot.data?[index];
-
 //                               return CustomListItem(
 //                                 title: announcement!.title,
 //                                 subtitle: announcement.subtitle,
@@ -254,7 +246,6 @@
 //                                   onPressed: () {
 //                                     AnnouncementProvider().fetchAnAnnouncement(
 //                                         announcement.id.toString());
-
 //                                     //print(index);
 //                                     PersistentNavBarNavigator
 //                                         .pushNewScreenWithRouteSettings(
@@ -276,8 +267,7 @@
 //                                   backgroundImage:
 //                                       AssetImage('assets/images/notice.png'),
 //                                 ),
-//                               );
-
+//                              );
 //                               // ListTile(
 //                               //   title: Text(announcement!['title']),
 //                               //   subtitle: Text(announcement!['subtitle']),
@@ -323,6 +313,7 @@ import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:demo_publicarea/widgets/custom_listitem_medium.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
@@ -338,25 +329,25 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // Kullanıcı verilerini saklamak için bir değişken
-  // UserModel? _user; // Kullanıcı verilerini saklamak için bir değişken
+  UserModel? _user; // Kullanıcı verilerini sakla
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // UserProvider'ı dinleyin ve aldığınız UserModel'i _user değişkenine atayın
-  //   UserProvider userProvider =
-  //       Provider.of<UserProvider>(context, listen: false);
-  //   userProvider.userStream.listen((user) {
-  //     setState(() {
-  //       _user = user;
-  //     });
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    // UserProvider'ı dinle alınan UserModel'i _user değişkenine ata
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+
+    userProvider.userStream.listen((user) {
+      setState(() {
+        _user = user;
+      });
+    });
+  }
 
   @override
   void dispose() {
-    // Kaynakları serbest bırakmak veya gereken temizlik işlemlerini yapmak için kullanılır
+    // Kaynakları serbest bırakır
     super.dispose();
   }
 
@@ -406,6 +397,7 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     Text(
                                       '${userProvider.user.name} ${userProvider.user.surname}',
+                                      //'${_user?.name} ${_user?.surname}',
                                       style: const TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold,
@@ -413,6 +405,7 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                     Text(
                                       userProvider.user.building,
+                                      // _user!.building,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         color: mainBackgroundColor,
@@ -423,22 +416,28 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: StreamBuilder<UserModel>(
-                                  stream: userProvider
-                                      .userStream, // UserProvider'daki veri akışını dinleyin
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      UserModel user = snapshot.data!;
-                                      return CircleAvatar(
-                                        foregroundImage:
-                                            NetworkImage(user.imageUrl),
-                                        radius: 45,
-                                      );
-                                    } else {
-                                      return const LoadingIndicator();
-                                    }
-                                  },
+                                child: CircleAvatar(
+                                  foregroundImage:
+                                      NetworkImage(userProvider.user.imageUrl),
+                                  radius: 45,
                                 ),
+
+                                //     StreamBuilder<UserModel>(
+                                //   stream: userProvider
+                                //       .userStream, // UserProvider'daki veri akışını dinleyin
+                                //   builder: (context, snapshot) {
+                                //     if (snapshot.hasData) {
+                                //       UserModel user = snapshot.data!;
+                                //       return CircleAvatar(
+                                //         foregroundImage:
+                                //             NetworkImage(user.imageUrl),
+                                //         radius: 45,
+                                //       );
+                                //     } else {
+                                //       return const LoadingIndicator();
+                                //     }
+                                //   },
+                                // ),
                               ),
                             ],
                           ),
@@ -567,6 +566,9 @@ class _MainScreenState extends State<MainScreen> {
                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                       context,
                       settings: RouteSettings(
+                        arguments: {
+                          'buildingId': userProvider.user.buildingId,
+                        },
                         name: AllAnnouncementScreen.routeName,
                       ),
                       screen: const AllAnnouncementScreen(),
@@ -597,42 +599,64 @@ class _MainScreenState extends State<MainScreen> {
                             child: LoadingIndicator(),
                           );
                         } else {
-                          return ListView.builder(
-                            itemCount: snapshot.data?.length,
-                            itemBuilder: (context, index) {
-                              var announcement = snapshot.data?[index];
+                          var announcement = snapshot.data;
+                          if (announcement == null || announcement.isEmpty) {
+                            return const CustomMediumListItem(
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/fir-publicarea.appspot.com/o/images%2Fmain%2Fempty.png?alt=media&token=d8fd106f-ce63-4f9d-96e1-3e2fc6c20458',
+                              text:
+                                  'Yeni bir duyuru yapıldığında burada listelenecektir.',
+                              title: 'Güncel duyurunuz bulunmamaktadır',
+                              subtitle:
+                                  'Eğer hala binaya dahil olmadıysanız yöneticiniz ile irtibata geçin.',
+                              color: primaryColor,
+                              leading: Icon(
+                                Icons.quiz_outlined,
+                                color: primaryColor,
+                                size: 40,
+                              ),
+                            );
+                          } else {
+                            return ListView.builder(
+                              itemCount: announcement.length,
+                              itemBuilder: (context, index) {
+                                var announcementList = announcement[index];
 
-                              return CustomListItem(
-                                title: announcement!.title,
-                                subtitle: announcement.subtitle,
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    AnnouncementProvider().fetchAnAnnouncement(
-                                        announcement.id.toString());
+                                return CustomListItem(
+                                  title: announcementList.title,
+                                  subtitle: announcementList.subtitle,
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      AnnouncementProvider()
+                                          .fetchAnAnnouncement(
+                                              announcementList.id.toString());
 
-                                    PersistentNavBarNavigator
-                                        .pushNewScreenWithRouteSettings(
-                                      context,
-                                      settings: RouteSettings(
-                                        name: AnAnnouncementScreen.routeName,
-                                        arguments: announcement.id.toString(),
-                                      ),
-                                      screen: const AnAnnouncementScreen(),
-                                      withNavBar: true,
-                                      pageTransitionAnimation:
-                                          PageTransitionAnimation.cupertino,
-                                    );
-                                  },
-                                  icon: const Icon(Icons.arrow_forward_ios),
-                                ),
-                                leading: const CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage:
-                                      AssetImage('assets/images/notice.png'),
-                                ),
-                              ); /////
-                            },
-                          );
+                                      PersistentNavBarNavigator
+                                          .pushNewScreenWithRouteSettings(
+                                        context,
+                                        settings: RouteSettings(
+                                          name: AnAnnouncementScreen.routeName,
+                                          arguments:
+                                              announcementList.id.toString(),
+                                        ),
+                                        screen: const AnAnnouncementScreen(),
+                                        withNavBar: true,
+                                        pageTransitionAnimation:
+                                            PageTransitionAnimation.cupertino,
+                                      );
+                                    },
+                                    icon: const Icon(Icons.arrow_forward_ios),
+                                  ),
+                                  leading: const CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage:
+                                        AssetImage('assets/images/notice.png'),
+                                    //NetworkImage(announcement.imageUrl),
+                                  ),
+                                ); /////
+                              },
+                            );
+                          }
                         }
                       } else if (snapshot.hasError) {
                         return Text('Hata: ${snapshot.error}');

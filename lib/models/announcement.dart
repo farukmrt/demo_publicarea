@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Announcement {
   final String id;
-  String build_uid;
-  String title;
-  String subtitle;
-  Timestamp date;
+  final String build_uid;
+  final String title;
+  final String subtitle;
+  final Timestamp date;
+  final String imageUrl;
 
   Announcement({
     required this.id,
@@ -13,6 +14,7 @@ class Announcement {
     required this.title,
     required this.subtitle,
     required this.date,
+    required this.imageUrl,
   });
 
   // factory Announcement.fromRawJson(String str) =>

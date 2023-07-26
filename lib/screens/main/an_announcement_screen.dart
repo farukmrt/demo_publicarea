@@ -178,8 +178,7 @@ class _AnAnnouncementScreenState extends State<AnAnnouncementScreen> {
                         mainTitle: NoyaFormatter.generate(announcement.date),
                       ),
                       CustomBigListItem(
-                        // image:
-                        //     AssetImage('assets/images/announcement_image1.png'),
+                        image: announcement.imageUrl,
                         title: announcement.title,
                         subtitle:
                             'Sayın ${userProvider.user.name} ${userProvider.user.surname}',

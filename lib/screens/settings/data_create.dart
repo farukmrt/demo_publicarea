@@ -80,6 +80,93 @@ import 'package:flutter/material.dart';
 // }
 
 //KREDİ KARTI EKLEME
+// class MyWidgetScreen extends StatefulWidget {
+//   const MyWidgetScreen({Key? key}) : super(key: key);
+
+//   @override
+//   _MyWidgetScreenState createState() => _MyWidgetScreenState();
+// }
+
+// class _MyWidgetScreenState extends State<MyWidgetScreen> {
+//   TextEditingController cardNumberController = TextEditingController();
+//   TextEditingController expiryDateController = TextEditingController();
+//   TextEditingController cardHolderNameController = TextEditingController();
+//   TextEditingController cvvCodeController = TextEditingController();
+
+//   var ide = 6;
+// //veri girisi yapilirken guncel degere göre ide degiskeninin degistirilmesi lazım
+//   Future<void> sendDataToFirestore() async {
+//     try {
+//       final CollectionReference collectionRef =
+//           FirebaseFirestore.instance.collection('cards');
+
+//       Timestamp selectedDate = Timestamp.now(); // Get the current timestamp
+
+//       await collectionRef.add({
+//         'cardNumber': cardNumberController.text,
+//         'expiryDate': expiryDateController.text,
+//         'cardHolderName': cardHolderNameController.text,
+//         'cvvCode': cvvCodeController.text,
+//         'cardId': ide.toString(),
+//       });
+//       print('Veriler Firestore\'a başarıyla gönderildi.');
+//     } catch (e) {
+//       print('Firestore\'a verileri gönderirken hata oluştu: $e');
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('My Widget Screen'),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             TextField(
+//               controller: cardNumberController,
+//               decoration: const InputDecoration(
+//                 labelText: 'cardNumber',
+//               ),
+//             ),
+//             TextField(
+//               controller: expiryDateController,
+//               decoration: const InputDecoration(
+//                 labelText: 'expiryDate',
+//               ),
+//             ),
+//             TextField(
+//               controller: cardHolderNameController,
+//               decoration: const InputDecoration(
+//                 labelText: 'cardHolderName',
+//               ),
+//             ),
+//             TextField(
+//               controller: cvvCodeController,
+//               decoration: const InputDecoration(
+//                 labelText: 'cvvCode',
+//               ),
+//             ),
+//             ElevatedButton(
+//               onPressed: () {
+//                 setState(() {
+//                   ide++; // Increment the value of ide
+//                 });
+//                 sendDataToFirestore();
+//               },
+//               child: const Text('Verileri Firestore\'a Gönder'),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+//announcement imageurl update
+//
 class MyWidgetScreen extends StatefulWidget {
   const MyWidgetScreen({Key? key}) : super(key: key);
 
@@ -89,26 +176,23 @@ class MyWidgetScreen extends StatefulWidget {
 
 class _MyWidgetScreenState extends State<MyWidgetScreen> {
   TextEditingController cardNumberController = TextEditingController();
-  TextEditingController expiryDateController = TextEditingController();
-  TextEditingController cardHolderNameController = TextEditingController();
-  TextEditingController cvvCodeController = TextEditingController();
 
-  var ide = 6;
+  //var ide = 6;
 //veri girisi yapilirken guncel degere göre ide degiskeninin degistirilmesi lazım
   Future<void> sendDataToFirestore() async {
     try {
       final CollectionReference collectionRef =
-          FirebaseFirestore.instance.collection('cards');
+          FirebaseFirestore.instance.collection('announcements');
 
-      Timestamp selectedDate = Timestamp.now(); // Get the current timestamp
+      QuerySnapshot querySnapshot = await collectionRef.get();
 
-      await collectionRef.add({
-        'cardNumber': cardNumberController.text,
-        'expiryDate': expiryDateController.text,
-        'cardHolderName': cardHolderNameController.text,
-        'cvvCode': cvvCodeController.text,
-        'cardId': ide.toString(),
-      });
+      // Mevcut belgelerin her birini dolaşarak "imageUrl" alanına yeni metni ekle
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.update({
+          'imageUrl': cardNumberController.text,
+        });
+      }
+
       print('Veriler Firestore\'a başarıyla gönderildi.');
     } catch (e) {
       print('Firestore\'a verileri gönderirken hata oluştu: $e');
@@ -128,31 +212,13 @@ class _MyWidgetScreenState extends State<MyWidgetScreen> {
             TextField(
               controller: cardNumberController,
               decoration: const InputDecoration(
-                labelText: 'cardNumber',
-              ),
-            ),
-            TextField(
-              controller: expiryDateController,
-              decoration: const InputDecoration(
-                labelText: 'expiryDate',
-              ),
-            ),
-            TextField(
-              controller: cardHolderNameController,
-              decoration: const InputDecoration(
-                labelText: 'cardHolderName',
-              ),
-            ),
-            TextField(
-              controller: cvvCodeController,
-              decoration: const InputDecoration(
-                labelText: 'cvvCode',
+                labelText: 'imageUrl add',
               ),
             ),
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  ide++; // Increment the value of ide
+                  // ide++; // Increment the value of ide
                 });
                 sendDataToFirestore();
               },

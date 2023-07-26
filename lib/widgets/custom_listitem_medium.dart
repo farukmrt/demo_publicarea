@@ -10,23 +10,26 @@ class CustomMediumListItem extends StatefulWidget {
   final Color? color;
   final FontStyle? fontstyle;
   final String? threeline;
+  final String? image;
 
   // final bool? isCheckeda;
   // final bool? isCheckBoxa;
 
-  const CustomMediumListItem({
-    Key? key,
-    required this.title,
-    required this.subtitle,
-    required this.text,
-    this.trailing,
-    this.leading,
-    this.color,
-    this.fontstyle,
-    this.threeline,
-    // this.isCheckBoxa,
-    // this.isCheckeda,
-  }) : super(key: key);
+  const CustomMediumListItem(
+      {Key? key,
+      required this.title,
+      required this.subtitle,
+      required this.text,
+      this.trailing,
+      this.leading,
+      this.color,
+      this.fontstyle,
+      this.threeline,
+      this.image
+      // this.isCheckBoxa,
+      // this.isCheckeda,
+      })
+      : super(key: key);
 
   @override
   State<CustomMediumListItem> createState() => _CustomMediumListItemState();
@@ -79,8 +82,8 @@ class _CustomMediumListItemState extends State<CustomMediumListItem> {
                       maxLines: 3,
                     ),
                   ),
-                  const Image(
-                    image: AssetImage('assets/images/announcement_image1.png'),
+                  Image(
+                    image: NetworkImage('${widget.image}'),
                   ),
                 ],
               ),
