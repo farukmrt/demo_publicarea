@@ -1,0 +1,173 @@
+{
+    "@@locale": "en",
+    
+    "changeLanguage": "Change language",
+    
+    "login": "aşağıda login sayfası bulunmaktadır",
+
+    "lcod_lbl_login": "Log in",
+    "lcod_lbl_email": "Enter your email address",
+    "lcod_lbl_password": "Enter your password",
+    "lcod_lbl_welcome": "Welcome to publicarea",
+    "lcod_lbl_signup": "Sign up",
+    "lcod_lbl_profilphoto": "Add profile photo",
+    "lcod_lbl_upload_gallery": "Upload from gallery",
+    "lcod_lbl_create_password": "Create your password",
+    "lcod_lbl_create_username": "Create your username",
+    "lcod_lbl_enter_name": "Enter your name",
+    "lcod_lbl_enter_surname": "Enter your surname",
+    "lcod_lbl_enter_building": "Enter the building name",
+    "lcod_lbl_enter_phonenumber":"Enter your phone number",
+    
+    "main": "aşağıda main sayfası bulunmaktadır",
+    
+    "lcod_lbl_announcements": "Announcements",
+    "lcod_lbl_error_snapshot": "Error: ",
+    "lcod_lbl_announcement_not_found": "Announcement not found.",
+    "lcod_lbl_dear_username_surname": "Dear {name} {surname}",
+    "@lcod_lbl_dear_username_surname": {
+    "placeholders": {
+        "name": {
+            "type": "String"
+        },
+        "surname": {
+            "type": "String"
+        }
+    }
+},
+
+    "lcod_lbl_your_debt": "Your debt",
+    "lcod_lbl_error_data_not_received": "Error: data not received.",
+    "lcod_lbl_data_not_received": "Data not found or an error occurred.",
+    "lcod_lbl_to_pay": "Pay now",
+    "lcod_lbl_see_all": "See all ->",
+    "lcod_lbl_no_announcement_1": "New announcements will be listed here.",
+    "lcod_lbl_no_announcement_2": "You have no current announcements.",
+    "lcod_lbl_no_announcement_3": "If you have not joined the building yet, contact your administrator.",
+    
+    "lcod_lbl_main_screen": "Main Screen",
+    "lcod_lbl_statement_screen": "Account",
+    "lcod_lbl_request_screen": "My Requests",
+    "lcod_lbl_settings_screen": "Settings",
+    
+    "request": "aşağıda request sayfası bulunmaktadır",
+    
+    "lcod_lbl_no_request": "No request found.",
+    "lcod_lbl_request_continues": "Your  request made on  is still ongoing.",
+    "lcod_lbl_request_concluded": "Your request on date has been concluded, \nRequest Type: ",
+    "lcod_lbl_request_title": "Dear {name} {surname}; \n {apartmentNumber} for your apartment with number ",
+
+     "@lcod_lbl_request_title": {
+    "placeholders": {
+        "name": {
+            "type": "String"
+        },
+        "surname": {
+            "type": "String"
+        },
+        "apartmentNumber": {
+            "type": "String"
+        }
+    }
+},
+    
+    "lcod_lbl_create_request": "Create request",
+    "lcod_lbl_subject": "Subject",
+    "lcod_lbl_apartment": "Apartment",
+    "lcod_lbl_request_type": "Request type",
+    "lcod_lbl_request_list": "'malfunction', 'question', 'suggestion', 'complaint'",
+    "lcod_lbl_explanation": "Explanation",
+    "lcod_lbl_add_image": "Add image..",
+    "lcod_lbl_shooting": "Take a photo",
+    "lcod_lbl_upload_from_gallery": "Upload from gallery",
+    "lcod_lbl_send_request": "Send request",
+    
+    "lcod_lbl_new_request": "New request",
+    "lcod_lbl_current_request": "Current requests",
+    "lcod_lbl_complete_request": "Completed requests",
+    "lcod_lbl_no_current_request": "You have no current requests.",
+    "lcod_lbl_new_request_article": "You can submit your suggestions, requests, and complaints to your management by creating a 'new request'.",
+    "lcod_lbl_no_complete_request": "You have no completed requests.",
+    
+    "settings": "aşağıda settings sayfası bulunmaktadır",
+    
+    "lcod_lbl_profile_screen": "Profile screen",
+    "lcod_lbl_update_profile_screen": "Update profile photo",
+    "lcod_lbl_name_surname": "Name Surname",
+    "lcod_lbl_email_text": "E-mail",
+    "lcod_lbl_new_email": "Enter new email address",
+    "lcod_lbl_password_2": "Enter your password",
+    "lcod_lbl_updated_email": "Your email address has been updated...",
+    "lcod_lbl_wrong_password": "Invalid password.",
+    "lcod_lbl_update": "Update",
+    "lcod_lbl_username": "Username",
+    "lcod_lbl_new_username": "Enter new username",
+    
+    "lcod_lbl_phone_number": "Phone number",
+    "lcod_lbl_phone_text": "Phone",
+    
+    "lcod_lbl_updated_phone_number": "Your phone number has been updated...",
+    "lcod_lbl_updated_username":"Your username has been updated...",
+    "lcod_lbl_building": "Building",
+    "lcod_lbl_current_password": "Enter your current password",
+    "lcod_lbl_new_password": "Create a new password",
+    "lcod_lbl_new_password_again": "Enter your new password again",
+    "lcod_lbl_wrong_password_long": "Passwords do not match, please check and enter again...",
+    "lcod_lbl_update_password": "Update password",
+    "lcod_lbl_logout": "Log out",
+    
+    "statement": "Aşagıda statement sayfası bulunmaaktadır",
+    
+    "lcod_lbl_card_screen": "Card screen",
+    "lcod_lbl_selected_amount": "Selected amount",
+    "lcod_lbl_card_number": "Card number",
+    "lcod_lbl_expiration": "Expiration date",
+    "lcod_lbl_card_holder": "Card holder",
+    "lcod_lbl_payment_successful": "Payment successful",
+    "lcod_lbl_wrong_card_information": "Incorrect card information, please check",
+    "lcod_lbl_confirm_payment": "Confirm payment",
+    
+    "lcod_lbl_statement": "Account statement",
+    "lcod_lbl_paid_bills": "Paid bills",
+    "lcod_lbl_payment_bill": "Please make a payment..",
+    "lcod_lbl_no_invoice_paid": "You have no paid invoices!!",
+    "lcod_lbl_payment_date_paid": "Payment date: ",
+
+   
+
+    "lcod_lbl_debt": "Debt",
+    "lcod_lbl_paid": "Paid",
+    
+    "lcod_lbl_payments": "Payments",
+    "lcod_lbl_payment_date_bill": "Last payment date: ",
+
+    
+
+    "lcod_lbl_continue": "Continue",
+    "lcod_lbl_total_amount": "Total\namount",
+    "lcod_lbl_selected_amount_double": "Selected\namount",
+    
+    "lcod_lbl_unpaid_bills": "Unpaid bills",
+    "lcod_lbl_thanks": "Thank you..",
+    "lcod_lbl_no_invoice_unpaid": "You have no unpaid invoices!!",
+    "lcod_lbl_payment_date_unpaid": "Payment date: ",
+
+    "lcod_lbl_statement_unpaid":"Unpaid",
+    "lcod_lbl_statement_paid":"Paid",
+    "lcod_lbl_statement_total":"Total",
+    "lcod_lbl_statement_chart":"Account Chart",
+
+    "lcod_lbl_pending":"Pending",
+    "lcod_lbl_concluded":"Concluded",
+
+    "lcod_lbl_fault":"Fault",
+    "lcod_lbl_question":"Question",
+    "lcod_lbl_suggestion":"Suggestion",
+    "lcod_lbl_complaint":"Complaint",
+
+    "lcod_lbl_profile_settings":"Profile Settings",
+    "lcod_lbl_new_building":"Registering New Site",
+    "lcod_lbl_kvkk":" KVKK Text",
+    "lcod_lbl_user_agreement":"User Agreement"
+
+}

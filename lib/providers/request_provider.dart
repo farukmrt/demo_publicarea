@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_publicarea/models/request.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:demo_publicarea/models/request.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class RequestProvider with ChangeNotifier {
@@ -30,8 +29,50 @@ class RequestProvider with ChangeNotifier {
   final _requestStreamController = StreamController<List<Request>>.broadcast();
   Stream<List<Request>> get requestStream => _requestStreamController.stream;
 
+  DocumentSnapshot? lastdocument;
+  List<Request> _requests = [];
+  List<Request> get requestq => _requests;
+
+  @override
+  Stream<List<Request>> fetchPageRequestByStatus(
+      bool status, String apartmentId,
+      {int? limit, int? pageKey}) async* {
+    var collection = FirebaseFirestore.instance.collection('request');
+    var query = collection
+        .where("status", isEqualTo: status)
+        .where("apartmentId", isEqualTo: apartmentId);
+
+    query = limit != null ? query.limit(limit) : query;
+    if (pageKey != null) {
+      if (pageKey > 0) {
+        query = query.startAfterDocument(lastdocument!);
+      }
+    }
+    var querySnapshot = await query.get();
+    List<Request> templist = [];
+    var documents = querySnapshot.docs;
+    if (documents.isNotEmpty) {
+      lastdocument = documents[documents.length - 1];
+      documents.forEach((element) {
+        var request = Request(
+            requestId: element.data()['requestId'],
+            requestTitle: element.data()['requestTitle'],
+            apartmentId: element.data()['apartmentId'],
+            apartmentNumber: element.data()['apartmentNumber'],
+            status: element.data()['status'],
+            requestType: element.data()['requestType'],
+            requestExplanation: element.data()['requestExplanation'],
+            requester: element.data()['requester'],
+            requestDate: element.data()['requestDate']);
+
+        templist.add(request);
+      });
+      yield templist;
+    }
+  }
+
   Stream<List<Request>> fetchRequestByStatus(bool status, String apartmentId,
-      {int? limit}) {
+      {int? limit, int? pageKey}) {
     var collection = FirebaseFirestore.instance.collection('request');
     var query = collection
         .where("status", isEqualTo: status)
@@ -59,7 +100,7 @@ class RequestProvider with ChangeNotifier {
     });
   }
 
-  Future<void> sendRequestToFirestore(
+  Future<void> sendRequestData(
     TextEditingController apartmentNumberController,
     TextEditingController requestTitleController,
     TextEditingController requestExplanationController,
@@ -67,12 +108,24 @@ class RequestProvider with ChangeNotifier {
     // bool status,
     String apartmentId,
     String userUid,
-    String? imageUrl,
+    //String? imageUrl,
+    File? imageFile,
   ) async {
     try {
+      String? imageUrl;
       final newRequestId = await getLatestRequestId();
       final CollectionReference collectionRef =
           FirebaseFirestore.instance.collection('request');
+
+      if (imageFile != null) {
+        String imageName = DateTime.now().millisecondsSinceEpoch.toString();
+        Reference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('images/requests/$imageName.jpg');
+        UploadTask uploadTask = storageReference.putFile(imageFile);
+        TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+        imageUrl = await taskSnapshot.ref.getDownloadURL();
+      }
 
       await collectionRef.add({
         'requestId': newRequestId,
@@ -103,7 +156,6 @@ class RequestProvider with ChangeNotifier {
   //   selectedImage = File(pickedImage.path);
   //   return selectedImage;
   // }
-
   // Future getAPhoto() async {
   //   final imagePicker = ImagePicker();
   //   final pickedImage = await imagePicker.pickImage(
@@ -114,7 +166,6 @@ class RequestProvider with ChangeNotifier {
   //   selectedImage = File(pickedImage.path);
   //   return selectedImage;
   // }
-
   // Future<String?> sendRequestImage(File imageFile) async {
   //   try {
   //     String imageName = DateTime.now().millisecondsSinceEpoch.toString();

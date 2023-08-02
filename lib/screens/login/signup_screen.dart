@@ -194,6 +194,7 @@
 // }
 
 import 'dart:io';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
@@ -285,12 +286,13 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var trnslt = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
     PhotoProvider photoProvider = Provider.of<PhotoProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Üye Ol'),
+        title: Text(trnslt.lcod_lbl_signup),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -308,9 +310,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
-                              'Profil Resmi Ekleyiniz..',
-                              style: TextStyle(
+                            Text(
+                              trnslt.lcod_lbl_profilphoto,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -331,8 +333,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
                                 Navigator.pop(context);
                               },
-                              child: const Text(
-                                'Çekim yap',
+                              child: Text(
+                                trnslt.lcod_lbl_shooting,
                                 style: TextStyle(color: mainBackgroundColor),
                               ),
                             ),
@@ -351,9 +353,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
                                 Navigator.pop(context);
                               },
-                              child: const Text(
-                                'Galeriden yükle',
-                                style: TextStyle(color: mainBackgroundColor),
+                              child: Text(
+                                trnslt.lcod_lbl_upload_gallery,
+                                style:
+                                    const TextStyle(color: mainBackgroundColor),
                               ),
                             ),
                           ],
@@ -372,36 +375,36 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               CustomTextField(
                 controller: _emailController,
-                labelText: 'Email Adresinizi girin',
+                labelText: trnslt.lcod_lbl_email,
               ),
               CustomTextField(
                 controller: _passwordController,
-                labelText: 'Parolanızı oluşturun',
+                labelText: trnslt.lcod_lbl_create_password,
               ),
               CustomTextField(
                 controller: _usernameController,
-                labelText: 'Kullanıcı adınızı oluşturun',
+                labelText: trnslt.lcod_lbl_create_username,
               ),
               CustomTextField(
                 controller: _nameController,
-                labelText: 'Adınızı girin',
+                labelText: trnslt.lcod_lbl_enter_name,
               ),
               CustomTextField(
                 controller: _surnameController,
-                labelText: 'Soyadınızı girin',
+                labelText: trnslt.lcod_lbl_enter_surname,
               ),
               CustomTextField(
                 controller: _buildingController,
-                labelText: 'Bina adını girin',
+                labelText: trnslt.lcod_lbl_enter_building,
               ),
               CustomTextField(
                 controller: _phoneNumberController,
-                labelText: 'Telefon numaranızı girin',
+                labelText: trnslt.lcod_lbl_enter_phonenumber,
               ),
               const SizedBox(height: 15),
               CustomMainButton(
                   onTap: signUpUser,
-                  text: 'Üye ol..',
+                  text: trnslt.lcod_lbl_signup,
                   edgeInsets: const EdgeInsets.symmetric(vertical: 8))
             ],
           ),

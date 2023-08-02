@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/models/request.dart';
 import 'package:demo_publicarea/providers/request_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
@@ -8,16 +9,16 @@ import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ARequestScreen extends StatefulWidget {
+class RequestDetailScreen extends StatefulWidget {
   static String routeName = '/aRequest';
 
-  const ARequestScreen({Key? key}) : super(key: key);
+  const RequestDetailScreen({Key? key}) : super(key: key);
 
   @override
-  State<ARequestScreen> createState() => _ARequestScreenState();
+  State<RequestDetailScreen> createState() => _RequestDetailScreenState();
 }
 
-class _ARequestScreenState extends State<ARequestScreen> {
+class _RequestDetailScreenState extends State<RequestDetailScreen> {
   late String requestId;
 
   @override
@@ -31,6 +32,8 @@ class _ARequestScreenState extends State<ARequestScreen> {
     RequestProvider requestProvider =
         Provider.of<RequestProvider>(context, listen: false);
     UserProvider userProvider = Provider.of<UserProvider>(context);
+
+    var trnslt = AppLocalizations.of(context)!;
 
     return StreamBuilder<Request?>(
       stream: requestProvider.fetchARequest(requestId),
@@ -52,7 +55,8 @@ class _ARequestScreenState extends State<ARequestScreen> {
               backgroundColor: mainBackgroundColor,
             ),
             body: Center(
-              child: Text('Hata: ${snapshot.error}'),
+              child:
+                  Text('${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}'),
             ),
           );
         } else {
@@ -63,8 +67,8 @@ class _ARequestScreenState extends State<ARequestScreen> {
                 title: Text(userProvider.user.building),
                 backgroundColor: mainBackgroundColor,
               ),
-              body: const Center(
-                child: Text('Talep bulunamadı.'),
+              body: Center(
+                child: Text(trnslt.lcod_lbl_no_request),
               ),
             );
           }
@@ -72,11 +76,10 @@ class _ARequestScreenState extends State<ARequestScreen> {
           String? subtitleText;
           if (request.status == true) {
             subtitleText =
-                "${NoyaFormatter.generate(request.requestDate)} tarihinde yapmış olduğunuz '${request.requestType}' talebiniz hala devam etmektedir";
+                "${NoyaFormatter.generate(request.requestDate)} ${trnslt.lcod_lbl_request_continues} '${request.requestType}'";
           } else {
-            // Eğer subtitle için yanlış metni göstermek istiyorsanız:
             subtitleText =
-                "${NoyaFormatter.generate(request.requestDate)} tarihinde yapmış olduğunuz '${request.requestType}' talebiniz sonuçlanmıştır";
+                "${NoyaFormatter.generate(request.requestDate)} ${trnslt.lcod_lbl_request_concluded} '${request.requestType}'";
           }
           return Container(
             color: mainBackgroundColor,
@@ -94,8 +97,11 @@ class _ARequestScreenState extends State<ARequestScreen> {
                       ),
                       CustomBigListItem(
                         image: request.imageUrl, //request.imageUrl,
-                        title:
-                            "Sayın ${userProvider.user.name} ${userProvider.user.surname}; \n${request.apartmentNumber} no'lu daireniz için",
+                        title: trnslt.lcod_lbl_request_title(
+                            userProvider.user.name,
+                            userProvider.user.surname,
+                            request.apartmentNumber),
+
                         subtitle: subtitleText,
 
                         text: request.requestExplanation,

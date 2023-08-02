@@ -1,0 +1,171 @@
+{
+    "@@locale": "fr",
+    
+    "changeLanguage": "Changer de langue",
+    
+    "login": "ci-dessous se trouve la page de connexion",
+
+    "lcod_lbl_login": "Se connecter",
+    "lcod_lbl_email": "Entrez votre adresse e-mail",
+    "lcod_lbl_password": "Entrez votre mot de passe",
+    "lcod_lbl_welcome": "Bienvenue sur publicarea",
+    "lcod_lbl_signup": "S'inscrire",
+    "lcod_lbl_profilphoto": "Ajouter une photo de profil",
+    "lcod_lbl_upload_gallery": "Télécharger depuis la galerie",
+    "lcod_lbl_create_password": "Créez votre mot de passe",
+    "lcod_lbl_create_username": "Créez votre nom d'utilisateur",
+    "lcod_lbl_enter_name": "Entrez votre prénom",
+    "lcod_lbl_enter_surname": "Entrez votre nom de famille",
+    "lcod_lbl_enter_building": "Entrez le nom du bâtiment",
+    "lcod_lbl_enter_phonenumber": "Entrez votre numéro de téléphone",
+    
+    "main": "ci-dessous se trouve la page principale",
+    
+    "lcod_lbl_announcements": "Annonces",
+    "lcod_lbl_error_snapshot": "Erreur : ",
+    "lcod_lbl_announcement_not_found": "Annonce introuvable.",
+    "lcod_lbl_dear_username_surname": "Cher {name} {surname}",
+    "@lcod_lbl_dear_username_surname": {
+    "placeholders": {
+        "name": {
+            "type": "String"
+        },
+        "surname": {
+            "type": "String"
+        }
+    }
+},
+    
+    "lcod_lbl_your_debt": "Votre dette",
+    "lcod_lbl_error_data_not_received": "Erreur : données non reçues.",
+    "lcod_lbl_data_not_received": "Données non trouvées ou une erreur s'est produite.",
+    "lcod_lbl_to_pay": "Payer maintenant",
+    "lcod_lbl_see_all": "Voir tout ->",
+    "lcod_lbl_no_announcement_1": "Les nouvelles annonces seront répertoriées ici.",
+    "lcod_lbl_no_announcement_2": "Vous n'avez aucune annonce en cours.",
+    "lcod_lbl_no_announcement_3": "Si vous n'avez pas encore rejoint le bâtiment, contactez votre administrateur.",
+    
+    "lcod_lbl_main_screen": "écran principal",
+    "lcod_lbl_statement_screen": "Relevé de compte",
+    "lcod_lbl_request_screen": "Mes demandes",
+    "lcod_lbl_settings_screen": "Paramètres",
+    
+    "request": "Ci-dessous se trouve la page de demande",
+    
+    "lcod_lbl_no_request": "Aucune demande trouvée.",
+    "lcod_lbl_request_continues": "Votre demande  effectuée le  est toujours en cours.",
+    "lcod_lbl_request_concluded": "Date de conclusion de votre demande, \nType de demande :",
+    "lcod_lbl_request_title": "Cher {name} {surname}; \n {apartmentNumber} pour votre appartement numéro ",
+
+     "@lcod_lbl_request_title": {
+    "placeholders": {
+        "name": {
+            "type": "String"
+        },
+        "surname": {
+            "type": "String"
+        },
+        "apartmentNumber": {
+            "type": "String"
+        }
+    }
+},
+    
+    "lcod_lbl_create_request": "Créer une demande",
+    "lcod_lbl_subject": "Sujet",
+    "lcod_lbl_apartment": "Appartement",
+    "lcod_lbl_request_type": "Type de demande",
+    "lcod_lbl_request_list": "'panne', 'question', 'suggestion', 'plainte'",
+    "lcod_lbl_explanation": "Explication",
+    "lcod_lbl_add_image": "Ajouter une image..",
+    "lcod_lbl_shooting": "Prendre une photo",
+    "lcod_lbl_upload_from_gallery": "Télécharger depuis la galerie",
+    "lcod_lbl_send_request": "Envoyer la demande",
+    
+    "lcod_lbl_new_request": "Nouvelle demande",
+    "lcod_lbl_current_request": "Demandes en cours",
+    "lcod_lbl_complete_request": "Demandes terminées",
+    "lcod_lbl_no_current_request": "Vous n'avez aucune demande en cours.",
+    "lcod_lbl_new_request_article": "Vous pouvez soumettre vos suggestions, demandes et plaintes à votre gestion en créant une 'nouvelle demande'.",
+    "lcod_lbl_no_complete_request": "Vous n'avez aucune demande terminée.",
+    
+    "settings": "Ci-dessous se trouve la page de paramètres",
+    
+    "lcod_lbl_profile_screen": "écran de profil",
+    "lcod_lbl_update_profile_screen": "Mettre à jour la photo de profil",
+    "lcod_lbl_name_surname": "Prénom nom",
+    "lcod_lbl_email_text": "E-mail",
+    "lcod_lbl_new_email": "Entrez une nouvelle adresse e-mail",
+    "lcod_lbl_password_2": "Entrez votre mot de passe",
+    "lcod_lbl_updated_email": "Votre adresse e-mail a été mise à jour...",
+    "lcod_lbl_wrong_password": "Mot de passe incorrect.",
+    "lcod_lbl_update": "Mettre à jour",
+    "lcod_lbl_username": "Nom d'utilisateur",
+    "lcod_lbl_new_username": "Entrez un nouveau nom d'utilisateur",
+    
+    "lcod_lbl_phone_number": "Numéro de téléphone",
+    "lcod_lbl_phone_text": "Téléphone",
+    
+    "lcod_lbl_updated_phone_number": "Votre numéro de téléphone a été mis à jour...",
+    "lcod_lbl_updated_username":"Votre nom d'utilisateur a été mis à jour...",
+    "lcod_lbl_building": "Bâtiment",
+    "lcod_lbl_current_password": "Entrez votre mot de passe actuel",
+    "lcod_lbl_new_password": "Créez un nouveau mot de passe",
+    "lcod_lbl_new_password_again": "Entrez à nouveau votre nouveau mot de passe",
+    "lcod_lbl_wrong_password_long": "Les mots de passe ne correspondent pas, veuillez vérifier et réessayer...",
+    "lcod_lbl_update_password": "Mettre à jour le mot de passe",
+    "lcod_lbl_logout": "Se déconnecter",
+    
+    "statement": "Ci-dessous se trouve la page de relevé",
+    
+    "lcod_lbl_card_screen": "écran de carte",
+    "lcod_lbl_selected_amount": "Montant sélectionné",
+    "lcod_lbl_card_number": "Numéro de carte",
+    "lcod_lbl_expiration": "Date d'expiration",
+    "lcod_lbl_card_holder": "Titulaire de la carte",
+    "lcod_lbl_payment_successful": "Paiement réussi",
+    "lcod_lbl_wrong_card_information": "Informations de carte incorrectes, veuillez vérifier",
+    "lcod_lbl_confirm_payment": "Confirmer le paiement",
+    
+    "lcod_lbl_statement": "Relevé de compte",
+    "lcod_lbl_paid_bills": "Factures payées",
+    "lcod_lbl_payment_bill": "Veuillez effectuer un paiement...",
+    "lcod_lbl_no_invoice_paid": "Vous n'avez aucune facture payée !!",
+    "lcod_lbl_payment_date_paid": "Date de paiement : ",
+
+   
+    "lcod_lbl_debt": "Dette",
+    "lcod_lbl_paid": "Payé",
+    
+    "lcod_lbl_payments": "Paiements",
+    "lcod_lbl_payment_date_bill": "Dernière date de paiement : ",
+
+    
+    "lcod_lbl_continue": "Continuer",
+    "lcod_lbl_total_amount": "Montant total",
+    "lcod_lbl_selected_amount_double": "Montant sélectionné",
+    
+    "lcod_lbl_unpaid_bills": "Factures impayées",
+    "lcod_lbl_thanks": "mMrci..",
+    "lcod_lbl_no_invoice_unpaid": "Vous n'avez aucune facture impayée !!",
+    "lcod_lbl_payment_date_unpaid": "Date de paiement : ",
+
+    
+    "lcod_lbl_statement_unpaid":"Non payé",
+    "lcod_lbl_statement_paid":"Payé",
+    "lcod_lbl_statement_total":"Total",
+    "lcod_lbl_statement_chart":"Plan comptable",
+
+    "lcod_lbl_pending":"En attente",
+    "lcod_lbl_concluded":"Conclu",
+
+    "lcod_lbl_fault":"Défaut",
+    "lcod_lbl_question":"Question",
+    "lcod_lbl_suggestion":"Suggestion",
+    "lcod_lbl_complaint":"Plainte",
+    
+    "lcod_lbl_profile_settings":"Paramètres de profil",
+    "lcod_lbl_new_building":"Enregistrement d'un nouveau site",
+    "lcod_lbl_kvkk":"Texte KVKK",
+    "lcod_lbl_user_agreement":"Accord de l'utilisateur"
+}

@@ -303,12 +303,13 @@
 //   }
 // }
 
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/models/user.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/screens/main/all_announcement_screen.dart';
-import 'package:demo_publicarea/screens/main/an_announcement_screen.dart';
+import 'package:demo_publicarea/screens/main/announcement_screen.dart';
+import 'package:demo_publicarea/screens/main/announcement_detail_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
@@ -357,6 +358,8 @@ class _MainScreenState extends State<MainScreen> {
 
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false); //degistirr
+
+    var trnslt = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Scaffold(
@@ -421,23 +424,6 @@ class _MainScreenState extends State<MainScreen> {
                                       NetworkImage(userProvider.user.imageUrl),
                                   radius: 45,
                                 ),
-
-                                //     StreamBuilder<UserModel>(
-                                //   stream: userProvider
-                                //       .userStream, // UserProvider'daki veri akışını dinleyin
-                                //   builder: (context, snapshot) {
-                                //     if (snapshot.hasData) {
-                                //       UserModel user = snapshot.data!;
-                                //       return CircleAvatar(
-                                //         foregroundImage:
-                                //             NetworkImage(user.imageUrl),
-                                //         radius: 45,
-                                //       );
-                                //     } else {
-                                //       return const LoadingIndicator();
-                                //     }
-                                //   },
-                                // ),
                               ),
                             ],
                           ),
@@ -449,12 +435,11 @@ class _MainScreenState extends State<MainScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'Borcunuz',
-                                      style: TextStyle(
+                                    Text(
+                                      trnslt.lcod_lbl_your_debt,
+                                      style: const TextStyle(
                                           fontSize: 15, color: Colors.white),
                                     ),
-
                                     Consumer<BillProvider>(
                                       builder: (context, data, index) {
                                         return StreamBuilder<double>(
@@ -471,8 +456,8 @@ class _MainScreenState extends State<MainScreen> {
                                                     CircularProgressIndicator(),
                                               );
                                             } else if (snapshot.hasError) {
-                                              return const Text(
-                                                  'Hata: Veriler alınamadı.');
+                                              return Text(trnslt
+                                                  .lcod_lbl_error_data_not_received);
                                             } else if (snapshot.hasData) {
                                               // Veri mevcut olduğunda erişim yapın
                                               double totalAmount =
@@ -487,48 +472,13 @@ class _MainScreenState extends State<MainScreen> {
                                                 ),
                                               );
                                             } else {
-                                              return const Text(
-                                                  'Veri bulunamadı veya hata oluştu.');
+                                              return Text(trnslt
+                                                  .lcod_lbl_data_not_received);
                                             }
                                           },
                                         );
                                       },
                                     ),
-
-                                    // Consumer<BillProvider>(
-                                    //   builder: (context, data, index) {
-                                    //     return StreamBuilder<double>(
-                                    //       stream: data.fetchAmountTotalStatus(
-                                    //           false,
-                                    //           userProvider.user.apartmentId),
-                                    //       builder: (BuildContext context,
-                                    //           AsyncSnapshot<double> snapshot) {
-                                    //         if (snapshot.connectionState ==
-                                    //             ConnectionState.waiting) {
-                                    //           return const Center(
-                                    //             child:
-                                    //                 CircularProgressIndicator(),
-                                    //           );
-                                    //         } else if (snapshot.hasError) {
-                                    //           return const Text(
-                                    //               'Hata: Veriler alınamadı.');
-                                    //         } else {
-                                    //           double totalAmount =
-                                    //               snapshot.data ?? 0.0;
-                                    //           return Text(
-                                    //             NoyaFormatter.generateAmount(
-                                    //                 totalAmount),
-                                    //             style: const TextStyle(
-                                    //               fontSize: 20,
-                                    //               fontWeight: FontWeight.bold,
-                                    //               color: Colors.white,
-                                    //             ),
-                                    //           );
-                                    //         }
-                                    //       },
-                                    //     );
-                                    //   },
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -555,7 +505,7 @@ class _MainScreenState extends State<MainScreen> {
                 );
               },
               icon: Icons.redo_outlined,
-              text: 'Ödeme Yap',
+              text: trnslt.lcod_lbl_to_pay,
             ),
 
             Row(
@@ -569,15 +519,15 @@ class _MainScreenState extends State<MainScreen> {
                         arguments: {
                           'buildingId': userProvider.user.buildingId,
                         },
-                        name: AllAnnouncementScreen.routeName,
+                        name: AnnouncementScreen.routeName,
                       ),
-                      screen: const AllAnnouncementScreen(),
+                      screen: const AnnouncementScreen(),
                       withNavBar: true,
                       pageTransitionAnimation:
                           PageTransitionAnimation.cupertino,
                     );
                   },
-                  text: 'Tümünü gör ->',
+                  text: trnslt.lcod_lbl_see_all,
                 ),
                 const SizedBox(width: 10),
               ],
@@ -587,9 +537,10 @@ class _MainScreenState extends State<MainScreen> {
               child: Consumer<AnnouncementProvider>(
                 builder: (context, data, index) {
                   return StreamBuilder(
-                    stream: data.fetchAnnouncement(
+                    stream: data.fetchPage(
                       userProvider.user.buildingId,
                       limit: 6,
+                      // pageKey: 6,
                     ),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
@@ -601,16 +552,14 @@ class _MainScreenState extends State<MainScreen> {
                         } else {
                           var announcement = snapshot.data;
                           if (announcement == null || announcement.isEmpty) {
-                            return const CustomMediumListItem(
+                            return CustomMediumListItem(
                               image:
                                   'https://firebasestorage.googleapis.com/v0/b/fir-publicarea.appspot.com/o/images%2Fmain%2Fempty.png?alt=media&token=d8fd106f-ce63-4f9d-96e1-3e2fc6c20458',
-                              text:
-                                  'Yeni bir duyuru yapıldığında burada listelenecektir.',
-                              title: 'Güncel duyurunuz bulunmamaktadır',
-                              subtitle:
-                                  'Eğer hala binaya dahil olmadıysanız yöneticiniz ile irtibata geçin.',
+                              text: trnslt.lcod_lbl_no_announcement_1,
+                              title: trnslt.lcod_lbl_no_announcement_2,
+                              subtitle: trnslt.lcod_lbl_no_announcement_3,
                               color: primaryColor,
-                              leading: Icon(
+                              leading: const Icon(
                                 Icons.quiz_outlined,
                                 color: primaryColor,
                                 size: 40,
@@ -622,36 +571,59 @@ class _MainScreenState extends State<MainScreen> {
                               itemBuilder: (context, index) {
                                 var announcementList = announcement[index];
 
-                                return CustomListItem(
-                                  title: announcementList.title,
-                                  subtitle: announcementList.subtitle,
-                                  trailing: IconButton(
-                                    onPressed: () {
-                                      AnnouncementProvider()
-                                          .fetchAnAnnouncement(
-                                              announcementList.id.toString());
+                                return GestureDetector(
+                                  onTap: () {
+                                    AnnouncementProvider().fetchAnAnnouncement(
+                                        announcementList.id.toString());
 
-                                      PersistentNavBarNavigator
-                                          .pushNewScreenWithRouteSettings(
-                                        context,
-                                        settings: RouteSettings(
-                                          name: AnAnnouncementScreen.routeName,
-                                          arguments:
-                                              announcementList.id.toString(),
-                                        ),
-                                        screen: const AnAnnouncementScreen(),
-                                        withNavBar: true,
-                                        pageTransitionAnimation:
-                                            PageTransitionAnimation.cupertino,
-                                      );
-                                    },
-                                    icon: const Icon(Icons.arrow_forward_ios),
-                                  ),
-                                  leading: const CircleAvatar(
-                                    radius: 25,
-                                    backgroundImage:
-                                        AssetImage('assets/images/notice.png'),
-                                    //NetworkImage(announcement.imageUrl),
+                                    PersistentNavBarNavigator
+                                        .pushNewScreenWithRouteSettings(
+                                      context,
+                                      settings: RouteSettings(
+                                        name:
+                                            AnnouncementDetailScreen.routeName,
+                                        arguments:
+                                            announcementList.id.toString(),
+                                      ),
+                                      screen: const AnnouncementDetailScreen(),
+                                      withNavBar: true,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
+                                    );
+                                  },
+                                  child: CustomListItem(
+                                    title: announcementList.title,
+                                    subtitle: announcementList.subtitle,
+                                    trailing: IconButton(
+                                      onPressed: () {
+                                        AnnouncementProvider()
+                                            .fetchAnAnnouncement(
+                                                announcementList.id.toString());
+
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                            name: AnnouncementDetailScreen
+                                                .routeName,
+                                            arguments:
+                                                announcementList.id.toString(),
+                                          ),
+                                          screen:
+                                              const AnnouncementDetailScreen(),
+                                          withNavBar: true,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.cupertino,
+                                        );
+                                      },
+                                      icon: const Icon(Icons.arrow_forward_ios),
+                                    ),
+                                    leading: const CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: AssetImage(
+                                          'assets/images/notice.png'),
+                                      //NetworkImage(announcement.imageUrl),
+                                    ),
                                   ),
                                 ); /////
                               },
@@ -659,7 +631,8 @@ class _MainScreenState extends State<MainScreen> {
                           }
                         }
                       } else if (snapshot.hasError) {
-                        return Text('Hata: ${snapshot.error}');
+                        return Text(
+                            '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
                       }
                       return const LoadingIndicator();
                     },

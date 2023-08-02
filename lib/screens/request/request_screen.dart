@@ -1,4 +1,6 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/models/request.dart';
 import 'package:demo_publicarea/providers/request_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
@@ -9,10 +11,11 @@ import 'package:demo_publicarea/widgets/custom_text_block.dart';
 import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
-import 'a_request_screen.dart';
+import 'request_detail_screen.dart';
 
 class RequestScreen extends StatefulWidget {
   static String routeName = '/request';
@@ -23,10 +26,71 @@ class RequestScreen extends StatefulWidget {
 }
 
 class _RequestScreenState extends State<RequestScreen> {
+  ScrollController _scrollController = ScrollController();
+
+  PagingController<int, Request> get pagingControllerTrue =>
+      _pagingControllerTrue;
+  final PagingController<int, Request> _pagingControllerTrue =
+      PagingController(firstPageKey: 0);
+
+  PagingController<int, Request> get pagingControllerFalse =>
+      _pagingControllerFalse;
+  final PagingController<int, Request> _pagingControllerFalse =
+      PagingController(firstPageKey: 0);
+
+  @override
+  void dispose() {
+    _pagingControllerTrue.dispose();
+    _pagingControllerFalse.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     RequestProvider requestProvider = Provider.of<RequestProvider>(context);
+    _pagingControllerTrue.addPageRequestListener((pageKey) {
+      requestProvider
+          .fetchPageRequestByStatus(true, userProvider.user.apartmentId,
+              limit: 6, pageKey: pageKey)
+          .listen((tempList) {
+        final isLastPage = tempList.length < 6;
+
+        if (isLastPage) {
+          _pagingControllerTrue.appendLastPage(tempList);
+        } else {
+          final nextPageKey = pageKey + 1;
+
+          _pagingControllerTrue.appendPage(tempList, nextPageKey);
+        }
+        print('Value from controller: $pageKey');
+      });
+    });
+
+    _pagingControllerFalse.addPageRequestListener((pageKey) {
+      requestProvider
+          .fetchPageRequestByStatus(false, userProvider.user.apartmentId,
+              limit: 6, pageKey: pageKey)
+          .listen((tempList) {
+        final isLastPage = tempList.length < 6;
+
+        if (isLastPage) {
+          _pagingControllerFalse.appendLastPage(tempList);
+        } else {
+          final nextPageKey = pageKey + 1;
+
+          _pagingControllerFalse.appendPage(tempList, nextPageKey);
+        }
+        print('Value from controller: $pageKey');
+      });
+    });
+
+    var trnslt = AppLocalizations.of(context)!;
 
     return DefaultTabController(
       length: 2,
@@ -41,7 +105,7 @@ class _RequestScreenState extends State<RequestScreen> {
               toolbarHeight: 20,
               backgroundColor: mainBackgroundColor,
               title: CustomTitle(
-                mainTitle: 'Yeni Talep',
+                mainTitle: trnslt.lcod_lbl_new_request,
                 button: Icons.add,
                 onTap: () {
                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
@@ -75,13 +139,13 @@ class _RequestScreenState extends State<RequestScreen> {
                     tabs: [
                       Tab(
                         child: Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.pending_outlined,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
-                              "Güncel Talepler",
+                              trnslt.lcod_lbl_current_request,
                               overflow: TextOverflow.clip,
                               maxLines: 1,
                             ),
@@ -90,13 +154,13 @@ class _RequestScreenState extends State<RequestScreen> {
                       ),
                       Tab(
                         child: Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.task_alt_outlined,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
-                              "Tamamlanmış T.",
+                              trnslt.lcod_lbl_complete_request,
                               overflow: TextOverflow.clip,
                               maxLines: 1,
                             ),
@@ -111,232 +175,388 @@ class _RequestScreenState extends State<RequestScreen> {
                         Center(
                           child: Container(
                             color: backgroundColor,
-                            child: Consumer<RequestProvider>(
-                              builder: (context, data, index) {
-                                return StreamBuilder(
-                                  stream: data.fetchRequestByStatus(
-                                    true,
-                                    userProvider.user.apartmentId,
-                                  ),
-                                  builder: (BuildContext context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: LoadingIndicator(),
+                            child: RefreshIndicator(
+                              onRefresh: () => Future.sync(
+                                  () => _pagingControllerTrue.refresh()),
+                              child: PagedListView<int, Request>(
+                                pagingController: _pagingControllerTrue,
+                                builderDelegate:
+                                    PagedChildBuilderDelegate<Request>(
+                                  itemBuilder: (context, request, index) =>
+                                      Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                            name: RequestDetailScreen.routeName,
+                                            arguments:
+                                                request.requestId.toString(),
+                                          ),
+                                          screen: const RequestDetailScreen(),
+                                          withNavBar: true,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.cupertino,
                                         );
-                                      } else {
-                                        if (snapshot.data?.isEmpty ?? true) {
-                                          // Liste boşsa buradaki widget dönecek
-                                          return Column(children: [
-                                            const SizedBox(
-                                              height: 80,
+                                      },
+                                      child: CustomRequestCard(
+                                        requestType: request.requestType,
+                                        requestTitle: request.requestTitle,
+                                        apartmentNumber:
+                                            request.apartmentNumber,
+                                        status: request.status,
+                                        onTap: () {
+                                          PersistentNavBarNavigator
+                                              .pushNewScreenWithRouteSettings(
+                                            context,
+                                            settings: RouteSettings(
+                                              name:
+                                                  RequestDetailScreen.routeName,
+                                              arguments:
+                                                  request.requestId.toString(),
                                             ),
-                                            Image.asset(
-                                                'assets/images/rafiki.png'),
-                                            const SizedBox(height: 25),
-                                            const CustomTextBlock(
-                                              maintext:
-                                                  'Güncel Talebiniz Bulunmuyor',
-                                              subtext:
-                                                  'Öneri, talep ve şikayetlerinizi yönetiminize “Yeni Talep” oluşturarak iletebilirsiniz.',
-                                            ),
-                                            const SizedBox(
-                                              height: 30,
-                                            ),
-                                            CustomMainButton(
-                                              edgeInsets:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 55),
-                                              onTap: () {
-                                                PersistentNavBarNavigator
-                                                    .pushNewScreenWithRouteSettings(
-                                                  context,
-                                                  settings: RouteSettings(
-                                                    name: CreateRequestScreen
-                                                        .routeName,
-                                                    arguments: {
-                                                      'apartmentId':
-                                                          userProvider
-                                                              .user.apartmentId,
-                                                      'userUid':
-                                                          userProvider.user.uid
-                                                    },
-                                                  ),
-                                                  screen:
-                                                      const CreateRequestScreen(),
-                                                  withNavBar: true,
-                                                  pageTransitionAnimation:
-                                                      PageTransitionAnimation
-                                                          .cupertino,
-                                                );
-                                              },
-                                              text: 'Yeni Talep ',
-                                              icon: Icons.add,
-                                            ),
-                                          ]);
-                                        } else {
-                                          return ListView.builder(
-                                            itemCount: snapshot.data?.length,
-                                            itemBuilder: (context, index) {
-                                              var request =
-                                                  snapshot.data?[index];
-
-                                              return CustomRequestCard(
-                                                requestType:
-                                                    request!.requestType,
-                                                requestTitle:
-                                                    request.requestTitle,
-                                                apartmentNumber:
-                                                    request.apartmentNumber,
-                                                status: request.status,
-                                                onTap: () {
-                                                  PersistentNavBarNavigator
-                                                      .pushNewScreenWithRouteSettings(
-                                                    context,
-                                                    settings: RouteSettings(
-                                                      name: ARequestScreen
-                                                          .routeName,
-                                                      arguments: request
-                                                          .requestId
-                                                          .toString(),
-                                                    ),
-                                                    screen:
-                                                        const ARequestScreen(),
-                                                    withNavBar: true,
-                                                    pageTransitionAnimation:
-                                                        PageTransitionAnimation
-                                                            .cupertino,
-                                                  );
-                                                },
-                                              );
-                                            },
+                                            screen: const RequestDetailScreen(),
+                                            withNavBar: true,
+                                            pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .cupertino,
                                           );
-                                        }
-                                      }
-                                    } else if (snapshot.hasError) {
-                                      return Text('Hata: ${snapshot.error}');
-                                    }
-                                    return const LoadingIndicator();
-                                  },
-                                );
-                              },
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
+                            // Consumer<RequestProvider>(
+                            //   builder: (context, data, index) {
+                            //     return StreamBuilder(
+                            //       stream: data.fetchRequestByStatus(
+                            //         true,
+                            //         userProvider.user.apartmentId,
+                            //       ),
+                            //       builder: (BuildContext context, snapshot) {
+                            //         if (snapshot.hasData) {
+                            //           if (snapshot.connectionState ==
+                            //               ConnectionState.waiting) {
+                            //             return const Center(
+                            //               child: LoadingIndicator(),
+                            //             );
+                            //           } else {
+                            //             if (snapshot.data?.isEmpty ?? true) {
+                            //               // Liste boşsa buradaki widget dönecek
+                            //               return Column(children: [
+                            //                 const SizedBox(
+                            //                   height: 80,
+                            //                 ),
+                            //                 Image.asset(
+                            //                     'assets/images/rafiki.png'),
+                            //                 const SizedBox(height: 25),
+                            //                 CustomTextBlock(
+                            //                   maintext: trnslt
+                            //                       .lcod_lbl_no_current_request,
+                            //                   subtext: trnslt
+                            //                       .lcod_lbl_new_request_article,
+                            //                 ),
+                            //                 const SizedBox(
+                            //                   height: 30,
+                            //                 ),
+                            //                 CustomMainButton(
+                            //                   edgeInsets:
+                            //                       const EdgeInsets.symmetric(
+                            //                           horizontal: 55),
+                            //                   onTap: () {
+                            //                     PersistentNavBarNavigator
+                            //                         .pushNewScreenWithRouteSettings(
+                            //                       context,
+                            //                       settings: RouteSettings(
+                            //                         name: CreateRequestScreen
+                            //                             .routeName,
+                            //                         arguments: {
+                            //                           'apartmentId':
+                            //                               userProvider
+                            //                                   .user.apartmentId,
+                            //                           'userUid':
+                            //                               userProvider.user.uid
+                            //                         },
+                            //                       ),
+                            //                       screen:
+                            //                           const CreateRequestScreen(),
+                            //                       withNavBar: true,
+                            //                       pageTransitionAnimation:
+                            //                           PageTransitionAnimation
+                            //                               .cupertino,
+                            //                     );
+                            //                   },
+                            //                   text: trnslt.lcod_lbl_new_request,
+                            //                   icon: Icons.add,
+                            //                 ),
+                            //               ]);
+                            //             } else {
+
+                            //               return ListView.builder(
+                            //                 itemCount: snapshot.data?.length,
+                            //                 itemBuilder: (context, index) {
+                            //                   var request =
+                            //                       snapshot.data?[index];
+
+                            //                   return GestureDetector(
+                            //                     onTap: () {
+                            //                       PersistentNavBarNavigator
+                            //                           .pushNewScreenWithRouteSettings(
+                            //                         context,
+                            //                         settings: RouteSettings(
+                            //                           name: RequestDetailScreen
+                            //                               .routeName,
+                            //                           arguments: request
+                            //                               .requestId
+                            //                               .toString(),
+                            //                         ),
+                            //                         screen:
+                            //                             const RequestDetailScreen(),
+                            //                         withNavBar: true,
+                            //                         pageTransitionAnimation:
+                            //                             PageTransitionAnimation
+                            //                                 .cupertino,
+                            //                       );
+                            //                     },
+                            //                     child: CustomRequestCard(
+                            //                       requestType:
+                            //                           request!.requestType,
+                            //                       requestTitle:
+                            //                           request.requestTitle,
+                            //                       apartmentNumber:
+                            //                           request.apartmentNumber,
+                            //                       status: request.status,
+                            //                       onTap: () {
+                            //                         PersistentNavBarNavigator
+                            //                             .pushNewScreenWithRouteSettings(
+                            //                           context,
+                            //                           settings: RouteSettings(
+                            //                             name:
+                            //                                 RequestDetailScreen
+                            //                                     .routeName,
+                            //                             arguments: request
+                            //                                 .requestId
+                            //                                 .toString(),
+                            //                           ),
+                            //                           screen:
+                            //                               const RequestDetailScreen(),
+                            //                           withNavBar: true,
+                            //                           pageTransitionAnimation:
+                            //                               PageTransitionAnimation
+                            //                                   .cupertino,
+                            //                         );
+                            //                       },
+                            //                     ),
+                            //                   );
+                            //                 },
+                            //               );
+                            //             }
+                            //           }
+                            //         } else if (snapshot.hasError) {
+                            //           return Text(
+                            //               '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
+                            //         }
+                            //         return const LoadingIndicator();
+                            //       },
+                            //     );
+                            //   },
+                            // ),
                           ),
                         ),
                         Center(
                           child: Container(
                             color: backgroundColor,
-                            child: Consumer<RequestProvider>(
-                              builder: (context, data, index) {
-                                return StreamBuilder(
-                                  stream: data.fetchRequestByStatus(
-                                    false,
-                                    userProvider.user.apartmentId,
-                                  ),
-                                  builder: (BuildContext context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: LoadingIndicator(),
+                            child: RefreshIndicator(
+                              onRefresh: () => Future.sync(
+                                  () => _pagingControllerFalse.refresh()),
+                              child: PagedListView<int, Request>(
+                                pagingController: _pagingControllerFalse,
+                                builderDelegate:
+                                    PagedChildBuilderDelegate<Request>(
+                                  itemBuilder: (context, request, index) =>
+                                      Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                            name: RequestDetailScreen.routeName,
+                                            arguments:
+                                                request.requestId.toString(),
+                                          ),
+                                          screen: const RequestDetailScreen(),
+                                          withNavBar: true,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.cupertino,
                                         );
-                                      } else {
-                                        if (snapshot.data?.isEmpty ?? true) {
-                                          // Liste boşsa buradaki widget dönecek
-                                          return Column(children: [
-                                            const SizedBox(
-                                              height: 80,
+                                      },
+                                      child: CustomRequestCard(
+                                        requestType: request.requestType,
+                                        requestTitle: request.requestTitle,
+                                        apartmentNumber:
+                                            request.apartmentNumber,
+                                        status: request.status,
+                                        onTap: () {
+                                          PersistentNavBarNavigator
+                                              .pushNewScreenWithRouteSettings(
+                                            context,
+                                            settings: RouteSettings(
+                                              name:
+                                                  RequestDetailScreen.routeName,
+                                              arguments:
+                                                  request.requestId.toString(),
                                             ),
-                                            Image.asset(
-                                                'assets/images/rafiki.png'),
-                                            const SizedBox(height: 25),
-                                            const CustomTextBlock(
-                                              maintext:
-                                                  'Tamamlanmış Talebiniz Bulunmuyor',
-                                              subtext:
-                                                  'Öneri, talep ve şikayetlerinizi yönetiminize “Yeni Talep” oluşturarak iletebilirsiniz.',
-                                            ),
-                                            const SizedBox(
-                                              height: 30,
-                                            ),
-                                            CustomMainButton(
-                                              edgeInsets:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 55),
-                                              onTap: () {
-                                                PersistentNavBarNavigator
-                                                    .pushNewScreenWithRouteSettings(
-                                                  context,
-                                                  settings: RouteSettings(
-                                                      arguments: {
-                                                        'apartmentId':
-                                                            userProvider.user
-                                                                .apartmentId,
-                                                        'userUid': userProvider
-                                                            .user.uid
-                                                      },
-                                                      name: CreateRequestScreen
-                                                          .routeName),
-                                                  screen:
-                                                      const CreateRequestScreen(),
-                                                  withNavBar: true,
-                                                  pageTransitionAnimation:
-                                                      PageTransitionAnimation
-                                                          .cupertino,
-                                                );
-                                              },
-                                              text: 'Yeni Talep ',
-                                              icon: Icons.add,
-                                            ),
-                                          ]);
-                                        } else {
-                                          return ListView.builder(
-                                            itemCount: snapshot.data?.length,
-                                            itemBuilder: (context, index) {
-                                              var request =
-                                                  snapshot.data?[index];
-
-                                              return CustomRequestCard(
-                                                requestType:
-                                                    request!.requestType,
-                                                requestTitle:
-                                                    request.requestTitle,
-                                                apartmentNumber:
-                                                    request.apartmentNumber,
-                                                status: request.status,
-                                                onTap: () {
-                                                  PersistentNavBarNavigator
-                                                      .pushNewScreenWithRouteSettings(
-                                                    context,
-                                                    settings: RouteSettings(
-                                                      name: ARequestScreen
-                                                          .routeName,
-                                                      arguments: request
-                                                          .requestId
-                                                          .toString(),
-                                                    ),
-                                                    screen:
-                                                        const ARequestScreen(),
-                                                    withNavBar: true,
-                                                    pageTransitionAnimation:
-                                                        PageTransitionAnimation
-                                                            .cupertino,
-                                                  );
-                                                },
-                                              );
-                                            },
+                                            screen: const RequestDetailScreen(),
+                                            withNavBar: true,
+                                            pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .cupertino,
                                           );
-                                        }
-                                      }
-                                    } else if (snapshot.hasError) {
-                                      return Text('Hata: ${snapshot.error}');
-                                    }
-                                    return const LoadingIndicator();
-                                  },
-                                );
-                              },
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
+                            // Consumer<RequestProvider>(
+                            //   builder: (context, data, index) {
+                            //     return StreamBuilder(
+                            //       stream: data.fetchRequestByStatus(
+                            //         false,
+                            //         userProvider.user.apartmentId,
+                            //       ),
+                            //       builder: (BuildContext context, snapshot) {
+                            //         if (snapshot.hasData) {
+                            //           if (snapshot.connectionState ==
+                            //               ConnectionState.waiting) {
+                            //             return const Center(
+                            //               child: LoadingIndicator(),
+                            //             );
+                            //           } else {
+                            //             if (snapshot.data?.isEmpty ?? true) {
+                            //               // Liste boşsa buradaki widget dönecek
+                            //               return Column(children: [
+                            //                 const SizedBox(
+                            //                   height: 80,
+                            //                 ),
+                            //                 Image.asset(
+                            //                     'assets/images/rafiki.png'),
+                            //                 const SizedBox(height: 25),
+                            //                 CustomTextBlock(
+                            //                     maintext: trnslt
+                            //                         .lcod_lbl_no_complete_request,
+                            //                     subtext: trnslt
+                            //                         .lcod_lbl_new_request_article),
+                            //                 const SizedBox(
+                            //                   height: 30,
+                            //                 ),
+                            //                 CustomMainButton(
+                            //                   edgeInsets:
+                            //                       const EdgeInsets.symmetric(
+                            //                           horizontal: 55),
+                            //                   onTap: () {
+                            //                     PersistentNavBarNavigator
+                            //                         .pushNewScreenWithRouteSettings(
+                            //                       context,
+                            //                       settings: RouteSettings(
+                            //                           arguments: {
+                            //                             'apartmentId':
+                            //                                 userProvider.user
+                            //                                     .apartmentId,
+                            //                             'userUid': userProvider
+                            //                                 .user.uid
+                            //                           },
+                            //                           name: CreateRequestScreen
+                            //                               .routeName),
+                            //                       screen:
+                            //                           const CreateRequestScreen(),
+                            //                       withNavBar: true,
+                            //                       pageTransitionAnimation:
+                            //                           PageTransitionAnimation
+                            //                               .cupertino,
+                            //                     );
+                            //                   },
+                            //                   text: trnslt.lcod_lbl_new_request,
+                            //                   icon: Icons.add,
+                            //                 ),
+                            //               ]);
+                            //             } else {
+                            //               return ListView.builder(
+                            //                 itemCount: snapshot.data?.length,
+                            //                 itemBuilder: (context, index) {
+                            //                   var request =
+                            //                       snapshot.data?[index];
+
+                            //                   return GestureDetector(
+                            //                     onTap: () {
+                            //                       PersistentNavBarNavigator
+                            //                           .pushNewScreenWithRouteSettings(
+                            //                         context,
+                            //                         settings: RouteSettings(
+                            //                           name: RequestDetailScreen
+                            //                               .routeName,
+                            //                           arguments: request
+                            //                               .requestId
+                            //                               .toString(),
+                            //                         ),
+                            //                         screen:
+                            //                             const RequestDetailScreen(),
+                            //                         withNavBar: true,
+                            //                         pageTransitionAnimation:
+                            //                             PageTransitionAnimation
+                            //                                 .cupertino,
+                            //                       );
+                            //                     },
+                            //                     child: CustomRequestCard(
+                            //                       requestType:
+                            //                           request!.requestType,
+                            //                       requestTitle:
+                            //                           request.requestTitle,
+                            //                       apartmentNumber:
+                            //                           request.apartmentNumber,
+                            //                       status: request.status,
+                            //                       onTap: () {
+                            //                         PersistentNavBarNavigator
+                            //                             .pushNewScreenWithRouteSettings(
+                            //                           context,
+                            //                           settings: RouteSettings(
+                            //                             name:
+                            //                                 RequestDetailScreen
+                            //                                     .routeName,
+                            //                             arguments: request
+                            //                                 .requestId
+                            //                                 .toString(),
+                            //                           ),
+                            //                           screen:
+                            //                               const RequestDetailScreen(),
+                            //                           withNavBar: true,
+                            //                           pageTransitionAnimation:
+                            //                               PageTransitionAnimation
+                            //                                   .cupertino,
+                            //                         );
+                            //                       },
+                            //                     ),
+                            //                   );
+                            //                 },
+                            //               );
+                            //             }
+                            //           }
+                            //         } else if (snapshot.hasError) {
+                            //           return Text(
+                            //               '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
+                            //         }
+                            //         return const LoadingIndicator();
+                            //       },
+                            //     );
+                            //   },
+                            // ),
                           ),
                         ),
                       ],
@@ -351,42 +571,3 @@ class _RequestScreenState extends State<RequestScreen> {
     );
   }
 }
-
-
-//Image.asset('assets/images/rafiki.png'),
-//                 const SizedBox(height: 25),
-//                 const CustomTextBlock(
-//                   maintext: 'Güncel Talebiniz Bulunmuyor',
-//                   subtext:
-//                       'Öneri, talep ve şikayetlerinizi yönetiminize “Yeni Talep” oluşturarak iletebilirsiniz.',
-//                 ),
-//                 // const CustomTitle(
-//                 //   mainTitle: 'Güncel Talebiniz Bulunmuyor',
-//                 //   // subtitle:
-//                 //   //     'Öneri, talep ve şikayetlerinizi yönetiminize “Yeni Talep” oluşturarak iletebilirsiniz.',
-//                 // ),
-//                 const SizedBox(
-//                   height: 30,
-//                 ),
-//                 CustomMainButton(
-//                   edgeInsets: const EdgeInsets.symmetric(horizontal: 55),
-//                   onTap: () {
-//                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-//                       context,
-//                       settings:
-//                           RouteSettings(name: CreateRequestScreen.routeName),
-//                       screen: const CreateRequestScreen(),
-//                       withNavBar: true,
-//                       pageTransitionAnimation:
-//                           PageTransitionAnimation.cupertino,
-//                     );
-//                   },
-//                   text: 'Yeni Talep ',
-//                   icon: Icons.add,
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );

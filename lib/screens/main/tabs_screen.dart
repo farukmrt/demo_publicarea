@@ -1,3 +1,5 @@
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/utils/languages/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -31,25 +33,25 @@ class _TabsScreenState extends State<TabsScreen> {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home_outlined),
-        title: "Anasayfa",
+        title: translation(context).lcod_lbl_main_screen,
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.description_outlined),
-        title: "Hesap Özeti",
+        title: translation(context).lcod_lbl_statement_screen,
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.textsms_outlined),
-        title: "Taleplerim",
+        title: translation(context).lcod_lbl_request_screen,
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.view_headline_outlined),
-        title: "Ayarlar",
+        title: translation(context).lcod_lbl_settings_screen,
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
@@ -64,6 +66,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // var trnslt = AppLocalizations.of(context)!;
     return Scaffold(
       body: PersistentTabView(
         context,
@@ -78,6 +81,7 @@ class _TabsScreenState extends State<TabsScreen> {
         hideNavigationBarWhenKeyboardShows: true,
         popAllScreensOnTapOfSelectedTab: true,
         navBarStyle: NavBarStyle.style1,
+        popAllScreensOnTapAnyTabs: true,
       ),
     );
   }

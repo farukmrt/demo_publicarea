@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
@@ -40,9 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    var trnslt = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Giriş Yap'),
+        title: Text(trnslt.lcod_lbl_login),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -52,16 +55,16 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: size.height * 0.1),
               CustomTextField(
                 controller: _emailController,
-                labelText: 'Email Adresinizi girin',
+                labelText: trnslt.lcod_lbl_email,
               ),
               CustomTextField(
                 controller: _passwordController,
-                labelText: 'Parolanızı girin',
+                labelText: trnslt.lcod_lbl_password,
               ),
               const SizedBox(height: 15),
               CustomMainButton(
                 onTap: loginUser,
-                text: 'Giriş yap',
+                text: trnslt.lcod_lbl_login,
                 edgeInsets: const EdgeInsets.symmetric(vertical: 8),
               ),
             ],

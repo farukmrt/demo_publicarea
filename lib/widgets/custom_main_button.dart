@@ -31,11 +31,16 @@ class CustomMainButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              text,
-              style: const TextStyle(color: mainBackgroundColor),
+            Flexible(
+              child: Text(
+                maxLines: 2,
+                overflow: TextOverflow.visible,
+                textAlign: TextAlign.center,
+                text,
+                style: const TextStyle(color: mainBackgroundColor),
+              ),
             ),
-            Icon(icon),
+            Flexible(child: Icon(icon)),
           ],
         ),
       ),

@@ -1,9 +1,11 @@
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/models/bill.dart';
 import 'package:demo_publicarea/models/creditCard.dart';
 import 'package:demo_publicarea/providers/payment_provider.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
+import 'package:demo_publicarea/widgets/custom_double_button.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
@@ -157,10 +159,11 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var trnslt = AppLocalizations.of(context)!;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Kart Ekranı'),
+        title: Text(trnslt.lcod_lbl_card_screen),
         backgroundColor: mainBackgroundColor,
       ),
       resizeToAvoidBottomInset: true,
@@ -216,10 +219,10 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                           left: 170,
                           right: 17,
                         ),
-                        child: CustomIconbutton(
-                          title: 'Seçilen tutar',
+                        child: CustomDoubleIconbutton(
+                          title: trnslt.lcod_lbl_selected_amount,
                           color: positive.shade100,
-                          rightText: summary,
+                          rightText: '$summary',
                           icon: Icons.currency_lira_outlined,
                           size: 40,
                         ),
@@ -251,7 +254,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                         themeColor: buttonColor,
                         textColor: mytextcolor,
                         cardNumberDecoration: InputDecoration(
-                          labelText: 'Kart Numarası',
+                          labelText: trnslt.lcod_lbl_card_number,
                           hintText: 'XXXX XXXX XXXX XXXX',
                           hintStyle: const TextStyle(color: buttonColor),
                           labelStyle: const TextStyle(color: buttonColor),
@@ -263,7 +266,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                           labelStyle: const TextStyle(color: buttonColor),
                           focusedBorder: border,
                           enabledBorder: border,
-                          labelText: 'Son Kullanma Tarihi',
+                          labelText: trnslt.lcod_lbl_expiration,
                           hintText: 'XX/XX',
                         ),
                         cvvCodeDecoration: InputDecoration(
@@ -279,7 +282,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                           labelStyle: const TextStyle(color: buttonColor),
                           focusedBorder: border,
                           enabledBorder: border,
-                          labelText: 'Kart Sahibi',
+                          labelText: trnslt.lcod_lbl_card_holder,
                         ),
                         onCreditCardModelChange: onCreditCardModelChange,
                       ),
@@ -305,8 +308,9 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                           );
                           if (isMatched) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Ödeme Başarılı'),
+                              SnackBar(
+                                content:
+                                    Text(trnslt.lcod_lbl_payment_successful),
                               ),
                             );
                             await Provider.of<PaymentProvider>(context,
@@ -324,9 +328,9 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
+                              SnackBar(
                                 content: Text(
-                                    'Kart bilgileri hatalı lütfen kontrol edin'),
+                                    trnslt.lcod_lbl_wrong_card_information),
                               ),
                             );
                           }
@@ -337,7 +341,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                           // result göster
                           // ödeme başarılı ise öedenmişler sayfasına gönnder
                         },
-                        text: 'Ödemeyi Onayla ',
+                        text: trnslt.lcod_lbl_confirm_payment,
                         edgeInsets: const EdgeInsets.symmetric(horizontal: 18),
                       )
                       // GestureDetector(

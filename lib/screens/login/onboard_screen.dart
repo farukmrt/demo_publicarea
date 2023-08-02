@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/screens/login/login_screen.dart';
 import 'package:demo_publicarea/screens/login/signup_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -11,6 +12,7 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var trnslt = AppLocalizations.of(context)!;
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -23,8 +25,8 @@ class OnboardingScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "PublicArea'ya \nHoşgeldiniz",
+              Text(
+                trnslt.lcod_lbl_welcome,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -43,7 +45,7 @@ class OnboardingScreen extends StatelessWidget {
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
-                text: 'Giriş yap',
+                text: trnslt.lcod_lbl_login,
               ),
               CustomMainButton(
                 edgeInsets: const EdgeInsets.symmetric(vertical: 8),
@@ -56,7 +58,7 @@ class OnboardingScreen extends StatelessWidget {
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
-                text: 'Üye ol',
+                text: trnslt.lcod_lbl_signup,
               ),
             ],
           ),

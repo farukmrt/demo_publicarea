@@ -1,10 +1,11 @@
+import 'package:demo_publicarea/firebase_options.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/payment_provider.dart';
 import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/providers/request_provider.dart';
-import 'package:demo_publicarea/screens/main/all_announcement_screen.dart';
-import 'package:demo_publicarea/screens/main/an_announcement_screen.dart';
-import 'package:demo_publicarea/screens/request/a_request_screen.dart';
+import 'package:demo_publicarea/screens/main/announcement_screen.dart';
+import 'package:demo_publicarea/screens/main/announcement_detail_screen.dart';
+import 'package:demo_publicarea/screens/request/request_detail_screen.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
 import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
@@ -15,10 +16,12 @@ import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
+// import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'l10n/app_localizations.dart';
 import 'models/user.dart' as model;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
@@ -27,9 +30,40 @@ import 'package:demo_publicarea/screens/login/signup_screen.dart';
 import 'package:demo_publicarea/screens/login/onboard_screen.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'utils/languages/lang.dart';
+// import 'package:.dart_tool/flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //await EasyLocalization.ensureInitialized();
+  // //  await Firebase.initializeApp(
+  // // options: DefaultFirebaseOptions().currentPlatform,
+  // // );
+
+  // runApp(EasyLocalization(
+  //     supportedLocales: const [
+  //       Locale('ar', 'AE'),
+  //       Locale('en', 'US'),
+  //       Locale('fr', 'FR'),
+  //       Locale('tr', 'TR'),
+  //     ],
+  //     fallbackLocale: const Locale('tr', 'TR'),
+  //     path: 'assets/lang',
+  //     child: const MyApp()));
+
+  // EasyLocalization(
+  //   child: MyApp(),
+  //   supportedLocales: Languagemanager .instance.supportedLocales,
+  //   path: ApplicationConstants.LANG_ASSET_PATH));
+  // EasyLocalization.ensureInitialized();
+  // await Firebase.initializeApp(
+  //options: DefaultFirebaseOptions.currentPlatform,
+  // );
+
   await Firebase.initializeApp(
       //options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -50,12 +84,88 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
 }
 
 class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    getLocale().then((locale) => {setLocale(locale)});
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // debugShowCheckedModeBanner: false,
+
+      // /// Delegate: Temsilci Listesi
+      // localizationsDelegates: AppLocalizations.localizationsDelegates,
+
+      // /// Desteklenen Diller
+      // supportedLocales: AppLocalizations.supportedLocales,
+
+      // localeResolutionCallback:
+      //     (Locale? locale, Iterable<Locale> supportedLocales) {
+      //   /// [locale]: Cihazın dili null değilse
+      //   if (locale != null) {
+      //     log("Algılanan cihaz dili: Dil Kodu: ${locale.languageCode}, Ülke Kodu: ${locale.countryCode}");
+
+      //     /// for döngüsü yardımıyla [supportedLocales] listesi içinde arama yapıyoruz
+      //     for (var supportedLocale in supportedLocales) {
+      //       /// Cihazın dil kodu [locale.languageCode] ve ülke kodu [locale.countryCode]
+      //       /// desteklenen diller arasındaki dil ve ülke kodlarının içinde [supportedLocale] var mı?
+      //       if (supportedLocale.languageCode == locale.languageCode &&
+      //           locale.countryCode == locale.countryCode) {
+      //         /// Varsa desteklenen dili döndür
+      //         return supportedLocale;
+      //       }
+      //     }
+      //   }
+      //   log("Algılanan cihaz dili desteklenen diller arasında bulunmuyor.");
+
+      //   /// Yoksa [supportedLocales] Listesindeki ilk sonucu döndür.
+      //   log("Uygulamanın başlatılması istenen dil: Dil Kodu: ${supportedLocales.first.languageCode}, Ülke Kodu: ${supportedLocales.first.countryCode}");
+      //   return supportedLocales.first;
+      // },
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
+      // localizationsDelegates: [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      // ],
+      // supportedLocales: [
+      //   Locale('ar', ''),
+      //   Locale('en', ''),
+      //   Locale('fr', ''),
+      //   Locale('tr', ''),
+      // ],
+      // locale: Locale('tr', ''),
+
+      // supportedLocales: context.supportedLocales ?? [const Locale('tr', 'TR')],
+      // localizationsDelegates: context.localizationDelegates ??
+      //     EasyLocalization.of(context)!.delegates,
+      // locale: context.locale ?? const Locale('tr', 'TR'),
+
+      // supportedLocales: context.supportedLocales,
+      // localizationsDelegates: context.localizationDelegates,
+      // locale: context.locale,
+      //debugShowCheckedModeBanner: false,
+
       title: 'publicarea',
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: backgroundColor,
@@ -94,16 +204,16 @@ class _MyAppState extends State<MyApp> {
         RequestScreen.routeName: (context) => const RequestScreen(),
         // CompleteRequestScreen.routeName: (context) =>
         //     const CompleteRequestScreen(),
-        AllAnnouncementScreen.routeName: (context) =>
-            const AllAnnouncementScreen(),
-        AnAnnouncementScreen.routeName: (context) =>
-            const AnAnnouncementScreen(),
-        ARequestScreen.routeName: (context) => const ARequestScreen(),
+        AnnouncementScreen.routeName: (context) => const AnnouncementScreen(),
+        AnnouncementDetailScreen.routeName: (context) =>
+            const AnnouncementDetailScreen(),
+        RequestDetailScreen.routeName: (context) => const RequestDetailScreen(),
         ProfileSettingsScreen.routeName: (context) =>
             const ProfileSettingsScreen(),
         KvkkScreen.routeName: (context) => const KvkkScreen(),
         UserAgreementScreen.routeName: (context) => const UserAgreementScreen(),
       },
+
       home: FutureBuilder<model.UserModel?>(
         future: UserProvider().getCurrentUser(
             FirebaseAuth.instance.currentUser != null

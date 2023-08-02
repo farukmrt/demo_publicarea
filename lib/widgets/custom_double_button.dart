@@ -1,32 +1,32 @@
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomIconbutton extends StatefulWidget {
+class CustomDoubleIconbutton extends StatefulWidget {
   final String title;
   final IconData icon;
   final VoidCallback? onTap;
   final Color? color;
-  final String? rightText;
+  final String rightText;
   final double? size;
   final Opacity? opacity;
   //final TextField? textff;
 
-  const CustomIconbutton({
+  const CustomDoubleIconbutton({
     Key? key,
     required this.title,
     required this.icon,
     this.onTap,
     this.color,
-    this.rightText,
+    required this.rightText,
     this.size,
     this.opacity,
   }) : super(key: key);
 
   @override
-  State<CustomIconbutton> createState() => _CustomIconbuttonState();
+  State<CustomDoubleIconbutton> createState() => _CustomDoubleIconbuttonState();
 }
 
-class _CustomIconbuttonState extends State<CustomIconbutton> {
+class _CustomDoubleIconbuttonState extends State<CustomDoubleIconbutton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,11 +42,10 @@ class _CustomIconbuttonState extends State<CustomIconbutton> {
         ),
         onPressed: widget.onTap,
         child: Row(
-          //mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           //mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Flexible(
+            Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Icon(
@@ -57,12 +56,25 @@ class _CustomIconbuttonState extends State<CustomIconbutton> {
               ),
             ),
             Flexible(
-              child: Text(
-                widget.title,
-                overflow: TextOverflow.fade,
-                style: const TextStyle(
-                  color: mainBackgroundColor,
-                ),
+              child: Column(
+                children: [
+                  Text(
+                    widget.rightText,
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                    style: const TextStyle(
+                      color: mainBackgroundColor,
+                    ),
+                  ),
+                  Text(
+                    widget.title,
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                    style: const TextStyle(
+                      color: mainBackgroundColor,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

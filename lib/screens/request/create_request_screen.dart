@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/providers/request_provider.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
@@ -34,6 +35,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
   String? userUid;
   File? selectedImage;
   String? imageUrl;
+
   //File? selectedImageWidget;
 
   @override
@@ -51,13 +53,21 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
     PhotoProvider photoProvider =
         Provider.of<PhotoProvider>(context, listen: false);
 
+    var trnslt = AppLocalizations.of(context)!;
+
     Widget buildImageWidget() {
       if (selectedImage != null) {
-        return Image.file(
-          selectedImage!,
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: 500,
+        return Container(
+          color: mainBackgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.file(
+              selectedImage!,
+              fit: BoxFit.scaleDown,
+              width: double.infinity,
+              //height: 400,
+            ),
+          ),
         );
       } else {
         return const Icon(Icons.camera_alt, size: 100, color: Colors.grey);
@@ -69,7 +79,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Talep oluştur'),
+            title: Text(trnslt.lcod_lbl_create_request),
             backgroundColor: mainBackgroundColor,
           ),
           body: Container(
@@ -78,21 +88,32 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Container(
+                    child: buildImageWidget(),
+                    // width: double.infinity,
+                    // height: double.infinity,
+                  ),
                   CustomTextField(
                     controller: requestTitleController,
-                    labelText: 'Konu',
+                    labelText: trnslt.lcod_lbl_subject,
                   ),
                   CustomTextField(
                     controller: apartmentNumberController,
-                    labelText: 'Daire',
+                    labelText: trnslt.lcod_lbl_apartment,
                   ),
                   //DropdownButtonFormField(items:, onChanged: (){})
 
                   CustomDropdownButton(
                     //controller: requestTypeController,
-                    labelText: 'Talep Tipi',
+                    labelText: trnslt.lcod_lbl_request_type,
                     value: selectedValue,
-                    items: const ['Arıza', 'Soru', 'Öneri', 'Şikayet'],
+                    //items: const ['Arıza', 'Soru', 'Öneri', 'Şikayet'],
+                    items: [
+                      trnslt.lcod_lbl_fault,
+                      trnslt.lcod_lbl_question,
+                      trnslt.lcod_lbl_suggestion,
+                      trnslt.lcod_lbl_complaint
+                    ],
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedValue = newValue;
@@ -106,7 +127,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                   // ),
                   CustomTextFieldMedium(
                     controller: requestExplanationController,
-                    labelText: 'Açıklama',
+                    labelText: trnslt.lcod_lbl_explanation,
 
                     //maxline: minLine + 1,
                   ),
@@ -116,7 +137,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
 
                   CustomMainButton(
                     color: negative,
-                    text: '    Resim ekle..',
+                    text: '${trnslt.lcod_lbl_add_image}',
                     edgeInsets: const EdgeInsets.symmetric(horizontal: 100),
                     onTap: () {
                       showDialog(
@@ -136,10 +157,10 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                                           photoProvider.selectedImage;
                                     });
                                   },
-                                  child: const Text(
-                                    'Çekim yap',
-                                    style:
-                                        TextStyle(color: mainBackgroundColor),
+                                  child: Text(
+                                    trnslt.lcod_lbl_shooting,
+                                    style: const TextStyle(
+                                        color: mainBackgroundColor),
                                   ),
                                 ),
                                 const SizedBox(height: 10),
@@ -154,8 +175,8 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                                           photoProvider.selectedImage;
                                     });
                                   },
-                                  child: const Text(
-                                    'Galeriden yükle',
+                                  child: Text(
+                                    trnslt.lcod_lbl_upload_from_gallery,
                                     style:
                                         TextStyle(color: mainBackgroundColor),
                                   ),
@@ -168,21 +189,22 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                     },
                   ),
                   CustomMainButton(
-                    text: 'Talebi Gönder..',
+                    text: trnslt.lcod_lbl_send_request,
                     edgeInsets: const EdgeInsets.symmetric(vertical: 25),
                     onTap: () async {
-                      if (selectedImage != null) {
-                        imageUrl = await photoProvider
-                            .sendRequestImage(selectedImage!);
-                      }
-                      requestProvider.sendRequestToFirestore(
+                      // if (selectedImage != null) {
+                      //   imageUrl = await photoProvider
+                      //       .sendRequestImage(selectedImage!);
+                      // }
+                      requestProvider.sendRequestData(
                         apartmentNumberController,
                         requestTitleController,
                         requestExplanationController,
                         selectedValue!,
                         apartmentId!,
                         userUid!,
-                        imageUrl,
+                        //imageUrl,
+                        selectedImage,
                       );
                       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                         context,
@@ -193,11 +215,6 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                             PageTransitionAnimation.cupertino,
                       );
                     },
-                  ),
-                  Container(
-                    child: buildImageWidget(),
-                    // width: double.infinity,
-                    // height: double.infinity,
                   ),
                 ],
               ),

@@ -1,10 +1,3 @@
-// import 'package:intl/intl.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:demo_publicarea/models/bill.dart';
-// import 'package:intl/date_symbol_data_local.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:demo_publicarea/widgets/custom_main_button.dart';
-// import 'package:demo_publicarea/widgets/custom_column_button.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
@@ -20,6 +13,7 @@ import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 
 import '../../utils/date_amount_formatter.dart';
 
@@ -35,6 +29,10 @@ class _StatementScreenState extends State<StatementScreen> {
   Widget build(BuildContext context) {
     //var outputFormat = DateFormat('MM/dd/yyyy');
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    final size = MediaQuery.of(context).size;
+
+    var trnslt = AppLocalizations.of(context)!;
+
     return Container(
       color: mainBackgroundColor,
       child: SafeArea(
@@ -43,12 +41,12 @@ class _StatementScreenState extends State<StatementScreen> {
           appBar: null,
           body: Column(
             children: [
-              const CustomTitle(mainTitle: 'Hesap Özeti'),
+              CustomTitle(mainTitle: trnslt.lcod_lbl_statement_screen),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomSubtitle(
-                    title: 'Ödenmemişler',
+                    title: trnslt.lcod_lbl_statement_unpaid,
                     subtitle: userProvider.user.building,
                   ),
                   Column(
@@ -64,7 +62,7 @@ class _StatementScreenState extends State<StatementScreen> {
                                           const UnpaidItemizedAccountScreen(),
                                       maintainState: true));
                             },
-                            text: 'Tümünü Gör ->'),
+                            text: trnslt.lcod_lbl_see_all),
                       ),
                     ],
                   ),
@@ -74,7 +72,7 @@ class _StatementScreenState extends State<StatementScreen> {
                 child: Consumer<BillProvider>(
                   builder: (context, data, index) {
                     return StreamBuilder(
-                      stream: data.fetchBillByPaidStatus(
+                      stream: data.fetchPageBillByPaidStatus(
                           false, userProvider.user.apartmentId,
                           limit: 4),
                       builder: (BuildContext context, snapshot) {
@@ -87,12 +85,11 @@ class _StatementScreenState extends State<StatementScreen> {
                           } else {
                             var bill = snapshot.data;
                             if (bill == null || bill.isEmpty) {
-                              return const CustomListItem(
-                                title: 'Teşekkürler..',
-                                subtitle:
-                                    'Ödenmemiş Faturanız Bulunmamaktadır!!',
+                              return CustomListItem(
+                                title: trnslt.lcod_lbl_thanks,
+                                subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
                                 color: positive,
-                                leading: Icon(
+                                leading: const Icon(
                                   Icons.done_outline_outlined,
                                   color: positive,
                                   size: 40,
@@ -106,7 +103,7 @@ class _StatementScreenState extends State<StatementScreen> {
                                   return CustomListItem(
                                     title: unpaidBills.name,
                                     subtitle:
-                                        'Ödeme Tarihi: ${NoyaFormatter.generate(unpaidBills.date)}',
+                                        '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
                                     color: unpaidc,
                                     trailing: Text(NoyaFormatter.generateAmount(
                                         unpaidBills.amount)),
@@ -121,7 +118,8 @@ class _StatementScreenState extends State<StatementScreen> {
                             }
                           }
                         } else if (snapshot.hasError) {
-                          return Text('Hata: ${snapshot.error}');
+                          return Text(
+                              '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
                         }
                         return const LoadingIndicator();
                       },
@@ -138,7 +136,7 @@ class _StatementScreenState extends State<StatementScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Toplam'),
+                      Text(trnslt.lcod_lbl_statement_total),
                       Consumer<BillProvider>(
                         builder: (context, data, index) {
                           return StreamBuilder<double>(
@@ -172,7 +170,7 @@ class _StatementScreenState extends State<StatementScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomSubtitle(
-                    title: 'Ödenmişler',
+                    title: trnslt.lcod_lbl_statement_paid,
                     subtitle: userProvider.user.building,
                   ),
                   Column(
@@ -188,7 +186,7 @@ class _StatementScreenState extends State<StatementScreen> {
                                           const ItemizedAccountScreen(),
                                       maintainState: true));
                             },
-                            text: 'Tümünü Gör ->'),
+                            text: trnslt.lcod_lbl_see_all),
                       ),
                     ],
                   ),
@@ -198,7 +196,7 @@ class _StatementScreenState extends State<StatementScreen> {
                 child: Consumer<BillProvider>(
                   builder: (context, data, index) {
                     return StreamBuilder(
-                      stream: data.fetchBillByPaidStatus(
+                      stream: data.fetchPageBillByPaidStatus(
                           true, userProvider.user.apartmentId,
                           limit: 4),
                       builder: (BuildContext context, snapshot) {
@@ -211,11 +209,11 @@ class _StatementScreenState extends State<StatementScreen> {
                           } else {
                             var bill = snapshot.data;
                             if (bill == null || bill.isEmpty) {
-                              return const CustomListItem(
-                                title: 'Lütfen Ödeme Yapın..',
-                                subtitle: 'Ödenmiş Faturanız Bulunmamaktadır!!',
+                              return CustomListItem(
+                                title: trnslt.lcod_lbl_payment_bill,
+                                subtitle: trnslt.lcod_lbl_no_invoice_paid,
                                 color: unpaidc,
-                                leading: Icon(
+                                leading: const Icon(
                                   Icons.priority_high_outlined,
                                   color: unpaidc,
                                   size: 40,
@@ -229,7 +227,7 @@ class _StatementScreenState extends State<StatementScreen> {
                                   return CustomListItem(
                                     title: paidBills.name,
                                     subtitle:
-                                        'Ödeme Tarihi: ${NoyaFormatter.generate(paidBills.date)}',
+                                        '${trnslt.lcod_lbl_payment_date_paid} ${NoyaFormatter.generate(paidBills.date)}',
                                     color: paidc,
                                     trailing: Text(NoyaFormatter.generateAmount(
                                         paidBills.amount)),
@@ -244,7 +242,8 @@ class _StatementScreenState extends State<StatementScreen> {
                             }
                           }
                         } else if (snapshot.hasError) {
-                          return Text('Hata: ${snapshot.error}');
+                          return Text(
+                              '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
                         }
                         return const LoadingIndicator();
                       },
@@ -253,49 +252,57 @@ class _StatementScreenState extends State<StatementScreen> {
                 ),
               ),
               Container(
+                width: size.width,
                 color: mainBackgroundColor,
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CustomIconbutton(
-                      title: 'Hesap Grafiği',
-                      icon: Icons.insert_chart_outlined,
-                      onTap: () {},
+                    Container(
+                      width: size.width / 2,
+                      child: CustomIconbutton(
+                        title: trnslt.lcod_lbl_statement,
+                        icon: Icons.insert_chart_outlined,
+                        onTap: () {},
+                      ),
                     ),
-                    CustomIconbutton(
-                      title: 'Ödeme Yap',
-                      icon: Icons.wallet_outlined,
-                      onTap: () {
-                        PersistentNavBarNavigator
-                            .pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(
-                              name: PaymentSelectScreen.routeName),
-                          screen: const PaymentSelectScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      },
+                    Container(
+                      width: size.width / 2,
+                      child: CustomIconbutton(
+                        title: trnslt.lcod_lbl_to_pay,
+                        icon: Icons.wallet_outlined,
+                        onTap: () {
+                          PersistentNavBarNavigator
+                              .pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(
+                                name: PaymentSelectScreen.routeName),
+                            screen: const PaymentSelectScreen(),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
 
-                      // ontap: () {
-                      //   Navigator.of(context, rootNavigator: true).push(
-                      //       //rootnavigator sifirdan sayfa olusturma yada üstüne acma özelligi
-                      //       //ancak calismiyor
-                      //       MaterialPageRoute(
-                      //           fullscreenDialog: true,
-                      //           builder: (context) => const PaymentSelectScreen(),
-                      //           maintainState: true));
-                      //   //^^rotanin etkin olmadiginde bellekte kalmasi gerekip gerekmedigi
-                      // },
+                        // ontap: () {
+                        //   Navigator.of(context, rootNavigator: true).push(
+                        //       //rootnavigator sifirdan sayfa olusturma yada üstüne acma özelligi
+                        //       //ancak calismiyor
+                        //       MaterialPageRoute(
+                        //           fullscreenDialog: true,
+                        //           builder: (context) => const PaymentSelectScreen(),
+                        //           maintainState: true));
+                        //   //^^rotanin etkin olmadiginde bellekte kalmasi gerekip gerekmedigi
+                        // },
 
-                      // ontap: () {
-                      //   Navigator.of(context).push(
-                      //     MaterialPageRoute(
-                      //       builder: (ctx) => const PaymentSelectScreen(),
-                      //     ),
-                      //   );
-                      // },
+                        // ontap: () {
+                        //   Navigator.of(context).push(
+                        //     MaterialPageRoute(
+                        //       builder: (ctx) => const PaymentSelectScreen(),
+                        //     ),
+                        //   );
+                        // },
+                      ),
                     ),
                   ],
                 ),

@@ -92,6 +92,7 @@
 //   }
 // }
 
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/models/announcement.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
@@ -102,16 +103,17 @@ import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AnAnnouncementScreen extends StatefulWidget {
-  static String routeName = '/anAnnouncement';
+class AnnouncementDetailScreen extends StatefulWidget {
+  static String routeName = '/announcementDetail';
 
-  const AnAnnouncementScreen({Key? key}) : super(key: key);
+  const AnnouncementDetailScreen({Key? key}) : super(key: key);
 
   @override
-  State<AnAnnouncementScreen> createState() => _AnAnnouncementScreenState();
+  State<AnnouncementDetailScreen> createState() =>
+      _AnnouncementDetailScreenState();
 }
 
-class _AnAnnouncementScreenState extends State<AnAnnouncementScreen> {
+class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
   late String announcementId;
 
   @override
@@ -125,6 +127,8 @@ class _AnAnnouncementScreenState extends State<AnAnnouncementScreen> {
     AnnouncementProvider annoProvider =
         Provider.of<AnnouncementProvider>(context, listen: false);
     UserProvider userProvider = Provider.of<UserProvider>(context);
+
+    var trnslt = AppLocalizations.of(context)!;
 
     return StreamBuilder<Announcement?>(
       stream: annoProvider.fetchAnAnnouncement(announcementId),
@@ -146,7 +150,8 @@ class _AnAnnouncementScreenState extends State<AnAnnouncementScreen> {
               backgroundColor: mainBackgroundColor,
             ),
             body: Center(
-              child: Text('Hata: ${snapshot.error}'),
+              child:
+                  Text('${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}'),
             ),
           );
         } else {
@@ -157,8 +162,8 @@ class _AnAnnouncementScreenState extends State<AnAnnouncementScreen> {
                 title: Text(userProvider.user.building),
                 backgroundColor: mainBackgroundColor,
               ),
-              body: const Center(
-                child: Text('Duyuru bulunamadı.'),
+              body: Center(
+                child: Text(trnslt.lcod_lbl_announcement_not_found),
               ),
             );
           }
@@ -180,8 +185,8 @@ class _AnAnnouncementScreenState extends State<AnAnnouncementScreen> {
                       CustomBigListItem(
                         image: announcement.imageUrl,
                         title: announcement.title,
-                        subtitle:
-                            'Sayın ${userProvider.user.name} ${userProvider.user.surname}',
+                        subtitle: trnslt.lcod_lbl_dear_username_surname(
+                            userProvider.user.name, userProvider.user.surname),
                         text: announcement.subtitle,
                       ),
                     ],

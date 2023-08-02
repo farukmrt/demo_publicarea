@@ -1,0 +1,122 @@
+{
+    "@@locale": "fr",
+    
+    "LOGIN": "CI-DESSOUS SE TROUVE LA PAGE DE CONNEXION",
+
+    "LCOD_LBL_LOGIN": "Se connecter",
+    "LCOD_LBL_EMAIL": "Entrez votre adresse e-mail",
+    "LCOD_LBL_PASSWORD": "Entrez votre mot de passe",
+    "LCOD_LBL_WELCOME": "Bienvenue sur PublicArea",
+    "LCOD_LBL_SIGNUP": "S'inscrire",
+    "LCOD_LBL_PROFILPHOTO": "Ajouter une photo de profil",
+    "LCOD_LBL_UPLOAD_GALLERY": "Télécharger depuis la galerie",
+    "LCOD_LBL_CREATE_PASSWORD": "Créez votre mot de passe",
+    "LCOD_LBL_CREATE_USERNAME": "Créez votre nom d'utilisateur",
+    "LCOD_LBL_ENTER_NAME": "Entrez votre prénom",
+    "LCOD_LBL_ENTER_SURNAME": "Entrez votre nom de famille",
+    "LCOD_LBL_ENTER_BUILDING": "Entrez le nom du bâtiment",
+    "LCOD_LBL_ENTER_PHONENUMBER": "Entrez votre numéro de téléphone",
+    
+    "MAIN": "CI-DESSOUS SE TROUVE LA PAGE PRINCIPALE",
+    
+    "LCOD_LBL_ANNOUNCEMENTS": "Annonces",
+    "LCOD_LBL_ERROR_SNAPSHOT": "Erreur : ${snapshot.error}",
+    "LCOD_LBL_ANNOUNCEMENT_NOT_FOUND": "Annonce introuvable.",
+    "LCOD_LBL_DEAR_USERNAME_SURNAME": "Cher ${userProvider.user.name} ${userProvider.user.surname}",
+    
+    "LCOD_LBL_YOUR_DEBT": "Votre dette",
+    "LCOD_LBL_ERROR_DATA_NOT_RECEIVED": "Erreur : Données non reçues.",
+    "LCOD_LBL_DATA_NOT_RECEIVED": "Données non trouvées ou une erreur s'est produite.",
+    "LCOD_LBL_TO_PAY": "Payer maintenant",
+    "LCOD_LBL_SEE_ALL": "Voir tout ->",
+    "LCOD_LBL_NO_ANNOUNCEMENT_1": "Les nouvelles annonces seront répertoriées ici.",
+    "LCOD_LBL_NO_ANNOUNCEMENT_2": "Vous n'avez aucune annonce en cours.",
+    "LCOD_LBL_NO_ANNOUNCEMENT_3": "Si vous n'avez pas encore rejoint le bâtiment, contactez votre administrateur.",
+    
+    "LCOD_LBL_MAIN_SCREEN": "Écran principal",
+    "LCOD_LBL_STATEMENT_SCREEN": "Relevé de compte",
+    "LCOD_LBL_REQUEST_SCREEN": "Mes demandes",
+    "LCOD_LBL_SETTINGS_SCREEN": "Paramètres",
+    
+    "REQUEST": "CI-DESSOUS SE TROUVE LA PAGE DE DEMANDE",
+    
+    "LCOD_LBL_NO_REQUEST": "Aucune demande trouvée.",
+    "LCOD_LBL_REQUEST_CONTINUES": "Votre demande '${request.requestType}' effectuée le ${NoyaFormatter.generate(request.requestDate)} est toujours en cours.",
+    "LCOD_LBL_REQUEST_CONCLUDED": "Votre demande '${request.requestType}' effectuée le ${NoyaFormatter.generate(request.requestDate)} a été conclue.",
+    "LCOD_LBL_REQUEST_TITLE": "Cher ${userProvider.user.name} ${userProvider.user.surname}, \npour votre appartement numéro ${request.apartmentNumber}",
+    
+    "LCOD_LBL_CREATE_REQUEST": "Créer une demande",
+    "LCOD_LBL_SUBJECT": "Sujet",
+    "LCOD_LBL_APARTMENT": "Appartement",
+    "LCOD_LBL_REQUEST_TYPE": "Type de demande",
+    "LCOD_LBL_REQUEST_LIST": "'Panne', 'Question', 'Suggestion', 'Plainte'",
+    "LCOD_LBL_EXPLANATION": "Explication",
+    "LCOD_LBL_ADD_IMAGE": "Ajouter une image..",
+    "LCOD_LBL_SHOOTING": "Prendre une photo",
+    "LCOD_LBL_UPLOAD_FROM_GALLERY": "Télécharger depuis la galerie",
+    "LCOD_LBL_SEND_REQUEST": "Envoyer la demande",
+    
+    "LCOD_LBL_NEW_REQUEST": "Nouvelle demande",
+    "LCOD_LBL_CURRENT_REQUEST": "Demandes en cours",
+    "LCOD_LBL_COMPLETE_REQUEST": "Demandes terminées",
+    "LCOD_LBL_NO_CURRENT_REQUEST": "Vous n'avez aucune demande en cours.",
+    "LCOD_LBL_NEW_REQUEST_ARTICLE": "Vous pouvez soumettre vos suggestions, demandes et plaintes à votre gestion en créant une 'Nouvelle demande'.",
+    "LCOD_LBL_NO_COMPLETE_REQUEST": "Vous n'avez aucune demande terminée.",
+    
+    "SETTINGS": "CI-DESSOUS SE TROUVE LA PAGE DE PARAMÈTRES",
+    
+    "LCOD_LBL_PROFILE_SCREEN": "Écran de profil",
+    "LCOD_LBL_UPDATE_PROFILE_SCREEN": "Mettre à jour la photo de profil",
+    "LCOD_LBL_NAME_SURNAME": "Prénom Nom",
+    "LCOD_LBL_EMAIL_TEXT": "E-Mail",
+    "LCOD_LBL_NEW_EMAIL": "Entrez une nouvelle adresse e-mail",
+    "LCOD_LBL_PASSWORD_DEGISTIRILECEEEK": "Entrez votre mot de passe",
+    "LCOD_LBL_UPDATED_EMAIL": "Votre adresse e-mail a été mise à jour...",
+    "LCOD_LBL_WRONG_PASSWORD": "Mot de passe incorrect.",
+    "LCOD_LBL_UPDATE": "Mettre à jour",
+    "LCOD_LBL_USERNAME": "Nom d'utilisateur",
+    "LCOD_LBL_NEW_USERNAME": "Entrez un nouveau nom d'utilisateur",
+    
+    "LCOD_LBL_PHONE_NUMBER": "Numéro de téléphone",
+    "LCOD_LBL_PHONE_TEXT": "Téléphone",
+    
+    "LCOD_LBL_UPDATED_PHONE_NUMBER": "Votre numéro de téléphone a été mis à jour...",
+    "LCOD_LBL_BUILDING": "Bâtiment",
+    "LCOD_LBL_CURRENT_PASSWORD": "Entrez votre mot de passe actuel",
+    "LCOD_LBL_NEW_PASSWORD": "Créez un nouveau mot de passe",
+    "LCOD_LBL_NEW_PASSWORD_AGAIN": "Entrez à nouveau votre nouveau mot de passe",
+    "LCOD_LBL_WRONG_PASSWORD_LONG": "Les mots de passe ne correspondent pas, veuillez vérifier et réessayer...",
+    "LCOD_LBL_UPDATE_PASSWORD": "Mettre à jour le mot de passe",
+    "LCOD_LBL_LOGOUT": "Se déconnecter",
+    
+    "STATEMENT": "CI-DESSOUS SE TROUVE LA PAGE DE RELEVÉ",
+    
+    "LCOD_LBL_CARD_SCREEN": "Écran de carte",
+    "LCOD_LBL_SELECTED_AMOUNT": "Montant sélectionné",
+    "LCOD_LBL_CARD_NUMBER": "Numéro de carte",
+    "LCOD_LBL_EXPIRATION": "Date d'expiration",
+    "LCOD_LBL_CARD_HOLDER": "Titulaire de la carte",
+    "LCOD_LBL_PAYMENT_SUCCESSFUL": "Paiement réussi",
+    "LCOD_LBL_WRONG_CARD_INFORMATION": "Informations de carte incorrectes, veuillez vérifier",
+    "LCOD_LBL_CONFIRM_PAYMENT": "Confirmer le paiement",
+    
+    "LCOD_LBL_STATEMENT": "Relevé de compte",
+    "LCOD_LBL_PAID_BILLS": "Factures payées",
+    "LCOD_LBL_PAYMENT_BILL": "Veuillez effectuer un paiement...",
+    "LCOD_LBL_NO_INVOICE_PAID": "Vous n'avez aucune facture payée !!",
+    "LCOD_LBL_PAYMENT_DATE_PAID": "Date de paiement : ${NoyaFormatter.generate(paidBills.date)}",
+    "LCOD_LBL_DEBT": "Dette",
+    "LCOD_LBL_PAID": "Payé",
+    
+    "LCOD_LBL_PAYMENTS": "Paiements",
+    "LCOD_LBL_PAYMENT_DATE_BILL": "Dernière date de paiement : ${NoyaFormatter.generate(bill.date)}",
+    "LCOD_LBL_CONTINUE": "Continuer",
+    "LCOD_LBL_TOTAL_AMOUNT": "Montant total",
+    "LCOD_LBL_SELECTED_AMOUNT_DOUBLE": "Montant sélectionné",
+    
+    "LCOD_LBL_UNPAID_BILLS": "Factures impayées",
+    "LCOD_LBL_THANKS": "Merci..",
+    "LCOD_LBL_NO_INVOICE_UNPAID": "Vous n'avez aucune facture impayée !!",
+    "LCOD_LBL_PAYMENT_DATE_UNPAID": "Date de paiement : ${NoyaFormatter.generate(unpaidBills.date)}"
+
+}

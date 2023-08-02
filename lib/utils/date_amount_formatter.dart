@@ -7,7 +7,7 @@ class NoyaFormatter {
   static String generate(Timestamp timestamp) {
     DateTime date = timestamp.toDate();
     initializeDateFormatting('tr', 'TR');
-    var outputFormat = DateFormat('dd MMMM yyyy', 'tr_TR');
+    var outputFormat = DateFormat('dd/MM/yyyy', 'tr_TR');
     return outputFormat.format(date);
   }
 

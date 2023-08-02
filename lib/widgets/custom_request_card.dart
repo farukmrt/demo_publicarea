@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,9 @@ class CustomRequestCard extends StatefulWidget {
 class _CustomRequestCardState extends State<CustomRequestCard> {
   @override
   Widget build(BuildContext context) {
-    String statusText = widget.status ? 'Beklemede' : 'Sonuçlandı';
+    var trnslt = AppLocalizations.of(context)!;
+    String statusText =
+        widget.status ? trnslt.lcod_lbl_pending : trnslt.lcod_lbl_concluded;
     Icon statusIcon = (widget.status
         ? const Icon(Icons.update_outlined)
         : const Icon(Icons.task_alt_outlined));
