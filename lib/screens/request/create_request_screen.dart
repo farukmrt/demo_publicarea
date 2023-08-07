@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/providers/request_provider.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/utils/languages/lang.dart';
 import 'package:demo_publicarea/widgets/custom_dropdownbutton.dart';
-import 'package:demo_publicarea/widgets/custom_image_input.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:demo_publicarea/widgets/custom_textfiled_med.dart';
@@ -30,11 +31,15 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
   TextEditingController requestTitleController = TextEditingController();
   TextEditingController requestExplanationController = TextEditingController();
   TextEditingController requestTypeController = TextEditingController();
+  TextEditingController selectedValueController = TextEditingController();
+
   String? selectedValue;
   String? apartmentId;
   String? userUid;
   File? selectedImage;
   String? imageUrl;
+  bool changing = false;
+  String? selectedValueType;
 
   //File? selectedImageWidget;
 
@@ -47,7 +52,122 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
     apartmentId = argument['apartmentId'];
   }
 
+  @override
+  // bool isTextFull() {
+  //   return selectedValue != null &&
+  //       apartmentNumberController.text.length > 1 &&
+  //       requestExplanationController.text.length > 10 &&
+  //       requestTitleController.text.length > 5;
+  // }
+
+  // @override
+  // Color getButtonColor() {
+  //   return isTextFull() ? primaryColor : primaryColor.withOpacity(0.5);
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    // isTextFull();
+    // getButtonColor();
+    selectedValueController.addListener(_newMailControllerListener);
+    apartmentNumberController.addListener(_newMailControllerListener);
+    requestExplanationController.addListener(_newMailControllerListener);
+    requestTitleController.addListener(_newMailControllerListener);
+
+    _newMailControllerListener();
+    // changing;
+    // setState(() {
+    //   changing;
+    // });
+  }
+
+  void _newMailControllerListener() {
+    String apartmentNumberValue = apartmentNumberController.text;
+    String requestExplanationValue = requestExplanationController.text;
+    String requestTitleValue = requestTitleController.text;
+    String listenSelectedValue = selectedValueController.text;
+
+    print('Talep başlığı: $requestTitleValue');
+    print('Apartman numarası: $apartmentNumberValue');
+    print('Talep tipi: $listenSelectedValue');
+    print('Talep açıklaması: $requestExplanationValue');
+
+    setState(() {
+      // changing;
+      if (requestTitleValue.isNotEmpty &&
+          apartmentNumberValue.isNotEmpty &&
+          listenSelectedValue.isNotEmpty &&
+          requestExplanationValue.isNotEmpty) {
+        print('$changing');
+        changing = true;
+        //sendButton = primaryColor;
+      } else {
+        print('$changing');
+        changing = false;
+        //_changingStreamController.add(false);
+        //sendButton = primaryColor.withOpacity(0.5);
+      }
+    });
+
+    setState(() {
+      if (listenSelectedValue == 'Arıza' ||
+          listenSelectedValue == 'Panne' ||
+          listenSelectedValue == 'Malfunction' ||
+          listenSelectedValue == 'عطل') {
+        selectedValueType = listenSelectedValue;
+        selectedValueType = 'lcod_lbl_request_malfunction';
+      }
+      if (listenSelectedValue == 'Soru' ||
+          listenSelectedValue == 'Question' ||
+          listenSelectedValue == 'Question' ||
+          listenSelectedValue == 'سؤال') {
+        selectedValueType = listenSelectedValue;
+        selectedValueType = 'lcod_lbl_request_question';
+      }
+      if (listenSelectedValue == 'Öneri' ||
+          listenSelectedValue == 'Suggestion' ||
+          listenSelectedValue == 'Suggestion' ||
+          listenSelectedValue == 'اقتراح') {
+        selectedValueType = listenSelectedValue;
+        selectedValueType = 'lcod_lbl_request_suggestion';
+      }
+      if (listenSelectedValue == 'Şikayet' ||
+          listenSelectedValue == 'Plainte' ||
+          listenSelectedValue == 'Complaint' ||
+          listenSelectedValue == 'شكوى') {
+        selectedValueType = listenSelectedValue;
+        selectedValueType = 'lcod_lbl_request_complaint';
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    //_changingStreamController.close();
+    apartmentNumberController.removeListener(_newMailControllerListener);
+    requestExplanationController.removeListener(_newMailControllerListener);
+    requestTitleController.removeListener(_newMailControllerListener);
+    selectedValueController.removeListener(_newMailControllerListener);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    setState(() {
+      // isTextFull();
+      // getButtonColor();
+    });
+    setState(() {
+      selectedValue;
+      selectedValueController.text.length;
+      apartmentNumberController.text.length;
+      requestExplanationController.text.length;
+      requestTitleController.text.length;
+    });
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    //userProvider.user.
     RequestProvider requestProvider =
         Provider.of<RequestProvider>(context, listen: false);
     PhotoProvider photoProvider =
@@ -93,6 +213,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                     // width: double.infinity,
                     // height: double.infinity,
                   ),
+
                   CustomTextField(
                     controller: requestTitleController,
                     labelText: trnslt.lcod_lbl_subject,
@@ -114,9 +235,22 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                       trnslt.lcod_lbl_suggestion,
                       trnslt.lcod_lbl_complaint
                     ],
+
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedValue = newValue;
+                        selectedValueController.text = selectedValue.toString();
+                        // apartmentNumberController.text.length;
+                        // requestExplanationController.text.length;
+                        // requestTitleController.text.length;
+
+                        // if (selectedValue != null) {
+                        //   String lcod_lbl_fault = trnslt.lcod_lbl_fault;
+                        //   String lcod_lbl_question = trnslt.lcod_lbl_question;
+                        //   String lcod_lbl_suggestion =
+                        //       trnslt.lcod_lbl_suggestion;
+                        //   String lcod_lbl_complaint = trnslt.lcod_lbl_complaint;
+                        // }
                       });
                     },
                   ),
@@ -188,33 +322,35 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                       );
                     },
                   ),
+
                   CustomMainButton(
+                    onTap: () async {
+                      if (changing) {
+                        requestProvider.sendRequestData(
+                          apartmentNumberController,
+                          requestTitleController,
+                          requestExplanationController,
+                          selectedValueType!,
+                          apartmentId!,
+                          userUid!,
+                          selectedImage,
+                        );
+                        PersistentNavBarNavigator
+                            .pushNewScreenWithRouteSettings(
+                          context,
+                          settings:
+                              RouteSettings(name: RequestScreen.routeName),
+                          screen: const RequestScreen(),
+                          withNavBar: true,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      }
+                    },
+                    color:
+                        changing ? primaryColor : primaryColor.withOpacity(0.5),
                     text: trnslt.lcod_lbl_send_request,
                     edgeInsets: const EdgeInsets.symmetric(vertical: 25),
-                    onTap: () async {
-                      // if (selectedImage != null) {
-                      //   imageUrl = await photoProvider
-                      //       .sendRequestImage(selectedImage!);
-                      // }
-                      requestProvider.sendRequestData(
-                        apartmentNumberController,
-                        requestTitleController,
-                        requestExplanationController,
-                        selectedValue!,
-                        apartmentId!,
-                        userUid!,
-                        //imageUrl,
-                        selectedImage,
-                      );
-                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                        context,
-                        settings: RouteSettings(name: RequestScreen.routeName),
-                        screen: const RequestScreen(),
-                        withNavBar: true,
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                      );
-                    },
                   ),
                 ],
               ),

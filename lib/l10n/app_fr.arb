@@ -75,7 +75,13 @@
     "lcod_lbl_subject": "Sujet",
     "lcod_lbl_apartment": "Appartement",
     "lcod_lbl_request_type": "Type de demande",
-    "lcod_lbl_request_list": "'panne', 'question', 'suggestion', 'plainte'",
+
+    "lcod_lbl_request_list": "'Panne', 'Question', 'Suggestion', 'Plainte'",
+    "lcod_lbl_request_malfunction":"Panne",
+    "lcod_lbl_request_question":"Question",
+    "lcod_lbl_request_suggestion":"Suggestion",
+    "lcod_lbl_request_complaint":"Plainte",
+
     "lcod_lbl_explanation": "Explication",
     "lcod_lbl_add_image": "Ajouter une image..",
     "lcod_lbl_shooting": "Prendre une photo",
@@ -163,6 +169,11 @@
     "lcod_lbl_question":"Question",
     "lcod_lbl_suggestion":"Suggestion",
     "lcod_lbl_complaint":"Plainte",
+
+    "lcod_lbl_update_profile_photo":"Mise à Jour de l'Image de Profil",
+    "lcod_lbl_update_email":"Mise à Jour par e-mail",
+    "lcod_lbl_update_username":"Mise à Jour du Nom d'utilisateur",
+    "lcod_lbl_update_phone_number":"Mise à Jour du Numéro de Téléphone",
     
     "lcod_lbl_profile_settings":"Paramètres de profil",
     "lcod_lbl_new_building":"Enregistrement d'un nouveau site",

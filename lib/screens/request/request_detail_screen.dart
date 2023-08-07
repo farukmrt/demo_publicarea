@@ -19,11 +19,19 @@ class RequestDetailScreen extends StatefulWidget {
 }
 
 class _RequestDetailScreenState extends State<RequestDetailScreen> {
+  String _currentRequestType = '';
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _currentRequestType;
+  // }
+
   late String requestId;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _currentRequestType;
     requestId = ModalRoute.of(context)!.settings.arguments as String;
   }
 
@@ -61,6 +69,22 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
           );
         } else {
           Request? request = snapshot.data;
+
+          _currentRequestType = request!.requestType;
+          if (_currentRequestType == 'lcod_lbl_request_malfunction') {
+            _currentRequestType = trnslt.lcod_lbl_request_malfunction;
+          }
+
+          if (_currentRequestType == 'lcod_lbl_request_question') {
+            _currentRequestType = trnslt.lcod_lbl_request_question;
+          }
+          if (_currentRequestType == 'lcod_lbl_request_suggestion') {
+            _currentRequestType = trnslt.lcod_lbl_request_suggestion;
+          }
+          if (_currentRequestType == 'lcod_lbl_request_complaint') {
+            _currentRequestType = trnslt.lcod_lbl_request_complaint;
+          }
+
           if (request == null) {
             return Scaffold(
               appBar: AppBar(
@@ -74,12 +98,13 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
           }
 
           String? subtitleText;
+
           if (request.status == true) {
             subtitleText =
-                "${NoyaFormatter.generate(request.requestDate)} ${trnslt.lcod_lbl_request_continues} '${request.requestType}'";
+                "${NoyaFormatter.generate(request.requestDate)} ${trnslt.lcod_lbl_request_continues} '${_currentRequestType}'";
           } else {
             subtitleText =
-                "${NoyaFormatter.generate(request.requestDate)} ${trnslt.lcod_lbl_request_concluded} '${request.requestType}'";
+                "${NoyaFormatter.generate(request.requestDate)} ${trnslt.lcod_lbl_request_concluded} '${_currentRequestType}'";
           }
           return Container(
             color: mainBackgroundColor,

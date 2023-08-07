@@ -214,7 +214,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_dear_username_surname.
   ///
   /// In tr, this message translates to:
-  /// **'Sayın {name} {surname}/n'**
+  /// **'Sayın {name} {surname}'**
   String lcod_lbl_dear_username_surname(String name, String surname);
 
   /// No description provided for @lcod_lbl_your_debt.
@@ -348,6 +348,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'\'Arıza\', \'Soru\', \'Öneri\', \'Şikayet\''**
   String get lcod_lbl_request_list;
+
+  /// No description provided for @lcod_lbl_request_malfunction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arıza'**
+  String get lcod_lbl_request_malfunction;
+
+  /// No description provided for @lcod_lbl_request_question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soru'**
+  String get lcod_lbl_request_question;
+
+  /// No description provided for @lcod_lbl_request_suggestion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneri'**
+  String get lcod_lbl_request_suggestion;
+
+  /// No description provided for @lcod_lbl_request_complaint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şikayet'**
+  String get lcod_lbl_request_complaint;
 
   /// No description provided for @lcod_lbl_explanation.
   ///
@@ -762,6 +786,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Şikayet'**
   String get lcod_lbl_complaint;
+
+  /// No description provided for @lcod_lbl_update_profile_photo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil Resmi Güncelleme'**
+  String get lcod_lbl_update_profile_photo;
+
+  /// No description provided for @lcod_lbl_update_email.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-Mail Güncelleme'**
+  String get lcod_lbl_update_email;
+
+  /// No description provided for @lcod_lbl_update_username.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı Adı Güncelleme'**
+  String get lcod_lbl_update_username;
+
+  /// No description provided for @lcod_lbl_update_phone_number.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon Numarası Güncelleme'**
+  String get lcod_lbl_update_phone_number;
 
   /// No description provided for @lcod_lbl_profile_settings.
   ///

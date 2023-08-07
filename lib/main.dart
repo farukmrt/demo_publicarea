@@ -1,4 +1,3 @@
-import 'package:demo_publicarea/firebase_options.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/payment_provider.dart';
 import 'package:demo_publicarea/providers/photo_provider.dart';
@@ -8,6 +7,11 @@ import 'package:demo_publicarea/screens/main/announcement_detail_screen.dart';
 import 'package:demo_publicarea/screens/request/request_detail_screen.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
+import 'package:demo_publicarea/screens/settings/custom_update_email.dart';
+import 'package:demo_publicarea/screens/settings/custom_update_password.dart';
+import 'package:demo_publicarea/screens/settings/custom_update_phonenumber.dart';
+import 'package:demo_publicarea/screens/settings/custom_update_profilphoto.dart';
+import 'package:demo_publicarea/screens/settings/custom_update_username.dart';
 import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
 import 'package:demo_publicarea/screens/settings/profile_settings_screen.dart';
 import 'package:demo_publicarea/screens/settings/user_agreement.dart';
@@ -30,7 +34,6 @@ import 'package:demo_publicarea/screens/login/signup_screen.dart';
 import 'package:demo_publicarea/screens/login/onboard_screen.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'utils/languages/lang.dart';
 // import 'package:.dart_tool/flutter_gen/gen_l10n/app_localizations.dart';
@@ -100,10 +103,32 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   UserProvider userProvider =
+  //       Provider.of<UserProvider>(context, listen: false);
+
+  //   userProvider.userStream.listen((user) {
+  //     setState(() {
+  //       // _user = user;
+  //     });
+  //   });
+  // }
+
   @override
   void didChangeDependencies() {
     getLocale().then((locale) => {setLocale(locale)});
     super.didChangeDependencies();
+    // UserProvider userProvider =
+    //     Provider.of<UserProvider>(context, listen: false);
+
+    // userProvider.userStream.listen((user) {
+    //   setState(() {
+    //     // _user = user;
+    //   });
+    // });
   }
 
   @override
@@ -212,6 +237,15 @@ class _MyAppState extends State<MyApp> {
             const ProfileSettingsScreen(),
         KvkkScreen.routeName: (context) => const KvkkScreen(),
         UserAgreementScreen.routeName: (context) => const UserAgreementScreen(),
+        CustomUpdateEmail.routeName: (context) => const CustomUpdateEmail(),
+        CustomUpdatePassword.routeName: (context) =>
+            const CustomUpdatePassword(),
+        CustomUpdatePhonenumber.routeName: (context) =>
+            const CustomUpdatePhonenumber(),
+        CustomUpdateProfilphoto.routeName: (context) =>
+            const CustomUpdateProfilphoto(),
+        CustomUpdateUsername.routeName: (context) =>
+            const CustomUpdateUsername(),
       },
 
       home: FutureBuilder<model.UserModel?>(

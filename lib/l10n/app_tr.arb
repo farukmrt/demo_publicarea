@@ -24,7 +24,7 @@
     "lcod_lbl_announcements":"Duyurular",
     "lcod_lbl_error_snapshot":"Hata: ",
     "lcod_lbl_announcement_not_found":"Duyuru bulunamadı.",
-    "lcod_lbl_dear_username_surname":"Sayın {name} {surname}/n",
+    "lcod_lbl_dear_username_surname":"Sayın {name} {surname}",
     "@lcod_lbl_dear_username_surname": {
     "placeholders": {
         "name": {
@@ -76,7 +76,13 @@
     "lcod_lbl_subject":"Konu",
     "lcod_lbl_apartment":"Daire",
     "lcod_lbl_request_type":"Talep tipi",
+
     "lcod_lbl_request_list":"'Arıza', 'Soru', 'Öneri', 'Şikayet'",
+    "lcod_lbl_request_malfunction":"Arıza",
+    "lcod_lbl_request_question":"Soru",
+    "lcod_lbl_request_suggestion":"Öneri",
+    "lcod_lbl_request_complaint":"Şikayet",
+
     "lcod_lbl_explanation":"Açıklama",
     "lcod_lbl_add_image":"Resim ekle..",
     "lcod_lbl_shooting":"Çekim yap",
@@ -167,7 +173,10 @@
     "lcod_lbl_suggestion":"Öneri",
     "lcod_lbl_complaint":"Şikayet",
 
-    
+    "lcod_lbl_update_profile_photo":"Profil Resmi Güncelleme",
+    "lcod_lbl_update_email":"E-Mail Güncelleme",
+    "lcod_lbl_update_username":"Kullanıcı Adı Güncelleme",
+    "lcod_lbl_update_phone_number":"Telefon Numarası Güncelleme",
 
     "lcod_lbl_profile_settings":"Profil Ayarları",
     "lcod_lbl_new_building":"Yeni Siteye Kayıt Olma",

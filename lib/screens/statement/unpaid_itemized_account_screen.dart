@@ -111,6 +111,16 @@ class _UnpaidItemizedAccountScreenState
                           ),
                         ),
                       ),
+                      noItemsFoundIndicatorBuilder: (context) => CustomListItem(
+                        title: trnslt.lcod_lbl_thanks,
+                        subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
+                        color: positive,
+                        leading: const Icon(
+                          Icons.done_outline_outlined,
+                          color: positive,
+                          size: 40,
+                        ),
+                      ),
                     ),
                   ),
                 ),

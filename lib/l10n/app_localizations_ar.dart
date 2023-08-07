@@ -135,6 +135,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lcod_lbl_request_list => '\'عطل\', \'سؤال\', \'اقتراح\', \'شكوى\'';
 
   @override
+  String get lcod_lbl_request_malfunction => 'عطل';
+
+  @override
+  String get lcod_lbl_request_question => 'سؤال';
+
+  @override
+  String get lcod_lbl_request_suggestion => 'اقتراح';
+
+  @override
+  String get lcod_lbl_request_complaint => 'شكوى';
+
+  @override
   String get lcod_lbl_explanation => 'الشرح';
 
   @override
@@ -340,6 +352,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lcod_lbl_complaint => 'شكوى';
+
+  @override
+  String get lcod_lbl_update_profile_photo => 'تحديث صورة الملف الشخصي';
+
+  @override
+  String get lcod_lbl_update_email => 'تحديث البريد الإلكتروني';
+
+  @override
+  String get lcod_lbl_update_username => 'تحديث اسم المستخدم';
+
+  @override
+  String get lcod_lbl_update_phone_number => 'تحديث رقم الهاتف';
 
   @override
   String get lcod_lbl_profile_settings => 'إعدادات الملف الشخصي';

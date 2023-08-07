@@ -318,6 +318,7 @@ import 'package:demo_publicarea/widgets/custom_listitem_medium.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
@@ -347,14 +348,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
-  void dispose() {
-    // Kaynakları serbest bırakır
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
 
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false); //degistirr
@@ -408,7 +404,7 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                     Text(
                                       userProvider.user.building,
-                                      // _user!.building,
+                                      //_user!.building,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         color: mainBackgroundColor,
@@ -421,13 +417,14 @@ class _MainScreenState extends State<MainScreen> {
                                 padding: const EdgeInsets.all(10),
                                 child: CircleAvatar(
                                   foregroundImage:
-                                      NetworkImage(userProvider.user.imageUrl),
-                                  radius: 45,
+                                      NetworkImage(//_user!.imageUrl),
+                                          userProvider.user.imageUrl),
+                                  radius: size.width / 8.6,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 15),
+                          SizedBox(height: size.height / 115),
                           Row(
                             children: [
                               Padding(
@@ -445,6 +442,7 @@ class _MainScreenState extends State<MainScreen> {
                                         return StreamBuilder<double>(
                                           stream: data.fetchAmountTotalStatus(
                                             false,
+                                            //_user!.apartmentId,
                                             userProvider.user.apartmentId,
                                           ),
                                           builder: (BuildContext context,
@@ -517,7 +515,8 @@ class _MainScreenState extends State<MainScreen> {
                       context,
                       settings: RouteSettings(
                         arguments: {
-                          'buildingId': userProvider.user.buildingId,
+                          'buildingId': //_user!.buildingId,
+                              userProvider.user.buildingId,
                         },
                         name: AnnouncementScreen.routeName,
                       ),
@@ -538,6 +537,7 @@ class _MainScreenState extends State<MainScreen> {
                 builder: (context, data, index) {
                   return StreamBuilder(
                     stream: data.fetchPage(
+                      //_user!.buildingId,
                       userProvider.user.buildingId,
                       limit: 6,
                       // pageKey: 6,
@@ -644,5 +644,11 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Kaynakları serbest bırakır
+    super.dispose();
   }
 }

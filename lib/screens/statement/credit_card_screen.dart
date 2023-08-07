@@ -3,6 +3,7 @@ import 'package:demo_publicarea/models/bill.dart';
 import 'package:demo_publicarea/models/creditCard.dart';
 import 'package:demo_publicarea/providers/payment_provider.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
+import 'package:demo_publicarea/screens/statement/statement_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_double_button.dart';
@@ -313,6 +314,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                                     Text(trnslt.lcod_lbl_payment_successful),
                               ),
                             );
+
                             await Provider.of<PaymentProvider>(context,
                                     listen: false)
                                 .updateBillPaidStatus(selectedBill);

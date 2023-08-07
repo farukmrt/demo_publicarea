@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 
-class CustomMainButton extends StatelessWidget {
+class CustomMainButton extends StatefulWidget {
   final String text;
   final VoidCallback onTap;
   final IconData? icon;
   final EdgeInsets? edgeInsets;
   final Color? color;
+  final Color? color_dis;
+  final Color? color_act;
 
   const CustomMainButton({
     Key? key,
@@ -15,19 +17,28 @@ class CustomMainButton extends StatelessWidget {
     this.icon,
     this.edgeInsets,
     this.color,
+    this.color_dis,
+    this.color_act,
   }) : super(key: key);
 
   @override
+  State<CustomMainButton> createState() => _CustomMainButtonState();
+}
+
+class _CustomMainButtonState extends State<CustomMainButton> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          edgeInsets!, //custommain'e bu deger verilmediginde hata ekrani geliyor
+      padding: widget
+          .edgeInsets!, //custommain'e bu deger verilmediginde hata ekrani geliyor
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: color,
+          backgroundColor: widget.color,
+          foregroundColor: widget.color_act,
+          disabledForegroundColor: widget.color_dis,
           minimumSize: const Size(double.infinity, 40),
         ),
-        onPressed: onTap,
+        onPressed: widget.onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -36,11 +47,11 @@ class CustomMainButton extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.center,
-                text,
+                widget.text,
                 style: const TextStyle(color: mainBackgroundColor),
               ),
             ),
-            Flexible(child: Icon(icon)),
+            Flexible(child: Icon(widget.icon)),
           ],
         ),
       ),

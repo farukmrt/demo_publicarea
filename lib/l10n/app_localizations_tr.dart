@@ -63,7 +63,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String lcod_lbl_dear_username_surname(String name, String surname) {
-    return 'Sayın $name $surname/n';
+    return 'Sayın $name $surname';
   }
 
   @override
@@ -133,6 +133,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lcod_lbl_request_list => '\'Arıza\', \'Soru\', \'Öneri\', \'Şikayet\'';
+
+  @override
+  String get lcod_lbl_request_malfunction => 'Arıza';
+
+  @override
+  String get lcod_lbl_request_question => 'Soru';
+
+  @override
+  String get lcod_lbl_request_suggestion => 'Öneri';
+
+  @override
+  String get lcod_lbl_request_complaint => 'Şikayet';
 
   @override
   String get lcod_lbl_explanation => 'Açıklama';
@@ -340,6 +352,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lcod_lbl_complaint => 'Şikayet';
+
+  @override
+  String get lcod_lbl_update_profile_photo => 'Profil Resmi Güncelleme';
+
+  @override
+  String get lcod_lbl_update_email => 'E-Mail Güncelleme';
+
+  @override
+  String get lcod_lbl_update_username => 'Kullanıcı Adı Güncelleme';
+
+  @override
+  String get lcod_lbl_update_phone_number => 'Telefon Numarası Güncelleme';
 
   @override
   String get lcod_lbl_profile_settings => 'Profil Ayarları';

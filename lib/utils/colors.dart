@@ -16,3 +16,8 @@ const paidc = Colors.blue;
 const unpaidc = Colors.red;
 const mytextcolor = buttonColor;
 const borderccc = Color.fromARGB(94, 143, 233, 255);
+
+const iconColor1 = Colors.red;
+const iconColor2 = Colors.green;
+const iconColor3 = Colors.purple;
+const iconColor4 = Colors.orange;

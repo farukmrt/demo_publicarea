@@ -132,10 +132,9 @@ class BillProvider with ChangeNotifier {
   }
 
   DocumentSnapshot? lastdocument;
-  List<Bill> _bills = [];
+  final List<Bill> _bills = [];
   List<Bill> get bills => _bills;
 
-  @override
   Stream<List<Bill>> fetchPageBillByPaidStatus(
       bool paidStatus, String apartmentId,
       {int? limit, int? pageKey}) async* {
@@ -171,6 +170,43 @@ class BillProvider with ChangeNotifier {
     }
     yield templist;
   }
+
+  // Stream<List<Bill>> fetchPageBillByPaidStatus(
+  //     bool paidStatus, String apartmentId,
+  //     {int? limit, int? pageKey}) {
+  //   var collection = FirebaseFirestore.instance.collection('bills');
+  //   var query = collection
+  //       .where("isPaid", isEqualTo: paidStatus)
+  //       .where("apartmentId", isEqualTo: apartmentId);
+  //   // .orderBy("date", descending: false);
+
+  //   query = limit != null ? query.limit(limit) : query;
+  //   if (pageKey != null) {
+  //     if (pageKey > 0) {
+  //       query = query.startAfterDocument(lastdocument!);
+  //     }
+  //   }
+
+  //   return query.snapshots().map((querySnapshot) {
+  //     List<Bill> templist = [];
+  //     var documents = querySnapshot.docs;
+  //     if (documents.isNotEmpty) {
+  //       lastdocument = documents[documents.length - 1];
+  //       documents.forEach((element) {
+  //         var bill = Bill(
+  //           id: element.data()['id'],
+  //           name: element.data()['name'],
+  //           date: element.data()['date'],
+  //           amount: element.data()['amount'],
+  //           isPaid: element.data()['isPaid'],
+  //           apartmentId: element.data()['apartmentId'],
+  //         );
+  //         templist.add(bill);
+  //       });
+  //     }
+  //     return templist;
+  //   });
+  // }
 
   Stream<double> fetchAmountTotalStatus(bool paidStatus, String apartmentId) {
     var collection = FirebaseFirestore.instance.collection('bills');

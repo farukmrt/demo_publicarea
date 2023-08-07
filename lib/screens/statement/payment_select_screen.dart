@@ -2,19 +2,14 @@ import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/models/bill.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/screens/main/tabs_screen.dart';
 import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
-import 'package:demo_publicarea/screens/statement/statement_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_checkbox.dart';
 import 'package:demo_publicarea/widgets/custom_double_button.dart';
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
-//import 'package:demo_publicarea/widgets/custom_checkbox.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_subtitle.dart';
-//import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -59,6 +54,10 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
 
   List<Bill> selectedBill = [];
   num summary = 0;
+
+  // Color getButtonColor() {
+  //   return summary == 0 ? Colors.grey : primaryColor;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +134,16 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                           },
                         ),
                       ),
+                      noItemsFoundIndicatorBuilder: (context) => CustomListItem(
+                        title: trnslt.lcod_lbl_payment_bill,
+                        subtitle: trnslt.lcod_lbl_no_invoice_paid,
+                        color: unpaidc,
+                        leading: const Icon(
+                          Icons.priority_high_outlined,
+                          color: unpaidc,
+                          size: 40,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -207,27 +216,31 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                     children: [
                       CustomMainButton(
                         onTap: () {
-                          PersistentNavBarNavigator
-                              .pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(
+                          if (summary > 0) {
+                            PersistentNavBarNavigator
+                                .pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(
                                 name: CreditCardScreen.routeName,
                                 arguments: {
                                   'summary':
                                       NoyaFormatter.generateAmount(summary),
                                   'selectedBill': selectedBill,
-                                }),
-                            screen: const CreditCardScreen(
-                              arguments: {},
-                            ),
-                            withNavBar: true,
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
+                                },
+                              ),
+                              screen: const CreditCardScreen(
+                                arguments: {},
+                              ),
+                              withNavBar: true,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino,
+                            );
+                          }
                         },
                         icon: Icons.start_outlined,
                         text: trnslt.lcod_lbl_continue,
                         edgeInsets: const EdgeInsets.symmetric(horizontal: 20),
+                        color: summary == 0 ? Colors.grey : primaryColor,
                       ),
                       Row(
                         //mainAxisSize: MainAxisSize.max,
@@ -268,27 +281,6 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                               );
                             },
                           ),
-
-                          // return Text( NoyaFormatter.generateAmount(selectedBill
-                          //     .fold<num>(0, (sum, bill) => sum + bill.amount))),
-                          // TextField(
-                          //   onChanged: (value) {
-                          //     setState(() {
-                          //       summary;
-                          //     });
-                          //   },
-                          //   decoration: InputDecoration(hintText: '2345'),
-                          // ),
-                          //Text(_totalSelected(selectedBill)),
-                          // TextField(
-                          //   onChanged: (val) {
-                          //     setState(() {
-                          //       summary = val as num;
-                          //     });
-                          //   },
-                          // ),
-
-                          //Text('${NoyaFormatter.generateAmount(summary)}'),
                           Flexible(
                             child: CustomDoubleIconbutton(
                               title: trnslt.lcod_lbl_selected_amount_double,
@@ -306,17 +298,6 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
               ),
             ],
           ),
-
-          // bottomNavigationBar: BottomNavigationBar(
-          //   selectedItemColor: buttonColor,
-          //   unselectedItemColor: mainColor,
-          //   showUnselectedLabels: false,
-          //   onTap: onPageChange,
-          //   currentIndex: _page,
-          //   items: bottomNavigationBarItems,
-          // ),
-
-          //bottomNavigationBar: const StatementScreen(),
         ),
       ),
     );

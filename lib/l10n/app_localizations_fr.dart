@@ -132,7 +132,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lcod_lbl_request_type => 'Type de demande';
 
   @override
-  String get lcod_lbl_request_list => '\'panne\', \'question\', \'suggestion\', \'plainte\'';
+  String get lcod_lbl_request_list => '\'Panne\', \'Question\', \'Suggestion\', \'Plainte\'';
+
+  @override
+  String get lcod_lbl_request_malfunction => 'Panne';
+
+  @override
+  String get lcod_lbl_request_question => 'Question';
+
+  @override
+  String get lcod_lbl_request_suggestion => 'Suggestion';
+
+  @override
+  String get lcod_lbl_request_complaint => 'Plainte';
 
   @override
   String get lcod_lbl_explanation => 'Explication';
@@ -340,6 +352,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lcod_lbl_complaint => 'Plainte';
+
+  @override
+  String get lcod_lbl_update_profile_photo => 'Mise à Jour de l\'Image de Profil';
+
+  @override
+  String get lcod_lbl_update_email => 'Mise à Jour par e-mail';
+
+  @override
+  String get lcod_lbl_update_username => 'Mise à Jour du Nom d\'utilisateur';
+
+  @override
+  String get lcod_lbl_update_phone_number => 'Mise à Jour du Numéro de Téléphone';
 
   @override
   String get lcod_lbl_profile_settings => 'Paramètres de profil';

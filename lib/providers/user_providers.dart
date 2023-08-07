@@ -172,7 +172,7 @@ class UserProvider extends ChangeNotifier {
       }
 
       // Yeni kullanıcı adının kullanılabilir olup olmadığını kontrol et
-      bool isThereUsername = await checkUsername(newUsername);
+      bool isThereUsername = await checkUsername(context, newUsername);
       if (isThereUsername) {
         showSnackBar(context, "Bu kullanıcı adı zaten alınmış!");
         return;
@@ -284,7 +284,7 @@ class UserProvider extends ChangeNotifier {
       String imageUrl,
       String phoneNumber) async {
     bool res = false;
-    bool usernameExists = await checkUsername(username);
+    bool usernameExists = await checkUsername(context, username);
     if (usernameExists) {
       showSnackBar(context, 'Bu kullanıcı adı zaten kullanılıyor.');
       return false;
@@ -316,13 +316,14 @@ class UserProvider extends ChangeNotifier {
     return res;
   }
 
-  Future<bool> checkUsername(String username) async {
+  Future<bool> checkUsername(BuildContext? context, String username) async {
     try {
       final querySnapshot =
           await _userRef.where('username', isEqualTo: username).get();
       print(querySnapshot);
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
+      showSnackBar(context!, "Bu kullanıcı adı zaten alınmış!");
       return true;
     }
   }

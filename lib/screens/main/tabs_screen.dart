@@ -1,4 +1,3 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/utils/languages/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -67,6 +66,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     // var trnslt = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: PersistentTabView(
         context,
@@ -82,6 +82,9 @@ class _TabsScreenState extends State<TabsScreen> {
         popAllScreensOnTapOfSelectedTab: true,
         navBarStyle: NavBarStyle.style1,
         popAllScreensOnTapAnyTabs: true,
+        screenTransitionAnimation: const ScreenTransitionAnimation(
+          animateTabTransition: true,
+        ),
       ),
     );
   }

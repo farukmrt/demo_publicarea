@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_publicarea/models/announcement.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class AnnouncementProvider with ChangeNotifier {
   final _announcementStreamController =
@@ -40,7 +39,6 @@ class AnnouncementProvider with ChangeNotifier {
 
   List<Announcement> get announcements => _announcements;
 
-  @override
   Stream<List<Announcement>> fetchPage(String build_id,
       {int? limit, int? pageKey}) async* {
     try {

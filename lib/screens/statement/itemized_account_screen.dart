@@ -4,7 +4,6 @@ import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_double_button.dart';
 
 import 'package:demo_publicarea/widgets/custom_listItem.dart';
@@ -109,6 +108,16 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                               size: 30,
                             ),
                           ),
+                        ),
+                      ),
+                      noItemsFoundIndicatorBuilder: (context) => CustomListItem(
+                        title: trnslt.lcod_lbl_payment_bill,
+                        subtitle: trnslt.lcod_lbl_no_invoice_paid,
+                        color: unpaidc,
+                        leading: const Icon(
+                          Icons.priority_high_outlined,
+                          color: unpaidc,
+                          size: 40,
                         ),
                       ),
                     ),

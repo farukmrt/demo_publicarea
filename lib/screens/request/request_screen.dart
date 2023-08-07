@@ -5,6 +5,7 @@ import 'package:demo_publicarea/providers/request_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/widgets/custom_empty_request.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_request_card.dart';
 import 'package:demo_publicarea/widgets/custom_text_block.dart';
@@ -39,23 +40,24 @@ class _RequestScreenState extends State<RequestScreen> {
       PagingController(firstPageKey: 0);
 
   @override
-  void dispose() {
-    _pagingControllerTrue.dispose();
-    _pagingControllerFalse.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
   }
 
   @override
+  void dispose() {
+    //_pagingControllerTrue.dispose();
+    // _pagingControllerFalse.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    RequestProvider requestProvider = Provider.of<RequestProvider>(context);
+    RequestProvider requestProviderT = Provider.of<RequestProvider>(context);
+    RequestProvider requestProviderF = Provider.of<RequestProvider>(context);
     _pagingControllerTrue.addPageRequestListener((pageKey) {
-      requestProvider
+      requestProviderT
           .fetchPageRequestByStatus(true, userProvider.user.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
@@ -73,7 +75,7 @@ class _RequestScreenState extends State<RequestScreen> {
     });
 
     _pagingControllerFalse.addPageRequestListener((pageKey) {
-      requestProvider
+      requestProviderF
           .fetchPageRequestByStatus(false, userProvider.user.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
@@ -182,7 +184,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                 pagingController: _pagingControllerTrue,
                                 builderDelegate:
                                     PagedChildBuilderDelegate<Request>(
-                                  itemBuilder: (context, request, index) =>
+                                  itemBuilder: (context, requestT, index) =>
                                       Padding(
                                     padding: const EdgeInsets.all(1.0),
                                     child: GestureDetector(
@@ -193,7 +195,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                           settings: RouteSettings(
                                             name: RequestDetailScreen.routeName,
                                             arguments:
-                                                request.requestId.toString(),
+                                                requestT.requestId.toString(),
                                           ),
                                           screen: const RequestDetailScreen(),
                                           withNavBar: true,
@@ -202,11 +204,11 @@ class _RequestScreenState extends State<RequestScreen> {
                                         );
                                       },
                                       child: CustomRequestCard(
-                                        requestType: request.requestType,
-                                        requestTitle: request.requestTitle,
+                                        requestType: requestT.requestType,
+                                        requestTitle: requestT.requestTitle,
                                         apartmentNumber:
-                                            request.apartmentNumber,
-                                        status: request.status,
+                                            requestT.apartmentNumber,
+                                        status: requestT.status,
                                         onTap: () {
                                           PersistentNavBarNavigator
                                               .pushNewScreenWithRouteSettings(
@@ -215,7 +217,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                               name:
                                                   RequestDetailScreen.routeName,
                                               arguments:
-                                                  request.requestId.toString(),
+                                                  requestT.requestId.toString(),
                                             ),
                                             screen: const RequestDetailScreen(),
                                             withNavBar: true,
@@ -227,6 +229,8 @@ class _RequestScreenState extends State<RequestScreen> {
                                       ),
                                     ),
                                   ),
+                                  noItemsFoundIndicatorBuilder: (context) =>
+                                      const CustomEmptyRequest(),
                                 ),
                               ),
                             ),
@@ -377,7 +381,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                 pagingController: _pagingControllerFalse,
                                 builderDelegate:
                                     PagedChildBuilderDelegate<Request>(
-                                  itemBuilder: (context, request, index) =>
+                                  itemBuilder: (context, requestF, index) =>
                                       Padding(
                                     padding: const EdgeInsets.all(1.0),
                                     child: GestureDetector(
@@ -388,7 +392,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                           settings: RouteSettings(
                                             name: RequestDetailScreen.routeName,
                                             arguments:
-                                                request.requestId.toString(),
+                                                requestF.requestId.toString(),
                                           ),
                                           screen: const RequestDetailScreen(),
                                           withNavBar: true,
@@ -397,11 +401,11 @@ class _RequestScreenState extends State<RequestScreen> {
                                         );
                                       },
                                       child: CustomRequestCard(
-                                        requestType: request.requestType,
-                                        requestTitle: request.requestTitle,
+                                        requestType: requestF.requestType,
+                                        requestTitle: requestF.requestTitle,
                                         apartmentNumber:
-                                            request.apartmentNumber,
-                                        status: request.status,
+                                            requestF.apartmentNumber,
+                                        status: requestF.status,
                                         onTap: () {
                                           PersistentNavBarNavigator
                                               .pushNewScreenWithRouteSettings(
@@ -410,7 +414,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                               name:
                                                   RequestDetailScreen.routeName,
                                               arguments:
-                                                  request.requestId.toString(),
+                                                  requestF.requestId.toString(),
                                             ),
                                             screen: const RequestDetailScreen(),
                                             withNavBar: true,
@@ -422,6 +426,8 @@ class _RequestScreenState extends State<RequestScreen> {
                                       ),
                                     ),
                                   ),
+                                  noItemsFoundIndicatorBuilder: (context) =>
+                                      const CustomEmptyRequest(),
                                 ),
                               ),
                             ),

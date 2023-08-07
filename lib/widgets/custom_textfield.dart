@@ -10,6 +10,10 @@ class CustomTextField extends StatelessWidget {
   final int? maxlinee;
   final String? textType;
   final bool? readOnly;
+  final TextInputType? keyboardType;
+  final bool? obscore;
+  final Function? listenValue;
+  final VoidCallback? onChanged;
 
   const CustomTextField({
     Key? key,
@@ -21,6 +25,10 @@ class CustomTextField extends StatelessWidget {
     this.maxlinee,
     this.textType,
     this.readOnly,
+    this.keyboardType,
+    this.obscore = false,
+    this.listenValue,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -28,8 +36,20 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        onTap: onChanged,
         readOnly: readOnly ?? false,
+
         controller: controller!,
+        onChanged: (value) {
+          listenValue?.call(value);
+        },
+        //klavyenin yanlizca numara göstermesini saglayan kisim
+        //telefon numarasi istenen yerlerde kullaniyoruz varsayilan
+        ////girilmediginde normal klavye getirir.
+        keyboardType: keyboardType,
+        //obscore false iken deger gozukur, true iken gozukmez
+        // bu sebeple varsayilan olarak false verdik sifre kisimlarinda true atadik
+        obscureText: obscore!,
         decoration: InputDecoration(
           suffixText: textType,
           filled: true,

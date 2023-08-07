@@ -132,7 +132,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lcod_lbl_request_type => 'Request type';
 
   @override
-  String get lcod_lbl_request_list => '\'malfunction\', \'question\', \'suggestion\', \'complaint\'';
+  String get lcod_lbl_request_list => '\'Malfunction\', \'Question\', \'Suggestion\', \'Complaint\'';
+
+  @override
+  String get lcod_lbl_request_malfunction => 'Malfunction';
+
+  @override
+  String get lcod_lbl_request_question => 'Question';
+
+  @override
+  String get lcod_lbl_request_suggestion => 'Suggestion';
+
+  @override
+  String get lcod_lbl_request_complaint => 'Complaint';
 
   @override
   String get lcod_lbl_explanation => 'Explanation';
@@ -340,6 +352,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lcod_lbl_complaint => 'Complaint';
+
+  @override
+  String get lcod_lbl_update_profile_photo => 'Profile Picture Update';
+
+  @override
+  String get lcod_lbl_update_email => 'E-Mail Update';
+
+  @override
+  String get lcod_lbl_update_username => 'Username Update';
+
+  @override
+  String get lcod_lbl_update_phone_number => 'Phone Number Update';
 
   @override
   String get lcod_lbl_profile_settings => 'Profile Settings';

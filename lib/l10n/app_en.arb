@@ -75,7 +75,13 @@
     "lcod_lbl_subject": "Subject",
     "lcod_lbl_apartment": "Apartment",
     "lcod_lbl_request_type": "Request type",
-    "lcod_lbl_request_list": "'malfunction', 'question', 'suggestion', 'complaint'",
+
+    "lcod_lbl_request_list": "'Malfunction', 'Question', 'Suggestion', 'Complaint'",
+    "lcod_lbl_request_malfunction":"Malfunction",
+    "lcod_lbl_request_question":"Question",
+    "lcod_lbl_request_suggestion":"Suggestion",
+    "lcod_lbl_request_complaint":"Complaint",
+
     "lcod_lbl_explanation": "Explanation",
     "lcod_lbl_add_image": "Add image..",
     "lcod_lbl_shooting": "Take a photo",
@@ -164,6 +170,11 @@
     "lcod_lbl_question":"Question",
     "lcod_lbl_suggestion":"Suggestion",
     "lcod_lbl_complaint":"Complaint",
+
+    "lcod_lbl_update_profile_photo":"Profile Picture Update",
+    "lcod_lbl_update_email":"E-Mail Update",
+    "lcod_lbl_update_username":"Username Update",
+    "lcod_lbl_update_phone_number":"Phone Number Update",
 
     "lcod_lbl_profile_settings":"Profile Settings",
     "lcod_lbl_new_building":"Registering New Site",

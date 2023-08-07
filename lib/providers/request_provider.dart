@@ -7,6 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class RequestProvider with ChangeNotifier {
+  final _requestStreamController = StreamController<List<Request>>.broadcast();
+  Stream<List<Request>> get requestStream => _requestStreamController.stream;
+
   Future<String> getLatestRequestId() async {
     final CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('request');
@@ -26,12 +29,9 @@ class RequestProvider with ChangeNotifier {
     }
   }
 
-  final _requestStreamController = StreamController<List<Request>>.broadcast();
-  Stream<List<Request>> get requestStream => _requestStreamController.stream;
-
   DocumentSnapshot? lastdocument;
-  List<Request> _requests = [];
-  List<Request> get requestq => _requests;
+  final List<Request> _requests = [];
+  List<Request> get requests => _requests;
 
   @override
   Stream<List<Request>> fetchPageRequestByStatus(
@@ -41,6 +41,7 @@ class RequestProvider with ChangeNotifier {
     var query = collection
         .where("status", isEqualTo: status)
         .where("apartmentId", isEqualTo: apartmentId);
+    //.orderBy("requestDate");
 
     query = limit != null ? query.limit(limit) : query;
     if (pageKey != null) {
@@ -53,8 +54,9 @@ class RequestProvider with ChangeNotifier {
     var documents = querySnapshot.docs;
     if (documents.isNotEmpty) {
       lastdocument = documents[documents.length - 1];
-      documents.forEach((element) {
-        var request = Request(
+      documents.forEach(
+        (element) {
+          var request = Request(
             requestId: element.data()['requestId'],
             requestTitle: element.data()['requestTitle'],
             apartmentId: element.data()['apartmentId'],
@@ -63,12 +65,14 @@ class RequestProvider with ChangeNotifier {
             requestType: element.data()['requestType'],
             requestExplanation: element.data()['requestExplanation'],
             requester: element.data()['requester'],
-            requestDate: element.data()['requestDate']);
+            requestDate: element.data()['requestDate'],
+          );
 
-        templist.add(request);
-      });
-      yield templist;
+          templist.add(request);
+        },
+      );
     }
+    yield templist;
   }
 
   Stream<List<Request>> fetchRequestByStatus(bool status, String apartmentId,

@@ -1,5 +1,6 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
@@ -17,7 +18,53 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool changing = false;
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_mailControllerListener);
+    _passwordController.addListener(_mailControllerListener);
+    _mailControllerListener();
+    //_changingStreamController;
+    // changing;
+    // setState(() {
+    //   changing;
+    // });
+  }
+
+  void _mailControllerListener() {
+    String mailValue = _emailController.text;
+    String passValue = _passwordController.text;
+    print('Yeni e-posta değeri: $mailValue');
+    print('Yeni şifre değeri: $passValue');
+
+    setState(() {
+      // changing;
+      if (mailValue.endsWith('.com') &&
+          mailValue.contains('@') &&
+          passValue.length > 5) {
+        print('$changing');
+        changing = true;
+        //_changingStreamController.add(true);
+
+        //sendButton = primaryColor;
+      } else {
+        print('$changing');
+        changing = false;
+        // _changingStreamController.add(false);
+        //sendButton = primaryColor.withOpacity(0.5);
+      }
+    });
+  }
+
   //final AuthMethods _authMethods = AuthMethods();
+  @override
+  void dispose() {
+    // State nesnesi yok edildiğinde, dinleyicileri kaldırın
+    _emailController.removeListener(_mailControllerListener);
+    _passwordController.removeListener(_mailControllerListener);
+    super.dispose();
+  }
 
   void loginUser() async {
     bool res = await UserProvider().loginUser(
@@ -60,12 +107,19 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomTextField(
                 controller: _passwordController,
                 labelText: trnslt.lcod_lbl_password,
+                obscore: true,
               ),
               const SizedBox(height: 15),
               CustomMainButton(
-                onTap: loginUser,
                 text: trnslt.lcod_lbl_login,
                 edgeInsets: const EdgeInsets.symmetric(vertical: 8),
+                onTap: (() {
+                  setState(() {
+                    changing;
+                  });
+                  if (changing) loginUser();
+                }),
+                color: changing ? primaryColor : primaryColor.withOpacity(0.5),
               ),
             ],
           ),

@@ -223,7 +223,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _buildingController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   // final AuthMethods _authMethods = AuthMethods();
-
+  bool changing = false;
   File? selectedImage;
   String? imageUrl;
   final String defaultImageUrl =
@@ -282,6 +282,75 @@ class _SignupScreenState extends State<SignupScreen> {
         pageTransitionAnimation: PageTransitionAnimation.cupertino,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_mailControllerListener);
+    _usernameController.addListener(_mailControllerListener);
+    _passwordController.addListener(_mailControllerListener);
+    _nameController.addListener(_mailControllerListener);
+    _surnameController.addListener(_mailControllerListener);
+    _buildingController.addListener(_mailControllerListener);
+    _phoneNumberController.addListener(_mailControllerListener);
+
+    //_changingStreamController;
+    // changing;
+    // setState(() {
+    //   changing;
+    // });
+  }
+
+  void _mailControllerListener() {
+    String mailValue = _emailController.text;
+    String usernameValue = _usernameController.text;
+    String passValue = _passwordController.text;
+    String nameValue = _nameController.text;
+    String surnameValue = _surnameController.text;
+    String buildingValue = _buildingController.text;
+    String phonenumberValue = _phoneNumberController.text;
+
+    print('e-posta değeri: $mailValue');
+    print('kullanıcı adı: $usernameValue');
+    print('şifre değeri: $passValue');
+    print('isim değeri: $nameValue');
+    print('soyisim değeri: $surnameValue');
+    print('bina adı değeri: $buildingValue');
+    print('telefon num değeri: $phonenumberValue');
+
+    setState(() {
+      // changing;
+      if (mailValue.endsWith('.com') &&
+          mailValue.contains('@') &&
+          passValue.length > 5 &&
+          usernameValue.length > 3 &&
+          nameValue.length > 3 &&
+          surnameValue.length > 3 &&
+          buildingValue.length > 5 &&
+          phonenumberValue.startsWith('05') &&
+          phonenumberValue.length == 11) {
+        print('$changing');
+        changing = true;
+        //_changingStreamController.add(true);
+
+        //sendButton = primaryColor;
+      } else {
+        print('$changing');
+        changing = false;
+        // _changingStreamController.add(false);
+        //sendButton = primaryColor.withOpacity(0.5);
+      }
+    });
+  }
+
+  //final AuthMethods _authMethods = AuthMethods();
+  @override
+  void dispose() {
+    // State nesnesi yok edildiğinde, dinleyicileri kaldırın
+    _emailController.removeListener(_mailControllerListener);
+    _passwordController.removeListener(_mailControllerListener);
+    super.dispose();
   }
 
   @override
@@ -380,6 +449,7 @@ class _SignupScreenState extends State<SignupScreen> {
               CustomTextField(
                 controller: _passwordController,
                 labelText: trnslt.lcod_lbl_create_password,
+                obscore: true,
               ),
               CustomTextField(
                 controller: _usernameController,
@@ -400,12 +470,23 @@ class _SignupScreenState extends State<SignupScreen> {
               CustomTextField(
                 controller: _phoneNumberController,
                 labelText: trnslt.lcod_lbl_enter_phonenumber,
+                keyboardType: TextInputType.phone,
+                hintText: '05XX',
               ),
               const SizedBox(height: 15),
               CustomMainButton(
-                  onTap: signUpUser,
-                  text: trnslt.lcod_lbl_signup,
-                  edgeInsets: const EdgeInsets.symmetric(vertical: 8))
+                onTap: () {
+                  setState(() {
+                    changing;
+                  });
+                  if (changing) {
+                    signUpUser();
+                  }
+                },
+                text: trnslt.lcod_lbl_signup,
+                edgeInsets: const EdgeInsets.symmetric(vertical: 8),
+                color: changing ? primaryColor : primaryColor.withOpacity(0.5),
+              )
             ],
           ),
         ),
