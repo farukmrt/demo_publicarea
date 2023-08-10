@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter/foundation.dart';
 
 class UUIDProvider extends ChangeNotifier {
   String _uniqueId = '';

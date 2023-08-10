@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/screens/login/login_screen.dart';
 import 'package:demo_publicarea/screens/login/signup_screen.dart';
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class OnboardingScreen extends StatelessWidget {

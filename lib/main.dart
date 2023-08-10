@@ -1,75 +1,44 @@
-import 'package:demo_publicarea/providers/bill_provider.dart';
-import 'package:demo_publicarea/providers/payment_provider.dart';
-import 'package:demo_publicarea/providers/photo_provider.dart';
-import 'package:demo_publicarea/providers/request_provider.dart';
-import 'package:demo_publicarea/screens/main/announcement_screen.dart';
-import 'package:demo_publicarea/screens/main/announcement_detail_screen.dart';
-import 'package:demo_publicarea/screens/request/request_detail_screen.dart';
-import 'package:demo_publicarea/screens/request/create_request_screen.dart';
-import 'package:demo_publicarea/screens/request/request_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_email_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_password_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_phonenumber_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_profilphoto_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_username_screen.dart';
-import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
-import 'package:demo_publicarea/screens/settings/profile_settings_screen.dart';
-import 'package:demo_publicarea/screens/settings/user_agreement.dart';
-import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
-import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
-import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
-import 'package:demo_publicarea/providers/announcement_provider.dart';
-import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
-// import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'l10n/app_localizations.dart';
 import 'models/user.dart' as model;
+import 'utils/languages/lang.dart';
+import 'l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/providers/bill_provider.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/screens/main/tabs_screen.dart';
+import 'package:demo_publicarea/widgets/loading_indicator.dart';
+import 'package:demo_publicarea/providers/request_provider.dart';
+import 'package:demo_publicarea/providers/payment_provider.dart';
 import 'package:demo_publicarea/screens/login/login_screen.dart';
 import 'package:demo_publicarea/screens/login/signup_screen.dart';
 import 'package:demo_publicarea/screens/login/onboard_screen.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/widgets/loading_indicator.dart';
-
-import 'utils/languages/lang.dart';
-// import 'package:.dart_tool/flutter_gen/gen_l10n/app_localizations.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
+import 'package:demo_publicarea/screens/request/request_screen.dart';
+import 'package:demo_publicarea/screens/settings/user_agreement.dart';
+import 'package:demo_publicarea/providers/announcement_provider.dart';
+import 'package:demo_publicarea/screens/main/announcement_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_email_screen.dart';
+import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
+import 'package:demo_publicarea/screens/request/request_detail_screen.dart';
+import 'package:demo_publicarea/screens/request/create_request_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_username_screen.dart';
+import 'package:demo_publicarea/screens/main/announcement_detail_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_password_screen.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
+import 'package:demo_publicarea/screens/settings/profile_settings_screen.dart';
+import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_phonenumber_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_profilphoto_screen.dart';
+import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //await EasyLocalization.ensureInitialized();
-  // //  await Firebase.initializeApp(
-  // // options: DefaultFirebaseOptions().currentPlatform,
-  // // );
-
-  // runApp(EasyLocalization(
-  //     supportedLocales: const [
-  //       Locale('ar', 'AE'),
-  //       Locale('en', 'US'),
-  //       Locale('fr', 'FR'),
-  //       Locale('tr', 'TR'),
-  //     ],
-  //     fallbackLocale: const Locale('tr', 'TR'),
-  //     path: 'assets/lang',
-  //     child: const MyApp()));
-
-  // EasyLocalization(
-  //   child: MyApp(),
-  //   supportedLocales: Languagemanager .instance.supportedLocales,
-  //   path: ApplicationConstants.LANG_ASSET_PATH));
-  // EasyLocalization.ensureInitialized();
-  // await Firebase.initializeApp(
-  //options: DefaultFirebaseOptions.currentPlatform,
-  // );
-
-  await Firebase.initializeApp(
-      //options: DefaultFirebaseOptions.currentPlatform,
-      );
+  await Firebase.initializeApp();
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
@@ -103,32 +72,10 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   UserProvider userProvider =
-  //       Provider.of<UserProvider>(context, listen: false);
-
-  //   userProvider.userStream.listen((user) {
-  //     setState(() {
-  //       // _user = user;
-  //     });
-  //   });
-  // }
-
   @override
   void didChangeDependencies() {
     getLocale().then((locale) => {setLocale(locale)});
     super.didChangeDependencies();
-    // UserProvider userProvider =
-    //     Provider.of<UserProvider>(context, listen: false);
-
-    // userProvider.userStream.listen((user) {
-    //   setState(() {
-    //     // _user = user;
-    //   });
-    // });
   }
 
   @override
@@ -190,58 +137,7 @@ class _MyAppState extends State<MyApp> {
         UpdateUsernameScreen.routeName: (context) =>
             const UpdateUsernameScreen(),
       },
-      home:
-          // StreamBuilder<model.UserModel>(
-          //   stream: UserProvider().userStream,
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const LoadingIndicator();
-          //     }
-
-          //     // eger kullanici mevcutsa direk ana ekrana yonlendirir
-
-          //     //snapashot'ın datasını incele
-          //     if (snapshot.hasData && snapshot.data != null) {
-          //       Provider.of<UserProvider>(context, listen: true)
-          //           .updateUser(snapshot.data!);
-          //       return const TabsScreen();
-          //     }
-          //     return const OnboardingScreen();
-          //   },
-          // )
-
-          //     FutureBuilder<model.UserModel?>(
-          //   future: UserProvider()
-          //       .getCurrentUser(FirebaseAuth.instance.currentUser != null
-          //           ? FirebaseAuth.instance.currentUser!.uid
-          //           : null)
-          //       .then((value) {
-          //     if (value != null) {
-          //       Provider.of<UserProvider>(context, listen: true).updateUser(
-          //         value,
-          //       );
-          //     }
-          //     return value;
-          //   }),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const LoadingIndicator();
-          //     }
-
-          //     // eger kullanici mevcutsa direk ana ekrana yonlendirir
-
-          //     //snapashot'ın datasını incele
-          //     if (snapshot.hasData && snapshot.data != null) {
-          //       // Provider.of<UserProvider>(context, listen: false)
-          //       //     .updateUser(snapshot.data!);
-          //       return const TabsScreen();
-          //     }
-
-          //     return const OnboardingScreen();
-          //   },
-          // )
-
-          FutureBuilder<model.UserModel?>(
+      home: FutureBuilder<model.UserModel?>(
         future: UserProvider().getCurrentUser(
             FirebaseAuth.instance.currentUser != null
                 ? FirebaseAuth.instance.currentUser!.uid

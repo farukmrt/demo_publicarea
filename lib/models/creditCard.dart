@@ -3,7 +3,6 @@ class CreditCard {
   String expiryDate;
   String cvv;
   String holderName;
-  //bool isCvv = false;
   String? id;
 
   CreditCard({
@@ -11,7 +10,6 @@ class CreditCard {
     required this.expiryDate,
     required this.cvv,
     required this.holderName,
-    //required this.isCvv,
     this.id,
   });
 }

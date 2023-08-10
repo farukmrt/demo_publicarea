@@ -1,7 +1,7 @@
-import 'package:demo_publicarea/widgets/custom_numbered_list.dart';
-import 'package:demo_publicarea/widgets/custom_subtitle.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/widgets/custom_subtitle.dart';
+import 'package:demo_publicarea/widgets/custom_numbered_list.dart';
 
 class UserAgreementScreen extends StatefulWidget {
   static String routeName = '/useragreementscreen';
@@ -21,11 +21,6 @@ class _UserAgreementScreenState extends State<UserAgreementScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Kullanıcı Sözleşmesi'),
-            // const SingleChildScrollView(
-            //   child: Text('Site Sakini Kullanıcı Sözleşmesi'),
-            //   physics: BouncingScrollPhysics(),
-            //   scrollDirection: Axis.horizontal,
-            // ),
           ),
           body: Center(
             child: SingleChildScrollView(
@@ -331,7 +326,7 @@ class _UserAgreementScreenState extends State<UserAgreementScreen> {
 //               style: TextStyle(fontSize: 16),
 //             ),
 //           ),
-//         Image.asset('assets/images/your_image.png'), // Sizin resminizi ekleyin
+//         Image.asset('assets/images/your_image.png'), 
 //       ],
 //     );
 //   }

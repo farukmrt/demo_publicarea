@@ -1,5 +1,5 @@
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomCheckBoxListItem extends StatefulWidget {
   final String title;
@@ -21,7 +21,6 @@ class CustomCheckBoxListItem extends StatefulWidget {
     this.leading,
     this.color,
     this.fontstyle,
-    //required this.valuee,
     required this.onChanged,
     required this.valuee,
     this.mainList,
@@ -35,7 +34,6 @@ class CustomCheckBoxListItem extends StatefulWidget {
 State<CustomCheckBoxListItem> createState() => _CustomCheckBoxListItemState();
 
 class _CustomCheckBoxListItemState extends State<CustomCheckBoxListItem> {
-  //bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -61,27 +59,12 @@ class _CustomCheckBoxListItemState extends State<CustomCheckBoxListItem> {
                   style: TextStyle(color: widget.color),
                   overflow: TextOverflow.ellipsis,
                 ),
-                value: widget.valuee, //_isChecked,
+                value: widget.valuee,
                 onChanged: (bool? value) {
                   setState(() {
                     widget.onChanged(value);
                   });
                 },
-
-                // onChanged: (bool? value) {
-                //   if (widget.onChanged != null) {
-                //     widget.onChanged(value!);
-                //   }
-                //   if (value == true) {
-                //     setState(() {
-                //       widget.selectedList.add(widget.mainList);
-                //     });
-                //   } else {
-                //     setState(() {
-                //       widget.selectedList.remove(widget.mainList);
-                //     });
-                //   }
-                // },
               ),
             ),
           ],

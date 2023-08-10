@@ -1,6 +1,6 @@
-import 'package:demo_publicarea/utils/languages/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/utils/languages/lang.dart';
 
 class CustomDropdownButton extends StatelessWidget {
   final TextEditingController? controller;
@@ -28,11 +28,9 @@ class CustomDropdownButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: DropdownButtonFormField<String>(
-        //itemHeight: 150,
         value: value,
         validator: validator,
         decoration: InputDecoration(
-          //contentPadding: const EdgeInsets.symmetric(vertical: 10),
           filled: true,
           fillColor: mainBackgroundColor,
           labelText: dropdownLabelText,
@@ -44,8 +42,6 @@ class CustomDropdownButton extends StatelessWidget {
             ),
           ),
           enabledBorder: const OutlineInputBorder(
-            //borderRadius: BorderRadius.all(Radius.circular(34)),
-            //gapPadding: 40.0,
             borderSide: BorderSide(
               color: buttonColor,
             ),

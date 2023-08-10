@@ -19,7 +19,6 @@ class CustomNumberedList extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          //mainAxisAlignment: MainAxisAlignment.start,
           children: [
             if (title != null)
               Padding(
@@ -54,12 +53,6 @@ class CustomNumberedList extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Text(
-                //   subtitle!,
-                //   style: const TextStyle(
-                //     fontSize: 14,
-                //   ),
-                // ),
               ),
           ],
         ),

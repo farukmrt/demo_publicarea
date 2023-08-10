@@ -66,7 +66,6 @@ class _CustomMainButtonState extends State<CustomMainButton> {
 //                   builder: (context, provider, _) {
 //                     List<Description> descriptions = provider.description;
 //                     var uuid = Uuid(); // Uuid sınıfını oluşturun
-
 //                     return ListView.builder(
 //                       itemCount: descriptions.length,
 //                       itemBuilder: (context, index) {

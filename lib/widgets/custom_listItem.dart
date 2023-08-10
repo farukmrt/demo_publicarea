@@ -8,8 +8,6 @@ class CustomListItem extends StatefulWidget {
   final Widget? leading;
   final Color? color;
   final FontStyle? fontstyle;
-  // final bool? isCheckeda;
-  // final bool? isCheckBoxa;
 
   const CustomListItem({
     Key? key,
@@ -19,8 +17,6 @@ class CustomListItem extends StatefulWidget {
     this.leading,
     this.color,
     this.fontstyle,
-    // this.isCheckBoxa,
-    // this.isCheckeda,
   }) : super(key: key);
 
   @override

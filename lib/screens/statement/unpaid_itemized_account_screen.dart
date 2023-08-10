@@ -1,21 +1,18 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:demo_publicarea/models/bill.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:demo_publicarea/widgets/custom_subtitle.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/utils/date_amount_formatter.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
-import 'package:demo_publicarea/widgets/custom_double_button.dart';
-
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_subtitle.dart';
-
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
-import 'package:flutter/material.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
+import 'package:demo_publicarea/utils/date_amount_formatter.dart';
+import 'package:demo_publicarea/widgets/custom_double_button.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:provider/provider.dart';
+import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 
 class UnpaidItemizedAccountScreen extends StatefulWidget {
   static String routeName = '/unpaidItemizedAccount';
@@ -81,10 +78,8 @@ class _UnpaidItemizedAccountScreenState
             title: Text(trnslt.lcod_lbl_statement),
             backgroundColor: mainBackgroundColor,
           ),
-          // backgroundColor: backgroundColor,
           body: Column(
             children: [
-              //const CustomTitle(mainTitle: 'Ödeme'),
               CustomSubtitle(
                 title: trnslt.lcod_lbl_unpaid_bills,
                 subtitle: userProvider.currentUser.building,
@@ -125,63 +120,6 @@ class _UnpaidItemizedAccountScreenState
                     ),
                   ),
                 ),
-
-                // Consumer<BillProvider>(
-                //   builder: (context, data, index) {
-                //     return StreamBuilder(
-                //       stream: data.fetchPageBillByPaidStatus(
-                //           false, userProvider.user.apartmentId,limit: ,pageKey: ),
-                //       builder: (BuildContext context, snapshot) {
-                //         if (snapshot.hasData) {
-                //           if (snapshot.connectionState ==
-                //               ConnectionState.waiting) {
-                //             return const Center(
-                //               child: LoadingIndicator(),
-                //             );
-                //           } else {
-                //             var bill = snapshot.data;
-                //             if (bill == null || bill.isEmpty) {
-                //               return CustomListItem(
-                //                 title: trnslt.lcod_lbl_thanks,
-                //                 subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
-                //                 color: positive,
-                //                 leading: const Icon(
-                //                   Icons.done_outline_outlined,
-                //                   color: positive,
-                //                   size: 40,
-                //                 ),
-                //               );
-                //             } else {
-                //               return ListView.builder(
-                //                 itemCount: bill.length,
-                //                 itemBuilder: (context, index) {
-                //                   var unpaidBills = bill[index];
-                //                   return CustomListItem(
-                //                     title: unpaidBills.name,
-                //                     subtitle:
-                //                         '${trnslt.lcod_lbl_payment_date_unpaid} ${NoyaFormatter.generate(unpaidBills.date)}',
-                //                     color: unpaidc,
-                //                     trailing: Text(NoyaFormatter.generateAmount(
-                //                         unpaidBills.amount)),
-                //                     leading: const Icon(
-                //                       Icons.receipt_long_outlined,
-                //                       color: unpaidc,
-                //                       size: 30,
-                //                     ),
-                //                   );
-                //                 },
-                //               );
-                //             }
-                //           }
-                //         } else if (snapshot.hasError) {
-                //           return Text(
-                //               '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
-                //         }
-                //         return const LoadingIndicator();
-                //       },
-                //     );
-                //   },
-                // ),
               ),
               Container(
                 width: double.infinity,
@@ -205,10 +143,7 @@ class _UnpaidItemizedAccountScreenState
                           color: positive.shade400,
                           text: trnslt.lcod_lbl_to_pay),
                       Row(
-                        //mainAxisSize: MainAxisSize.max,
-                        // mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           //toplam borc ve odenen tutarlari gosterebilmek icin verileri cekiyoruz
                           Container(
@@ -254,7 +189,6 @@ class _UnpaidItemizedAccountScreenState
                                   stream: data.fetchAmountTotalStatus(true,
                                       userProvider.currentUser.apartmentId),
                                   builder: (BuildContext context, snapshot) {
-                                    //var bill = snapshot.data?;
                                     if (snapshot.hasData) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {

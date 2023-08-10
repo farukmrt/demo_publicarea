@@ -10,14 +10,8 @@ class Request {
   bool status;
   Timestamp requestDate;
   String? imageUrl;
-  //Timestamp date;
-  // static final List<String> requestTypeList = [
-  //   'Arıza',
-  //   'Soru',
-  //   'Öneri',
-  //   'Şikayet'
-  // ];
   String requestType;
+
   Request({
     this.imageUrl,
     required this.requestDate,

@@ -1,11 +1,11 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_textfield.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/widgets/custom_textfield.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
   static String routeName = '/updatePassword';
@@ -16,12 +16,6 @@ class UpdatePasswordScreen extends StatefulWidget {
 }
 
 class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
-  // bool isPasswordFull() {
-  //   return currentPassController.text.length > 5 &&
-  //       newPassController.text.length > 5 &&
-  //       newPassController == againNewPassController;
-  // }
-
   TextEditingController currentPassController = TextEditingController();
   TextEditingController newPassController = TextEditingController();
   TextEditingController againNewPassController = TextEditingController();
@@ -34,15 +28,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     newPassController.addListener(_newPasswordControllerListener);
     againNewPassController.addListener(_newPasswordControllerListener);
 
-    // _changingStreamController.stream;
-    // _changingStreamController;
-
     _newPasswordControllerListener();
-    //_changingStreamController;
-    // changing;
-    // setState(() {
-    //   changing;
-    // });
   }
 
   void _newPasswordControllerListener() {
@@ -54,32 +40,24 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     print('Yeni şifre tekrar: $newPassValue');
 
     setState(() {
-      // changing;
       if (currentPassValue.length > 5 &&
           newPassValue == againNewPassValue &&
           newPassValue.length > 5) {
         print('$changing');
         changing = true;
-        // _changingStreamController.add(true);
-
-        //sendButton = primaryColor;
       } else {
         print('$changing');
         changing = false;
-        //_changingStreamController.add(false);
-        //sendButton = primaryColor.withOpacity(0.5);
       }
-      //_changingStreamController.add(changing);
     });
   }
 
   @override
   void dispose() {
-    // State nesnesi yok edildiğinde, dinleyicileri kaldırın
     currentPassController.removeListener(_newPasswordControllerListener);
     newPassController.removeListener(_newPasswordControllerListener);
     againNewPassController.removeListener(_newPasswordControllerListener);
-    // _changingStreamController.close();
+
     super.dispose();
   }
 
@@ -123,7 +101,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                               value.characters.length < 6) {
                             return trnslt.lcod_lbl_control_password;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(
@@ -140,7 +118,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                               value.characters.length < 6) {
                             return trnslt.lcod_lbl_control_password;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(
@@ -157,7 +135,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                               value.characters.length < 6) {
                             return trnslt.lcod_lbl_control_password;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(

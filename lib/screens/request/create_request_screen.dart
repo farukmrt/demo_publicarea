@@ -1,20 +1,18 @@
 import 'dart:io';
-
-import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/providers/photo_provider.dart';
-import 'package:demo_publicarea/providers/request_provider.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/screens/request/request_screen.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/utils/languages/lang.dart';
-import 'package:demo_publicarea/widgets/custom_dropdownbutton.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_textfield.dart';
-import 'package:demo_publicarea/widgets/custom_textfiled_med.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/widgets/custom_textfield.dart';
+import 'package:demo_publicarea/providers/photo_provider.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
+import 'package:demo_publicarea/providers/request_provider.dart';
+import 'package:demo_publicarea/widgets/custom_textfiled_med.dart';
+import 'package:demo_publicarea/widgets/custom_dropdownbutton.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:demo_publicarea/screens/request/request_screen.dart';
 
 class CreateRequestScreen extends StatefulWidget {
   static String routeName = '/createrequest';
@@ -26,7 +24,6 @@ class CreateRequestScreen extends StatefulWidget {
 }
 
 class _CreateRequestScreenState extends State<CreateRequestScreen> {
-  //TextEditingController apartmentId = TextEditingController();
   TextEditingController apartmentNumberController = TextEditingController();
   TextEditingController requestTitleController = TextEditingController();
   TextEditingController requestExplanationController = TextEditingController();
@@ -41,8 +38,6 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
   bool changing = false;
   String? selectedValueType;
 
-  //File? selectedImageWidget;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -53,33 +48,15 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
   }
 
   @override
-  // bool isTextFull() {
-  //   return selectedValue != null &&
-  //       apartmentNumberController.text.length > 1 &&
-  //       requestExplanationController.text.length > 10 &&
-  //       requestTitleController.text.length > 5;
-  // }
-
-  // @override
-  // Color getButtonColor() {
-  //   return isTextFull() ? primaryColor : primaryColor.withOpacity(0.5);
-  // }
-
   @override
   void initState() {
     super.initState();
-    // isTextFull();
-    // getButtonColor();
     selectedValueController.addListener(_newMailControllerListener);
     apartmentNumberController.addListener(_newMailControllerListener);
     requestExplanationController.addListener(_newMailControllerListener);
     requestTitleController.addListener(_newMailControllerListener);
 
     _newMailControllerListener();
-    // changing;
-    // setState(() {
-    //   changing;
-    // });
   }
 
   void _newMailControllerListener() {
@@ -94,19 +71,15 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
     print('Talep açıklaması: $requestExplanationValue');
 
     setState(() {
-      // changing;
       if (requestTitleValue.isNotEmpty &&
           apartmentNumberValue.isNotEmpty &&
           listenSelectedValue.isNotEmpty &&
           requestExplanationValue.isNotEmpty) {
         print('$changing');
         changing = true;
-        //sendButton = primaryColor;
       } else {
         print('$changing');
         changing = false;
-        //_changingStreamController.add(false);
-        //sendButton = primaryColor.withOpacity(0.5);
       }
     });
 
@@ -144,7 +117,6 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
 
   @override
   void dispose() {
-    //_changingStreamController.close();
     apartmentNumberController.removeListener(_newMailControllerListener);
     requestExplanationController.removeListener(_newMailControllerListener);
     requestTitleController.removeListener(_newMailControllerListener);
@@ -156,10 +128,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      // isTextFull();
-      // getButtonColor();
-    });
+    setState(() {});
     setState(() {
       selectedValue;
       selectedValueController.text.length;
@@ -169,7 +138,6 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
     });
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-    //userProvider.user.
     RequestProvider requestProvider =
         Provider.of<RequestProvider>(context, listen: false);
     PhotoProvider photoProvider =
@@ -214,10 +182,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                   children: [
                     Container(
                       child: buildImageWidget(),
-                      // width: double.infinity,
-                      // height: double.infinity,
                     ),
-
                     CustomTextField(
                       controller: requestTitleController,
                       labelText: trnslt.lcod_lbl_subject,
@@ -228,7 +193,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                             value.characters.length < 4) {
                           return trnslt.lcod_lbl_control_title;
                         }
-                        return null; // Herhangi bir hata yoksa null döndürün.
+                        return null;
                       },
                     ),
                     CustomTextField(
@@ -241,16 +206,13 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                             value.characters.length < 4) {
                           return trnslt.lcod_lbl_control_apartment_number;
                         }
-                        return null; // Herhangi bir hata yoksa null döndürün.
+                        return null;
                       },
                     ),
-                    //DropdownButtonFormField(items:, onChanged: (){})
-
                     CustomDropdownButton(
                       //controller: requestTypeController,
                       labelText: trnslt.lcod_lbl_request_type,
                       value: selectedValue,
-                      //items: const ['Arıza', 'Soru', 'Öneri', 'Şikayet'],
                       items: [
                         trnslt.lcod_lbl_fault,
                         trnslt.lcod_lbl_question,
@@ -263,17 +225,6 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                           selectedValue = newValue;
                           selectedValueController.text =
                               selectedValue.toString();
-                          // apartmentNumberController.text.length;
-                          // requestExplanationController.text.length;
-                          // requestTitleController.text.length;
-
-                          // if (selectedValue != null) {
-                          //   String lcod_lbl_fault = trnslt.lcod_lbl_fault;
-                          //   String lcod_lbl_question = trnslt.lcod_lbl_question;
-                          //   String lcod_lbl_suggestion =
-                          //       trnslt.lcod_lbl_suggestion;
-                          //   String lcod_lbl_complaint = trnslt.lcod_lbl_complaint;
-                          // }
                         });
                       },
                       validator: (value) {
@@ -282,14 +233,9 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                             value.characters.length < 4) {
                           return trnslt.lcod_lbl_control_request_type;
                         }
-                        return null; // Herhangi bir hata yoksa null döndürün.
+                        return null;
                       },
                     ),
-
-                    // const CustomTextField(
-                    //   controller: ,
-                    //   labelText: 'Yaşam Alanı Tipi',
-                    // ),
                     CustomTextFieldMedium(
                       controller: requestExplanationController,
                       labelText: trnslt.lcod_lbl_explanation,
@@ -300,15 +246,12 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                             value.characters.length < 4) {
                           return trnslt.lcod_lbl_control_request_explanation;
                         }
-                        return null; // Herhangi bir hata yoksa null döndürün.
+                        return null;
                       },
-
-                      //maxline: minLine + 1,
                     ),
                     const SizedBox(
                       height: 15,
                     ),
-
                     CustomMainButton(
                       color: negative,
                       text: '${trnslt.lcod_lbl_add_image}',
@@ -318,7 +261,6 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                           context: context,
                           builder: (context) {
                             return CupertinoAlertDialog(
-                              // title: Text('Resim Ekle'),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -362,7 +304,6 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                         );
                       },
                     ),
-
                     CustomMainButton(
                       onTap: () async {
                         if (_formKey.currentState!.validate() && changing) {

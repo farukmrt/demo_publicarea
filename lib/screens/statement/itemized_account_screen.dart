@@ -1,19 +1,16 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:demo_publicarea/models/bill.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:demo_publicarea/widgets/custom_subtitle.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:demo_publicarea/utils/date_amount_formatter.dart';
 import 'package:demo_publicarea/widgets/custom_double_button.dart';
-
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
-
-import 'package:demo_publicarea/widgets/custom_subtitle.dart';
-
-import 'package:demo_publicarea/widgets/loading_indicator.dart';
-import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:provider/provider.dart';
 
 class ItemizedAccountScreen extends StatefulWidget {
   static String routeName = '/itemizedAccount';
@@ -71,15 +68,12 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
       color: mainBackgroundColor,
       child: SafeArea(
         child: Scaffold(
-          //bottomNavigationBar: PersistentTabView(items),
           appBar: AppBar(
             title: Text(trnslt.lcod_lbl_statement),
             backgroundColor: mainBackgroundColor,
           ),
-          // backgroundColor: backgroundColor,
           body: Column(
             children: [
-              //const CustomTitle(mainTitle: 'Ödeme'),
               CustomSubtitle(
                 title: trnslt.lcod_lbl_paid_bills,
                 subtitle: userProvider.currentUser.building,
@@ -123,62 +117,6 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                     ),
                   ),
                 ),
-                // Consumer<BillProvider>(
-                //   builder: (context, data, index) {
-                //     return StreamBuilder(
-                //       stream: data.fetchBillByPaidStatus(
-                //           true, userProvider.user.apartmentId),
-                //       builder: (BuildContext context, snapshot) {
-                //         if (snapshot.hasData) {
-                //           if (snapshot.connectionState ==
-                //               ConnectionState.waiting) {
-                //             return const Center(
-                //               child: LoadingIndicator(),
-                //             );
-                //           } else {
-                //             var bill = snapshot.data;
-                //             if (bill == null || bill.isEmpty) {
-                //               return CustomListItem(
-                //                 title: trnslt.lcod_lbl_payment_bill,
-                //                 subtitle: trnslt.lcod_lbl_no_invoice_paid,
-                //                 color: unpaidc,
-                //                 leading: const Icon(
-                //                   Icons.priority_high_outlined,
-                //                   color: unpaidc,
-                //                   size: 40,
-                //                 ),
-                //               );
-                //             } else {
-                //               return ListView.builder(
-                //                 itemCount: bill.length,
-                //                 itemBuilder: (context, index) {
-                //                   var paidBills = bill[index];
-                //                   return CustomListItem(
-                //                     title: paidBills.name,
-                //                     subtitle:
-                //                         '${trnslt.lcod_lbl_payment_date_paid} ${NoyaFormatter.generate(paidBills.date)}',
-                //                     color: paidc,
-                //                     trailing: Text(NoyaFormatter.generateAmount(
-                //                         paidBills.amount)),
-                //                     leading: const Icon(
-                //                       Icons.receipt_long_outlined,
-                //                       color: paidc,
-                //                       size: 30,
-                //                     ),
-                //                   );
-                //                 },
-                //               );
-                //             }
-                //           }
-                //         } else if (snapshot.hasError) {
-                //           return Text(
-                //               '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
-                //         }
-                //         return const LoadingIndicator();
-                //       },
-                //     );
-                //   },
-                // ),
               ),
               Container(
                 width: double.infinity,
@@ -188,9 +126,7 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                   child: Column(
                     children: [
                       Row(
-                        //mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           //toplam borc ve odenen tutarlari gosterebilmek icin verileri cekiyoruz
                           //??? tekrara dusuldu hatali bir islem mi

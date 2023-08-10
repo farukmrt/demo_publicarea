@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
@@ -20,52 +16,7 @@ class UpdateEmailScreen extends StatefulWidget {
 }
 
 class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
-  //StreamController<bool> _changingStreamController = StreamController<bool>();
-
   bool changing = false;
-  Color sendButton = mainBackgroundColor; // primaryColor.withOpacity(0.5);
-
-  //newMailController için dinleyici fonksiyonu
-
-  // bool buttonColorr() {
-  //   if (newMailValue.endsWith('.com') &&
-  //       newMailValue.contains('@') &&
-  //       mailPassValue.length >= 6) {
-  //     setState(() {
-  //       print('primary');
-  //       sendButton = primaryColor;
-  //     });
-  //     return true;
-  //   } else {
-  //     setState(() {
-  //       print('opacity');
-  //       sendButton = primaryColor.withOpacity(0.5);
-  //     });
-  //     return false;
-  //   }
-  // }
-  // @override
-  // void _newMailControllerListener() {
-  //   String newMailValue = newMailController.text;
-  //   String mailPassValue = mailPassController.text;
-  //   if (newMailValue.endsWith('.com') &&
-  //       newMailValue.contains('@') &&
-  //       mailPassValue.length >= 6) {
-  //     setState(() {
-  //       changing = true;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       changing = false;
-  //     });
-  //   }
-  // }
-
-  // bool isMailFull() {
-  //   return newMailController.text.endsWith('.com') &&
-  //       newMailController.text.contains('@') &&
-  //       mailPassController.text.length > 5;
-  // }
 
   TextEditingController currentValueController = TextEditingController();
   TextEditingController mailPassController = TextEditingController();
@@ -77,11 +28,6 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
     newMailController.addListener(_newMailControllerListener);
     mailPassController.addListener(_newMailControllerListener);
     _newMailControllerListener();
-    //_changingStreamController;
-    // changing;
-    // setState(() {
-    //   changing;
-    // });
   }
 
   void _newMailControllerListener() {
@@ -91,31 +37,21 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
     print('Yeni şifre değeri: $mailPassValue');
 
     setState(() {
-      // changing;
       if (newMailValue.endsWith('.com') &&
           newMailValue.contains('@') &&
           newMailValue.length > 9 &&
           mailPassValue.length > 5) {
         print('$changing');
         changing = true;
-        //_changingStreamController.add(true);
-
-        //sendButton = primaryColor;
       } else {
         print('$changing');
         changing = false;
-        // _changingStreamController.add(false);
-        //sendButton = primaryColor.withOpacity(0.5);
       }
     });
   }
 
-  // void _refreshcontroller(){
-  //   _changingStreamController.;
-  // }
   @override
   void dispose() {
-    // State nesnesi yok edildiğinde, dinleyicileri kaldırın
     newMailController.removeListener(_newMailControllerListener);
     mailPassController.removeListener(_newMailControllerListener);
     super.dispose();
@@ -146,7 +82,6 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    //crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomTextField(
@@ -169,7 +104,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                               value.characters.length < 9) {
                             return trnslt.lcod_lbl_control_email;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(
@@ -186,7 +121,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                               value.characters.length < 6) {
                             return trnslt.lcod_lbl_control_password;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(
@@ -194,10 +129,6 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                       ),
                       CustomMainButton(
                         onTap: () async {
-                          // setState(() {
-                          //   //buradaki setstate işlemi sayesinde veri güncelleniyor ancak tıklama yapılması şart yoksa güncellemiyor
-                          //   changing;
-                          // });
                           if (_formKey.currentState!.validate() && changing) {
                             String currentPassword = mailPassController.text;
                             String currentEmail = currentValueController.text;
@@ -207,9 +138,6 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                                 .verifyPassword(currentPassword);
 
                             if (isPasswordCorrect) {
-                              // (changing) => setState(
-                              //     () => this.changing = changing!);
-
                               await userProvider.updateEmail(
                                   currentPassword, newEmail);
                               Navigator.pop(context);
@@ -232,7 +160,6 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                         color: changing
                             ? primaryColor
                             : primaryColor.withOpacity(0.5),
-                        //color_dis: primaryColor.withOpacity(0.5),
                         text: trnslt.lcod_lbl_update,
                         icon: CupertinoIcons.arrow_2_circlepath_circle,
                         edgeInsets: const EdgeInsets.symmetric(horizontal: 23),

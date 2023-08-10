@@ -1,6 +1,5 @@
-import 'dart:async';
 import 'dart:io';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/models/request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +9,7 @@ class RequestProvider with ChangeNotifier {
   final _requestStreamController = StreamController<List<Request>>.broadcast();
   Stream<List<Request>> get requestStream => _requestStreamController.stream;
 
+//otomatik requestId'sini verebilmek için son id'yi sorgulayıp bir büyüğünü gönderiyoruz
   Future<String> getLatestRequestId() async {
     final CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('request');
@@ -109,10 +109,8 @@ class RequestProvider with ChangeNotifier {
     TextEditingController requestTitleController,
     TextEditingController requestExplanationController,
     String requestTypeController,
-    // bool status,
     String apartmentId,
     String userUid,
-    //String? imageUrl,
     File? imageFile,
   ) async {
     try {
@@ -149,43 +147,6 @@ class RequestProvider with ChangeNotifier {
     }
   }
 
-  // File? selectedImage;
-  // Future takeAPhoto() async {
-  //   final imagePicker = ImagePicker();
-  //   final pickedImage =
-  //       await imagePicker.pickImage(source: ImageSource.camera, maxHeight: 600);
-  //   if (pickedImage == null) {
-  //     return;
-  //   }
-  //   selectedImage = File(pickedImage.path);
-  //   return selectedImage;
-  // }
-  // Future getAPhoto() async {
-  //   final imagePicker = ImagePicker();
-  //   final pickedImage = await imagePicker.pickImage(
-  //       source: ImageSource.gallery, maxHeight: 600);
-  //   if (pickedImage == null) {
-  //     return;
-  //   }
-  //   selectedImage = File(pickedImage.path);
-  //   return selectedImage;
-  // }
-  // Future<String?> sendRequestImage(File imageFile) async {
-  //   try {
-  //     String imageName = DateTime.now().millisecondsSinceEpoch.toString();
-  //     Reference storageReference = FirebaseStorage.instance
-  //         .ref()
-  //         .child('images/requests/$imageName.jpg');
-  //     UploadTask uploadTask = storageReference.putFile(imageFile);
-  //     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
-  //     String imageUrl = await taskSnapshot.ref.getDownloadURL();
-  //     return imageUrl;
-  //   } catch (e) {
-  //     print("Error uploading image to Firebase: $e");
-  //     return null;
-  //   }
-  // }
-
   Stream<Request?> fetchARequest(String requestId) {
     var collection = FirebaseFirestore.instance.collection('request');
     var query = collection.where('requestId', isEqualTo: requestId).limit(1);
@@ -215,9 +176,6 @@ class RequestProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    // StreamController'ları temizleyin
-    // İlgili yerde kullanılan StreamController'ları dispose edin
-    // Ayrıca diğer gereksiz nesneleri de burada temizleyebilirsiniz
     _requestStreamController.close();
     super.dispose();
   }

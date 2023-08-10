@@ -17,12 +17,6 @@ class UpdatePhonenumberScreen extends StatefulWidget {
 }
 
 class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
-  // bool isPhoneNumberFull() {
-  //   return newPhoneNumberController.text.startsWith('0') &&
-  //       newPhoneNumberController.text.length == 11 &&
-  //       phoneNumberPassController.text.length > 5;
-  // }
-
   bool changing = false;
   bool newPhoneNumberColor = false;
   TextEditingController currentValueController = TextEditingController();
@@ -34,15 +28,8 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
     super.initState();
     newPhoneNumberController.addListener(_newPhoneNumberControllerListener);
     phoneNumberPassController.addListener(_newPhoneNumberControllerListener);
-    // _changingStreamController.stream;
-    // _changingStreamController;
 
     _newPhoneNumberControllerListener();
-    //_changingStreamController;
-    // changing;
-    // setState(() {
-    //   changing;
-    // });
   }
 
   void _newPhoneNumberControllerListener() {
@@ -52,44 +39,26 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
     print('Yeni şifre: $userPassValue');
 
     setState(() {
-      // changing;
-
       if (newPhonenumberValue.startsWith('05') &&
           newPhonenumberValue.length == 11 &&
           userPassValue.length > 5) {
         print('$changing');
         changing = true;
-
-        // _changingStreamController.add(true);
-
-        //sendButton = primaryColor;
       } else {
         print('$changing');
 
         changing = false;
-        //_changingStreamController.add(false);
-        //sendButton = primaryColor.withOpacity(0.5);
       }
-      //_changingStreamController.add(changing);
     });
-    // if (newPhoneNumberController.text.length == 11 &&
-    //     newPhoneNumberController.text.startsWith('05')) {
-    //   newPhoneNumberColor = false;
-    // }
-    // // if (newPhonenumberValue == null)
-    // else {
-    //   newPhoneNumberColor = true;
-    // }
   }
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    // State nesnesi yok edildiğinde, dinleyicileri kaldırın
     newPhoneNumberController.removeListener(_newPhoneNumberControllerListener);
     phoneNumberPassController.removeListener(_newPhoneNumberControllerListener);
-    // _changingStreamController.close();
+
     super.dispose();
   }
 
@@ -141,7 +110,7 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
                               !value.startsWith('05')) {
                             return trnslt.lcod_lbl_control_phone_number;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(
@@ -158,7 +127,7 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
                               value.characters.length < 6) {
                             return trnslt.lcod_lbl_control_password;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(

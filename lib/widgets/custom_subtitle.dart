@@ -14,7 +14,6 @@ class CustomSubtitle extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(10, 5, 10, 6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          //mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(1),

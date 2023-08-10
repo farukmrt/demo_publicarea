@@ -4,21 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_publicarea/utils/languages/lang.dart';
-import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/screens/login/onboard_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class UserProvider extends ChangeNotifier {
-  // final _userController = StreamController<UserModel>.broadcast();
-  // Stream<UserModel> get userStream => _userController.stream;
-  //tekli dinleme için kullanılır
-
-  // final StreamController<UserModel> _userController =
-  //     StreamController<UserModel>();
-  // Stream<UserModel> get userStream =>
-  //     _userController.stream.asBroadcastStream();
-  // // çoklu diinleme için
-
   UserModel _user = UserModel(
     uid: '',
     email: '',
@@ -39,15 +28,7 @@ class UserProvider extends ChangeNotifier {
   //her defasında uid ile kullanici çekip işlemi yaptık
 
   UserModel get user => _user;
-
   late UserModel currentUser;
-
-  void updateUser(UserModel user) {
-    if (user.uid != "") {
-      _user = user;
-    }
-    notifyListeners();
-  }
 
   void updateCurrentUser(UserModel user) {
     if (user.uid != "") {
@@ -77,7 +58,6 @@ class UserProvider extends ChangeNotifier {
           notifyListeners();
 
           res = true;
-          //print('user değeri $user');
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -330,10 +310,8 @@ class UserProvider extends ChangeNotifier {
     if (uid != null) {
       final snap = await _userRef.doc(uid).get();
       if (snap.exists) {
-        //updateUser(snap.data());
         return UserModel.fromFirestore(snap.data()!);
       }
-      //updateUser();
     }
     return null;
   }

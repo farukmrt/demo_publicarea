@@ -9,7 +9,6 @@ class CustomDoubleIconbutton extends StatefulWidget {
   final String rightText;
   final double? size;
   final Opacity? opacity;
-  //final TextField? textff;
 
   const CustomDoubleIconbutton({
     Key? key,
@@ -43,7 +42,6 @@ class _CustomDoubleIconbuttonState extends State<CustomDoubleIconbutton> {
         onPressed: widget.onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Expanded(
               child: Padding(

@@ -1,13 +1,5 @@
 import 'dart:io';
-
-import 'package:demo_publicarea/screens/settings/update_email_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_password_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_phonenumber_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_profilphoto_screen.dart';
-import 'package:demo_publicarea/screens/settings/update_username_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:demo_publicarea/main.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -17,6 +9,12 @@ import 'package:demo_publicarea/widgets/custom_listItem.dart';
 import 'package:demo_publicarea/utils/languages/language.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:demo_publicarea/screens/settings/update_email_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_password_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_username_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_phonenumber_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_profilphoto_screen.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   static String routeName = '/profilesettings';
@@ -27,11 +25,6 @@ class ProfileSettingsScreen extends StatefulWidget {
 }
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
-  // @override
-  // Color getButtonColor() {
-  //   return Function() ? primaryColor : primaryColor.withOpacity(0.5);
-  // }
-
   File? selectedImage;
   String? imageUrl;
   @override
@@ -142,7 +135,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     ),
                   ),
                 ),
-                //EMAİL-OK
                 const SizedBox(
                   height: 10,
                 ),
@@ -178,7 +170,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 10,
                 ),
@@ -255,7 +246,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 const SizedBox(
                   height: 35,
                 ),
-
                 GestureDetector(
                   onTap: () {
                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
@@ -280,7 +270,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     },
                   ),
                 ),
-
                 CustomMainButton(
                   text: trnslt.lcod_lbl_logout,
                   edgeInsets: const EdgeInsets.symmetric(horizontal: 20),

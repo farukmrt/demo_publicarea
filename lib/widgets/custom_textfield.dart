@@ -1,6 +1,6 @@
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -95,10 +95,6 @@ class CustomTextField extends StatelessWidget {
                 ),
               ),
         ),
-
-        // if(minlinee != null)
-        // minLines: minlinee,
-        // maxLines: (minlinee! + 1),
       ),
     );
   }

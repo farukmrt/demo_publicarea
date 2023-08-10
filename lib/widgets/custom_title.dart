@@ -1,5 +1,5 @@
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomTitle extends StatelessWidget {
   final String mainTitle;

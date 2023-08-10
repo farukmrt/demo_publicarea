@@ -12,9 +12,6 @@ class CustomMediumListItem extends StatefulWidget {
   final String? threeline;
   final String? image;
 
-  // final bool? isCheckeda;
-  // final bool? isCheckBoxa;
-
   const CustomMediumListItem(
       {Key? key,
       required this.title,
@@ -25,10 +22,7 @@ class CustomMediumListItem extends StatefulWidget {
       this.color,
       this.fontstyle,
       this.threeline,
-      this.image
-      // this.isCheckBoxa,
-      // this.isCheckeda,
-      })
+      this.image})
       : super(key: key);
 
   @override
@@ -59,8 +53,7 @@ class _CustomMediumListItemState extends State<CustomMediumListItem> {
                           fontStyle: widget.fontstyle,
                         ),
                         overflow: TextOverflow.fade,
-                        maxLines: 2 // overflow: TextOverflow.ellipsis),
-                        ),
+                        maxLines: 2),
                     subtitle: Text(
                       widget.subtitle,
                       style: TextStyle(

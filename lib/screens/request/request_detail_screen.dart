@@ -1,13 +1,13 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/models/request.dart';
-import 'package:demo_publicarea/providers/request_provider.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/utils/date_amount_formatter.dart';
-import 'package:demo_publicarea/widgets/custom_listitem_big.dart';
-import 'package:demo_publicarea/widgets/custom_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/models/request.dart';
+import 'package:demo_publicarea/widgets/custom_title.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/providers/request_provider.dart';
+import 'package:demo_publicarea/widgets/custom_listitem_big.dart';
+import 'package:demo_publicarea/utils/date_amount_formatter.dart';
 
 class RequestDetailScreen extends StatefulWidget {
   static String routeName = '/aRequest';
@@ -20,11 +20,6 @@ class RequestDetailScreen extends StatefulWidget {
 
 class _RequestDetailScreenState extends State<RequestDetailScreen> {
   String _currentRequestType = '';
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _currentRequestType;
-  // }
 
   late String requestId;
 

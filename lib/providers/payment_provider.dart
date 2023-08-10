@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_publicarea/models/bill.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/models/bill.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PaymentProvider with ChangeNotifier {
+//firebasedeki kart bilgileri ile fake ödeme yapıyoruz
   Future<bool> checkPayment(
     String cardNumber,
     String cardHolderName,
@@ -31,27 +32,7 @@ class PaymentProvider with ChangeNotifier {
     return isMatched;
   }
 
-// Future<void> updateBillPaidStatus(List<Bill> selectedBills) async {
-//   bool newValue = true;
-//   Timestamp newDate = Timestamp.now();
-//   // var db = FirebaseFirestore();
-//   var collection = FirebaseFirestore.instance.collection('bills');
-//   for (var selectedBill in selectedBills) {
-//     DocumentReference documentRef = collection.doc(selectedBill.id);
-//     //('id/${selectedBill.id}');
-//     //documentRef = collection.doc(selectedBill.id);
-//     try {
-//       await documentRef.update({
-//         'isPaid': newValue,
-//         'date': newDate,
-//       });
-//       print('Belge güncellendi: ${selectedBill.id}');
-//     } catch (error) {
-//       print('Hata oluştu: ${error.toString()}');
-//     }
-//   }
-// }
-
+//fatura ödemesi yapıldığında durumunu güncelliyoruz
   Future<void> updateBillPaidStatus(List<Bill> selectedBills) async {
     bool newValue = true;
     Timestamp newDate = Timestamp.now();

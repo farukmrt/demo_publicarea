@@ -1,5 +1,5 @@
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomCheckBoxListItem extends StatefulWidget {
   final String title;
@@ -41,10 +41,7 @@ class _CustomCheckBoxListItemState extends State<CustomCheckBoxListItem> {
               child: CheckboxListTile(
                 value: _isChecked,
                 onChanged: (bool? newValue) {
-                  setState(() {
-                    //setState icerisnde duzenleme lazim
-                    //var _isChecked = newValue;
-                  });
+                  setState(() {});
                 },
                 secondary: widget.leading,
                 title: Text(

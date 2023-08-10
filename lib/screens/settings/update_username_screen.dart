@@ -1,16 +1,11 @@
-import 'dart:async';
-
-import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_checkbox.dart';
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/widgets/custom_textfield.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 
 class UpdateUsernameScreen extends StatefulWidget {
   static String routeName = '/updateUsername';
@@ -21,12 +16,8 @@ class UpdateUsernameScreen extends StatefulWidget {
 }
 
 class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
-  // final _changingStreamController = StreamController<bool>.broadcast();
-  // Stream<bool> get changingStream => _changingStreamController.stream;
-
   bool changing = false;
   bool isUsernameAvailable = false;
-  //bool autovalidate = false;
   TextEditingController currentValueController = TextEditingController();
   TextEditingController usernamePassController = TextEditingController();
   TextEditingController newUsernameController = TextEditingController();
@@ -36,15 +27,8 @@ class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
     super.initState();
     newUsernameController.addListener(_newUsernameControllerListener);
     usernamePassController.addListener(_newUsernameControllerListener);
-    // _changingStreamController.stream;
-    // _changingStreamController;
 
     _newUsernameControllerListener();
-    //_changingStreamController;
-    // changing;
-    // setState(() {
-    //   changing;
-    // });
   }
 
   void _newUsernameControllerListener() {
@@ -54,7 +38,6 @@ class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
     print('Yeni şifre: $userPassValue');
 
     setState(() {
-      // changing;
       UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
       userProvider.checkUsername(context, newUsernameValue).then((isAvailable) {
@@ -66,44 +49,25 @@ class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
       if (newUsernameValue.length > 3 && userPassValue.length > 5) {
         print('$changing');
         changing = true;
-
-        // _changingStreamController.add(true);
-
-        //sendButton = primaryColor;
       } else {
         print('$changing');
         changing = false;
         isUsernameAvailable = false;
-        //_changingStreamController.add(false);
-        //sendButton = primaryColor.withOpacity(0.5);
       }
-
-      //_changingStreamController.add(changing);
     });
   }
 
-  //didUpdateWidget(changing);
   @override
   void dispose() {
-    // State nesnesi yok edildiğinde, dinleyicileri kaldırın
     newUsernameController.removeListener(_newUsernameControllerListener);
     usernamePassController.removeListener(_newUsernameControllerListener);
-    // _changingStreamController.close();
     super.dispose();
   }
-
-  // bool isUsernameFull() {
-  //   return newUsernameController.text.isNotEmpty &&
-  //       usernamePassController.text.length > 5;
-  // }
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // setState(() {
-    //   changing;
-    // });
     UserProvider userProvider = Provider.of<UserProvider>(context);
     final size = MediaQuery.of(context).size;
 
@@ -147,10 +111,8 @@ class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
                               value.characters.length < 4) {
                             return trnslt.lcod_lbl_control_username;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
-
-                        //if(isUsernameAvailable==1)
                       ),
                       const SizedBox(
                         height: 10,
@@ -166,7 +128,7 @@ class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
                               value.characters.length < 6) {
                             return trnslt.lcod_lbl_control_password;
                           }
-                          return null; // Herhangi bir hata yoksa null döndürün.
+                          return null;
                         },
                       ),
                       const SizedBox(

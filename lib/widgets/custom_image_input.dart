@@ -31,18 +31,6 @@ class _ImageInputState extends State<ImageInput> {
     widget.onPickImage(_selectedImage!);
   }
 
-  // void _pickPicture() async {
-  //   final imagePicker = ImagePicker();
-  //   final pickedImage = await imagePicker.pickImage(
-  //     source: ImageSource.gallery,
-  //     maxWidth: 600,
-  //   );
-  //   if (pickedImage == null) {
-  //     return;
-  //   }
-  //   _selectedImage = File(pickedImage.path);
-  // }
-
   @override
   Widget build(BuildContext context) {
     Widget content = TextButton.icon(

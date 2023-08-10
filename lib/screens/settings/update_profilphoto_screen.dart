@@ -1,11 +1,10 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UpdateProfilphotoScreen extends StatefulWidget {
   static String routeName = '/updateProfilePhoto';
@@ -72,7 +71,7 @@ class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
                     onPressed: () async {
                       // Galeri seçeneği için işlemler burada yapılacak
                       await photoProvider.getAPhoto();
-                      // Seçim yapıldığında, 'galeri' değeri ile iletişim kutusunu kapatacak
+                      // Seçim yapıldığında, iletişim kutusunu kapatacak
                       setState(() {
                         selectedImage = photoProvider.selectedImage;
                       });

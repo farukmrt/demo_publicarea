@@ -1,5 +1,5 @@
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomBigListItem extends StatefulWidget {
   final String title;
@@ -12,9 +12,6 @@ class CustomBigListItem extends StatefulWidget {
   final String? threeline;
   final String? image;
 
-  // final bool? isCheckeda;
-  // final bool? isCheckBoxa;
-
   const CustomBigListItem({
     Key? key,
     required this.title,
@@ -26,8 +23,6 @@ class CustomBigListItem extends StatefulWidget {
     this.fontstyle,
     this.threeline,
     this.image,
-    // this.isCheckBoxa,
-    // this.isCheckeda,
   }) : super(key: key);
 
   @override

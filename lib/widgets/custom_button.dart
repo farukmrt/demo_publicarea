@@ -1,5 +1,5 @@
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
 
 class CustomIconbutton extends StatefulWidget {
   final String title;
@@ -9,7 +9,6 @@ class CustomIconbutton extends StatefulWidget {
   final String? rightText;
   final double? size;
   final Opacity? opacity;
-  //final TextField? textff;
 
   const CustomIconbutton({
     Key? key,
@@ -42,9 +41,7 @@ class _CustomIconbuttonState extends State<CustomIconbutton> {
         ),
         onPressed: widget.onTap,
         child: Row(
-          //mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Flexible(
               child: Padding(

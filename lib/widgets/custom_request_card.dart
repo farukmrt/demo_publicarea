@@ -1,6 +1,6 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
 
 class CustomRequestCard extends StatefulWidget {
   final String requestType;
@@ -8,7 +8,6 @@ class CustomRequestCard extends StatefulWidget {
   final String apartmentNumber;
   final bool status;
   final VoidCallback onTap;
-  //final IconData requestIcon;
 
   const CustomRequestCard({
     required this.requestType,
@@ -16,7 +15,6 @@ class CustomRequestCard extends StatefulWidget {
     required this.apartmentNumber,
     required this.status,
     required this.onTap,
-    // required this.requestIcon,
     Key? key,
   }) : super(key: key);
 
@@ -83,7 +81,7 @@ class _CustomRequestCardState extends State<CustomRequestCard> {
         borderRadius: BorderRadius.circular(10),
       ),
       margin: const EdgeInsets.fromLTRB(5, 4, 5, 4),
-      color: mainBackgroundColor, //.withOpacity(1),
+      color: mainBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -128,9 +126,6 @@ class _CustomRequestCardState extends State<CustomRequestCard> {
             height: 2,
           ),
           Text(widget.requestTitle),
-          // SizedBox(
-          //   height: 0,
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

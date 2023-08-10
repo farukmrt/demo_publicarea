@@ -1,20 +1,20 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/models/bill.dart';
-import 'package:demo_publicarea/providers/bill_provider.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/utils/date_amount_formatter.dart';
-import 'package:demo_publicarea/widgets/custom_checkbox.dart';
-import 'package:demo_publicarea/widgets/custom_double_button.dart';
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_subtitle.dart';
-import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:demo_publicarea/models/bill.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/providers/bill_provider.dart';
+import 'package:demo_publicarea/widgets/custom_checkbox.dart';
+import 'package:demo_publicarea/widgets/custom_listItem.dart';
+import 'package:demo_publicarea/widgets/custom_subtitle.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/widgets/loading_indicator.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
+import 'package:demo_publicarea/utils/date_amount_formatter.dart';
+import 'package:demo_publicarea/widgets/custom_double_button.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PaymentSelectScreen extends StatefulWidget {
   static String routeName = '/paymentSelect';
@@ -55,10 +55,6 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
   List<Bill> selectedBill = [];
   num summary = 0;
 
-  // Color getButtonColor() {
-  //   return summary == 0 ? Colors.grey : primaryColor;
-  // }
-
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
@@ -92,10 +88,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
             title: Text(trnslt.lcod_lbl_payments),
             backgroundColor: mainBackgroundColor,
           ),
-          // backgroundColor: backgroundColor,
           body: Column(
             children: [
-              //const CustomTitle(mainTitle: 'Ödeme'),
               CustomSubtitle(
                 title: userProvider.currentUser.building,
               ),
@@ -110,7 +104,7 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                         padding: const EdgeInsets.all(1.0),
                         child: CustomCheckBoxListItem(
                           title: bill.name,
-                          subtitle: //'Son Ödeme T: ${bill.date}',
+                          subtitle:
                               '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(bill.date)}',
                           color: unpaidc,
                           leading:
@@ -129,7 +123,6 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                               summary = selectedBill.fold<num>(
                                   0, (sum, bill) => sum + bill.amount);
 
-                              // print(summary);
                               print(NoyaFormatter.generateAmount(summary));
                             });
                           },
@@ -148,64 +141,6 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                     ),
                   ),
                 ),
-
-                // Consumer<BillProvider>(
-                //   builder: (context, data, index) {
-                //     return StreamBuilder(
-                //       stream: data.fetchBillByPaidStatus(
-                //           false, userProvider.user.apartmentId),
-                //       builder: (BuildContext context, snapshot) {
-                //         if (snapshot.hasData) {
-                //           if (snapshot.connectionState ==
-                //               ConnectionState.waiting) {
-                //             return const Center(
-                //               child: LoadingIndicator(),
-                //             );
-                //           } else {
-                //             return ListView.builder(
-                //               itemCount: snapshot.data?.length,
-                //               itemBuilder: (context, index) {
-                //                 var bill = snapshot.data?[index];
-                //                 return CustomCheckBoxListItem(
-                //                   title: bill!.name,
-                //                   subtitle: //'Son Ödeme T: ${bill.date}',
-                //                       '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(bill.date)}',
-                //                   color: unpaidc,
-                //                   leading: Text(NoyaFormatter.generateAmount(
-                //                       bill.amount)),
-
-                //                   valuee: selectedBill
-                //                       .any((element) => element.id == bill.id),
-                //                   mainList: bill,
-
-                //                   onChanged: (bool? value) {
-                //                     setState(() {
-                //                       if (value == true) {
-                //                         selectedBill.add(bill);
-                //                       } else if (value == false) {
-                //                         selectedBill.removeWhere(
-                //                             (element) => element.id == bill.id);
-                //                       }
-                //                       summary = selectedBill.fold<num>(
-                //                           0, (sum, bill) => sum + bill.amount);
-
-                //                       // print(summary);
-                //                       print(NoyaFormatter.generateAmount(
-                //                           summary));
-                //                     });
-                //                   },
-                //                 );
-                //               },
-                //             );
-                //           }
-                //         } else if (snapshot.hasError) {
-                //           return const Text('no data');
-                //         }
-                //         return const LoadingIndicator();
-                //       },
-                //     );
-                //   },
-                // ),
               ),
               Container(
                 width: double.infinity,
@@ -244,9 +179,7 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                         color: summary == 0 ? Colors.grey : primaryColor,
                       ),
                       Row(
-                        //mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
@@ -270,7 +203,6 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                                                   snapshot.data),
                                           icon: Icons.receipt_outlined,
                                           size: 60,
-                                          // ontap: () {}
                                         ),
                                       );
                                     }

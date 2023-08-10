@@ -1,68 +1,3 @@
-// class User {
-//   final String uid;
-//   final String username;
-//   final String email;
-//   final String name;
-//   final String surname;
-//   final String building;
-//   final String apartmentId;
-//   final String buildingId;
-//   final String imageUrl;
-
-//   User(
-//       {required this.uid,
-//       required this.email,
-//       required this.username,
-//       required this.name,
-//       required this.surname,
-//       required this.building,
-//       required this.apartmentId,
-//       required this.buildingId,
-//       required this.imageUrl});
-
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'uid': uid,
-//       'username': username,
-//       'email': email,
-//       'name': name,
-//       'surname': surname,
-//       'building': building,
-//       'apartmentId': apartmentId,
-//       'buildingId': buildingId,
-//       'imageUrl': imageUrl,
-//     };
-//   }
-
-//   factory User.fromMap(Map<String, dynamic> map) {
-//     return User(
-//       uid: map['uid'] ?? '',
-//       username: map['username'] ?? '',
-//       email: map['email'] ?? '',
-//       name: map['name'] ?? '',
-//       surname: map['surname'] ?? '',
-//       building: map['building'] ?? '',
-//       apartmentId: map['apartmentId'] ?? '',
-//       buildingId: map['buildingId'] ?? '',
-//       imageUrl: map['imageUrl'] ?? '',
-//     );
-//   }
-
-//   // static User initial() {
-//   //   return User(
-//   //     uid: '',
-//   //     email: '',
-//   //     username: '',
-//   //     name: '',
-//   //     surname: '',
-//   //     building: '',
-//   //     apartmentId: '',
-//   //     buildingId: '',
-//   //     imageUrl: '',
-//   //   );
-//   // }
-// }
-
 class UserModel {
   final String uid;
   final String email;
@@ -113,7 +48,7 @@ class UserModel {
       apartmentId: map['apartmentId'],
       buildingId: map['buildingId'],
       imageUrl: map['imageUrl'],
-      phoneNumber: map['phoneNumber'], // firebase returns a number as an object
+      phoneNumber: map['phoneNumber'],
     );
   }
 
