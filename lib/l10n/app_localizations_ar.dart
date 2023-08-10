@@ -366,6 +366,75 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lcod_lbl_update_phone_number => 'تحديث رقم الهاتف';
 
   @override
+  String get lcod_lbl_control_email => 'راجع بريدك';
+
+  @override
+  String get lcod_lbl_control_password => 'تحقق من كلمة المرور الخاصة بك';
+
+  @override
+  String get lcod_lbl_control_username => 'تحقق من اسم المستخدم الخاص بك';
+
+  @override
+  String get lcod_lbl_control_name => 'تحقق من اسمك';
+
+  @override
+  String get lcod_lbl_control_surname => 'تحقق من لقبك';
+
+  @override
+  String get lcod_lbl_control_building_name => 'تحقق من اسم المبنى';
+
+  @override
+  String get lcod_lbl_control_phone_number => 'تحقق من رقم هاتفك';
+
+  @override
+  String get lcod_lbl_control_card_number => 'تحقق من رقم البطاقة';
+
+  @override
+  String get lcod_lbl_control_cvv_code => 'تحقق من رمز CVV';
+
+  @override
+  String get lcod_lbl_control_double_name => 'تحقق من اسمك ولقبك';
+
+  @override
+  String get lcod_lbl_control_valid_thru => 'تحقق من تاريخ انتهاء الصلاحية';
+
+  @override
+  String get lcod_lbl_control_title => 'تحقق من العنوان';
+
+  @override
+  String get lcod_lbl_control_apartment_number => 'تحقق من رقم شقتك';
+
+  @override
+  String get lcod_lbl_control_request_type => 'اختر نوع طلبك';
+
+  @override
+  String get lcod_lbl_control_request_explanation => 'تحقق من وصف طلبك';
+
+  @override
+  String get lcod_lbl_message_password => 'كلمة المرور الحالية غير صحيحة!';
+
+  @override
+  String get lcod_lbl_message_taken_username => 'أسم المستخدم مأخوذ مسبقا!';
+
+  @override
+  String get lcod_lbl_message_update_username => 'تم تحديث اسم المستخدم الخاص بك ...';
+
+  @override
+  String get lcod_lbl_message_error_username => 'خطأ في تحديث اسم المستخدم.';
+
+  @override
+  String get lcod_lbl_message_used_username => 'اسم المستخدم هذا تم استخدامه.';
+
+  @override
+  String get lcod_lbl_message_not_found_user => 'لم يتم العثور على المستخدم!';
+
+  @override
+  String get lcod_lbl_message_error_profile_photo => 'حدث خطأ أثناء تحديث صورة الملف الشخصي.';
+
+  @override
+  String get lcod_lbl_message_error_logout => 'حدث خطأ أثناء تسجيل الخروج.';
+
+  @override
   String get lcod_lbl_profile_settings => 'إعدادات الملف الشخصي';
 
   @override

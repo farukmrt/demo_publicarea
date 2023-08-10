@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo_publicarea/models/user.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/utils/languages/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -6,6 +9,7 @@ import 'package:demo_publicarea/screens/main/main_screen.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
 import 'package:demo_publicarea/screens/settings/settings_screen.dart';
 import 'package:demo_publicarea/screens/statement/statement_screen.dart';
+import 'package:provider/provider.dart';
 
 class TabsScreen extends StatefulWidget {
   static String routeName = '/tabs';
@@ -27,6 +31,17 @@ class _TabsScreenState extends State<TabsScreen> {
   ];
 
   PersistentTabController? _controller;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // userProvider.userStream.listen((_user) {
+    //   setState(() {
+    //     user = _user;
+    //   });
+    // });
+  }
 
   List<PersistentBottomNavBarItem> _navBarItems() {
     return [
@@ -57,19 +72,31 @@ class _TabsScreenState extends State<TabsScreen> {
     ];
   }
 
+  UserModel? user;
+  // String? useruid;
+
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: _page);
+
+    // UserProvider userProvider =
+    //     Provider.of<UserProvider>(context, listen: false);
+    // useruid = userProvider.user.uid;
+    // userProvider.getCurrentUser(useruid);
   }
 
   @override
   Widget build(BuildContext context) {
+    // setState(() {
+    //   user;
+    // });
     // var trnslt = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: PersistentTabView(
         context,
+        popActionScreens: PopActionScreensType.once, // ne işe yaradığıan bak
         controller: _controller,
         screens: _pageOptions,
         items: _navBarItems(),

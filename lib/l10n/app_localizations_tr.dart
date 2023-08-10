@@ -264,7 +264,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_expiration => 'Son kullanma tarihi';
 
   @override
-  String get lcod_lbl_card_holder => 'Kart sahibi';
+  String get lcod_lbl_card_holder => 'Kart Sahibi';
 
   @override
   String get lcod_lbl_payment_successful => 'Ödeme başarılı';
@@ -364,6 +364,75 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lcod_lbl_update_phone_number => 'Telefon Numarası Güncelleme';
+
+  @override
+  String get lcod_lbl_control_email => 'Mail\'inizi kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_password => 'Şifrenizi kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_username => 'Kullanıcı adınızı kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_name => 'Adınızı kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_surname => 'Soyadınızı kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_building_name => 'Bina adını kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_phone_number => 'Telefon numaranızı kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_card_number => 'Kart numarasını kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_cvv_code => 'CVV kodunu kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_double_name => 'İsminizi ve soyisminizi kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_valid_thru => 'Son geçerlilik tarihini kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_title => 'Başlığı kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_apartment_number => 'Daire numaranızı kontrol ediniz';
+
+  @override
+  String get lcod_lbl_control_request_type => 'Talep tipiniz seçiniz';
+
+  @override
+  String get lcod_lbl_control_request_explanation => 'Talebinizin açıklamasını kontrol ediniz';
+
+  @override
+  String get lcod_lbl_message_password => 'Geçerli şifre yanlış!';
+
+  @override
+  String get lcod_lbl_message_taken_username => 'Bu kullanıcı adı zaten alınmış!';
+
+  @override
+  String get lcod_lbl_message_update_username => 'Kullanıcı adınız güncellendi...';
+
+  @override
+  String get lcod_lbl_message_error_username => 'Kullanıcı adı güncelleme hatası.';
+
+  @override
+  String get lcod_lbl_message_used_username => 'Bu kullanıcı adı zaten kullanılıyor.';
+
+  @override
+  String get lcod_lbl_message_not_found_user => 'Kullanıcı bulunamadı!';
+
+  @override
+  String get lcod_lbl_message_error_profile_photo => 'Profil resmi güncellenirken bir hata oluştu.';
+
+  @override
+  String get lcod_lbl_message_error_logout => 'Çıkış yaparken bir hata oluştu.';
 
   @override
   String get lcod_lbl_profile_settings => 'Profil Ayarları';

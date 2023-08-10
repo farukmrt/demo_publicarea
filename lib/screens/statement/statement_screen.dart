@@ -29,36 +29,35 @@ class StatementScreen extends StatefulWidget {
 }
 
 class _StatementScreenState extends State<StatementScreen> {
+  // void _refreshData() {
+  //   _pagingControllerFalse.refresh();
+  //   _pagingControllerTrue.refresh();
+  // }
+
+  ScrollController _scrollController = ScrollController();
+
+  // PagingController<int, Bill> get pagingControllerTrue => _pagingControllerTrue;
+  // final PagingController<int, Bill> _pagingControllerTrue =
+  //     PagingController(firstPageKey: 0);
+
+  // PagingController<int, Bill> get pagingControllerFalse =>
+  //     _pagingControllerFalse;
+  // final PagingController<int, Bill> _pagingControllerFalse =
+  //     PagingController(firstPageKey: 0);
+
+  StreamSubscription<List<Bill>>? _billStreamSubscription;
+  List<Bill> _bills = [];
+
   @override
   void initState() {
     super.initState();
-    _refreshData();
+    // _refreshData();
     _billStreamSubscription = BillProvider().billStream.listen((bills) {
       setState(() {
         _bills = bills;
       });
     });
   }
-
-  void _refreshData() {
-    _pagingControllerFalse.refresh();
-    _pagingControllerTrue.refresh();
-  }
-
-  ScrollController _scrollController = ScrollController();
-
-  PagingController<int, Bill> get pagingControllerTrue => _pagingControllerTrue;
-  final PagingController<int, Bill> _pagingControllerTrue =
-      PagingController(firstPageKey: 0);
-
-  PagingController<int, Bill> get pagingControllerFalse =>
-      _pagingControllerFalse;
-  final PagingController<int, Bill> _pagingControllerFalse =
-      PagingController(firstPageKey: 0);
-
-  StreamSubscription<List<Bill>>? _billStreamSubscription;
-  List<Bill> _bills = [];
-
   // @override
   // void initState() {
   //   super.initState();
@@ -75,45 +74,45 @@ class _StatementScreenState extends State<StatementScreen> {
     BillProvider billProviderT = Provider.of<BillProvider>(context);
     BillProvider billProviderF = Provider.of<BillProvider>(context);
 
-    _pagingControllerTrue.addPageRequestListener((pageKey) {
-      billProviderT
-          .fetchPageBillByPaidStatus(true, userProvider.user.apartmentId,
-              limit: 6, pageKey: pageKey)
-          .listen((tempList) {
-        final isLastPage = tempList.length < 6;
+    // _pagingControllerTrue.addPageRequestListener((pageKey) {
+    //   billProviderT
+    //       .fetchPageBillByPaidStatus(true, userProvider.user.apartmentId,
+    //           limit: 6, pageKey: pageKey)
+    //       .listen((tempList) {
+    //     final isLastPage = tempList.length < 6;
 
-        if (isLastPage) {
-          _pagingControllerTrue.appendLastPage(tempList);
-        } else {
-          final nextPageKey = pageKey + 1;
+    //     if (isLastPage) {
+    //       _pagingControllerTrue.appendLastPage(tempList);
+    //     } else {
+    //       final nextPageKey = pageKey + 1;
 
-          _pagingControllerTrue.appendPage(tempList, nextPageKey);
-        }
-        print('Value from controller: $pageKey');
-      });
-    });
+    //       _pagingControllerTrue.appendPage(tempList, nextPageKey);
+    //     }
+    //     print('Value from controller: $pageKey');
+    //   });
+    // });
 
-    _pagingControllerFalse.addPageRequestListener((pageKey) {
-      billProviderF
-          .fetchPageBillByPaidStatus(false, userProvider.user.apartmentId,
-              limit: 6, pageKey: pageKey)
-          .listen((tempList) {
-        final isLastPage = tempList.length < 6;
+    // _pagingControllerFalse.addPageRequestListener((pageKey) {
+    //   billProviderF
+    //       .fetchPageBillByPaidStatus(false, userProvider.user.apartmentId,
+    //           limit: 6, pageKey: pageKey)
+    //       .listen((tempList) {
+    //     final isLastPage = tempList.length < 6;
 
-        if (isLastPage) {
-          _pagingControllerFalse.appendLastPage(tempList);
-        } else {
-          final nextPageKey = pageKey + 1;
+    //     if (isLastPage) {
+    //       _pagingControllerFalse.appendLastPage(tempList);
+    //     } else {
+    //       final nextPageKey = pageKey + 1;
 
-          _pagingControllerFalse.appendPage(tempList, nextPageKey);
-        }
-        print('Value from controller: $pageKey');
-      });
-    });
+    //       _pagingControllerFalse.appendPage(tempList, nextPageKey);
+    //     }
+    //     print('Value from controller: $pageKey');
+    //   });
+    // });
 
-    setState(() {
-      _refreshData();
-    });
+    // setState(() {
+    //   _refreshData();
+    // });
     //var outputFormat = DateFormat('MM/dd/yyyy');
     final size = MediaQuery.of(context).size;
 
@@ -221,99 +220,99 @@ class _StatementScreenState extends State<StatementScreen> {
                     //   },
                     // ),
 
-                    RefreshIndicator(
-                  onRefresh: () =>
-                      Future.sync(() => _pagingControllerFalse.refresh()),
-                  child: PagedListView<int, Bill>(
-                    pagingController: _pagingControllerFalse,
-                    builderDelegate: PagedChildBuilderDelegate<Bill>(
-                      itemBuilder: (context, unpaidBills, index) => Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: CustomListItem(
-                          title: unpaidBills.name,
-                          subtitle:
-                              '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
-                          color: unpaidc,
-                          trailing: Text(
-                              NoyaFormatter.generateAmount(unpaidBills.amount)),
-                          leading: const Icon(
-                            Icons.receipt_long_outlined,
-                            color: unpaidc,
-                            size: 30,
-                          ),
-                        ),
-                      ),
-                      noItemsFoundIndicatorBuilder: (context) => CustomListItem(
-                        title: trnslt.lcod_lbl_thanks,
-                        subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
-                        color: positive,
-                        leading: const Icon(
-                          Icons.done_outline_outlined,
-                          color: positive,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                  ),
+                    //     RefreshIndicator(
+                    //   onRefresh: () =>
+                    //       Future.sync(() => _pagingControllerFalse.refresh()),
+                    //   child: PagedListView<int, Bill>(
+                    //     pagingController: _pagingControllerFalse,
+                    //     builderDelegate: PagedChildBuilderDelegate<Bill>(
+                    //       itemBuilder: (context, unpaidBills, index) => Padding(
+                    //         padding: const EdgeInsets.all(1.0),
+                    //         child: CustomListItem(
+                    //           title: unpaidBills.name,
+                    //           subtitle:
+                    //               '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
+                    //           color: unpaidc,
+                    //           trailing: Text(
+                    //               NoyaFormatter.generateAmount(unpaidBills.amount)),
+                    //           leading: const Icon(
+                    //             Icons.receipt_long_outlined,
+                    //             color: unpaidc,
+                    //             size: 30,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       noItemsFoundIndicatorBuilder: (context) => CustomListItem(
+                    //         title: trnslt.lcod_lbl_thanks,
+                    //         subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
+                    //         color: positive,
+                    //         leading: const Icon(
+                    //           Icons.done_outline_outlined,
+                    //           color: positive,
+                    //           size: 40,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    ///////////////////////////////////////
+                    Consumer<BillProvider>(
+                  builder: (context, data, index) {
+                    return StreamBuilder(
+                      stream: data.fetchPageBillByPaidStatus(
+                          false, userProvider.user.apartmentId,
+                          limit: 4),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: LoadingIndicator(),
+                            );
+                          } else {
+                            var bill = snapshot.data;
+                            if (bill == null || bill.isEmpty) {
+                              return CustomListItem(
+                                title: trnslt.lcod_lbl_thanks,
+                                subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
+                                color: positive,
+                                leading: const Icon(
+                                  Icons.done_outline_outlined,
+                                  color: positive,
+                                  size: 40,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: bill.length,
+                                itemBuilder: (context, index) {
+                                  var unpaidBills = bill[index];
+                                  return CustomListItem(
+                                    title: unpaidBills.name,
+                                    subtitle:
+                                        '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
+                                    color: unpaidc,
+                                    trailing: Text(NoyaFormatter.generateAmount(
+                                        unpaidBills.amount)),
+                                    leading: const Icon(
+                                      Icons.receipt_long_outlined,
+                                      color: unpaidc,
+                                      size: 30,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        } else if (snapshot.hasError) {
+                          return Text(
+                              '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
+                        }
+                        return const LoadingIndicator();
+                      },
+                    );
+                  },
                 ),
-                ///////////////////////////////////////
-                //     Consumer<BillProvider>(
-                //   builder: (context, data, index) {
-                //     return StreamBuilder(
-                //       stream: data.fetchPageBillByPaidStatus(
-                //           false, userProvider.user.apartmentId,
-                //           limit: 4),
-                //       builder: (BuildContext context, snapshot) {
-                //         if (snapshot.hasData) {
-                //           if (snapshot.connectionState ==
-                //               ConnectionState.waiting) {
-                //             return const Center(
-                //               child: LoadingIndicator(),
-                //             );
-                //           } else {
-                //             var bill = snapshot.data;
-                //             if (bill == null || bill.isEmpty) {
-                //               return CustomListItem(
-                //                 title: trnslt.lcod_lbl_thanks,
-                //                 subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
-                //                 color: positive,
-                //                 leading: const Icon(
-                //                   Icons.done_outline_outlined,
-                //                   color: positive,
-                //                   size: 40,
-                //                 ),
-                //               );
-                //             } else {
-                //               return ListView.builder(
-                //                 itemCount: bill.length,
-                //                 itemBuilder: (context, index) {
-                //                   var unpaidBills = bill[index];
-                //                   return CustomListItem(
-                //                     title: unpaidBills.name,
-                //                     subtitle:
-                //                         '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
-                //                     color: unpaidc,
-                //                     trailing: Text(NoyaFormatter.generateAmount(
-                //                         unpaidBills.amount)),
-                //                     leading: const Icon(
-                //                       Icons.receipt_long_outlined,
-                //                       color: unpaidc,
-                //                       size: 30,
-                //                     ),
-                //                   );
-                //                 },
-                //               );
-                //             }
-                //           }
-                //         } else if (snapshot.hasError) {
-                //           return Text(
-                //               '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
-                //         }
-                //         return const LoadingIndicator();
-                //       },
-                //     );
-                //   },
-                // ),
               ),
               Container(
                 width: double.infinity,
@@ -359,7 +358,7 @@ class _StatementScreenState extends State<StatementScreen> {
                 children: [
                   CustomSubtitle(
                     title: trnslt.lcod_lbl_statement_paid,
-                    subtitle: userProvider.user.building,
+                    subtitle: userProvider.currentUser.building,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -449,102 +448,102 @@ class _StatementScreenState extends State<StatementScreen> {
                     //   },
                     // ),
                     ////////////////////////////////////
-                    RefreshIndicator(
-                  onRefresh: () =>
-                      Future.sync(() => _pagingControllerTrue.refresh()),
-                  child: PagedListView<int, Bill>(
-                    pagingController: _pagingControllerTrue,
-                    builderDelegate: PagedChildBuilderDelegate<Bill>(
-                      itemBuilder: (context, paidBills, index) => Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: CustomListItem(
-                            title: paidBills.name,
-                            subtitle:
-                                '${trnslt.lcod_lbl_payment_date_paid} ${NoyaFormatter.generate(paidBills.date)}',
-                            color: paidc,
-                            trailing: Text(
-                                NoyaFormatter.generateAmount(paidBills.amount)),
-                            leading: const Icon(
-                              Icons.receipt_long_outlined,
-                              color: paidc,
-                              size: 30,
-                            ),
-                          ),
-                        ),
-                      ),
-                      noItemsFoundIndicatorBuilder: (context) => CustomListItem(
-                        title: trnslt.lcod_lbl_payment_bill,
-                        subtitle: trnslt.lcod_lbl_no_invoice_paid,
-                        color: unpaidc,
-                        leading: const Icon(
-                          Icons.priority_high_outlined,
-                          color: unpaidc,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                  ),
+                    //     RefreshIndicator(
+                    //   onRefresh: () =>
+                    //       Future.sync(() => _pagingControllerTrue.refresh()),
+                    //   child: PagedListView<int, Bill>(
+                    //     pagingController: _pagingControllerTrue,
+                    //     builderDelegate: PagedChildBuilderDelegate<Bill>(
+                    //       itemBuilder: (context, paidBills, index) => Padding(
+                    //         padding: const EdgeInsets.all(1.0),
+                    //         child: GestureDetector(
+                    //           onTap: () {},
+                    //           child: CustomListItem(
+                    //             title: paidBills.name,
+                    //             subtitle:
+                    //                 '${trnslt.lcod_lbl_payment_date_paid} ${NoyaFormatter.generate(paidBills.date)}',
+                    //             color: paidc,
+                    //             trailing: Text(
+                    //                 NoyaFormatter.generateAmount(paidBills.amount)),
+                    //             leading: const Icon(
+                    //               Icons.receipt_long_outlined,
+                    //               color: paidc,
+                    //               size: 30,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       noItemsFoundIndicatorBuilder: (context) => CustomListItem(
+                    //         title: trnslt.lcod_lbl_payment_bill,
+                    //         subtitle: trnslt.lcod_lbl_no_invoice_paid,
+                    //         color: unpaidc,
+                    //         leading: const Icon(
+                    //           Icons.priority_high_outlined,
+                    //           color: unpaidc,
+                    //           size: 40,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    ///////////////
+                    Consumer<BillProvider>(
+                  builder: (context, data, index) {
+                    return StreamBuilder(
+                      stream: data.fetchPageBillByPaidStatus(
+                          true, userProvider.user.apartmentId,
+                          limit: 4),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: LoadingIndicator(),
+                            );
+                          } else {
+                            var bill = snapshot.data;
+                            if (bill == null || bill.isEmpty) {
+                              return CustomListItem(
+                                title: trnslt.lcod_lbl_payment_bill,
+                                subtitle: trnslt.lcod_lbl_no_invoice_paid,
+                                color: unpaidc,
+                                leading: const Icon(
+                                  Icons.priority_high_outlined,
+                                  color: unpaidc,
+                                  size: 40,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: bill.length,
+                                itemBuilder: (context, index) {
+                                  var paidBills = bill[index];
+                                  return CustomListItem(
+                                    title: paidBills.name,
+                                    subtitle:
+                                        '${trnslt.lcod_lbl_payment_date_paid} ${NoyaFormatter.generate(paidBills.date)}',
+                                    color: paidc,
+                                    trailing: Text(NoyaFormatter.generateAmount(
+                                        paidBills.amount)),
+                                    leading: const Icon(
+                                      Icons.receipt_long_outlined,
+                                      color: paidc,
+                                      size: 30,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        } else if (snapshot.hasError) {
+                          return Text(
+                              '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
+                        }
+                        return const LoadingIndicator();
+                      },
+                    );
+                  },
                 ),
-                ///////////////
-                //     Consumer<BillProvider>(
-                //   builder: (context, data, index) {
-                //     return StreamBuilder(
-                //       stream: data.fetchPageBillByPaidStatus(
-                //           true, userProvider.user.apartmentId,
-                //           limit: 4),
-                //       builder: (BuildContext context, snapshot) {
-                //         if (snapshot.hasData) {
-                //           if (snapshot.connectionState ==
-                //               ConnectionState.waiting) {
-                //             return const Center(
-                //               child: LoadingIndicator(),
-                //             );
-                //           } else {
-                //             var bill = snapshot.data;
-                //             if (bill == null || bill.isEmpty) {
-                //               return CustomListItem(
-                //                 title: trnslt.lcod_lbl_payment_bill,
-                //                 subtitle: trnslt.lcod_lbl_no_invoice_paid,
-                //                 color: unpaidc,
-                //                 leading: const Icon(
-                //                   Icons.priority_high_outlined,
-                //                   color: unpaidc,
-                //                   size: 40,
-                //                 ),
-                //               );
-                //             } else {
-                //               return ListView.builder(
-                //                 itemCount: bill.length,
-                //                 itemBuilder: (context, index) {
-                //                   var paidBills = bill[index];
-                //                   return CustomListItem(
-                //                     title: paidBills.name,
-                //                     subtitle:
-                //                         '${trnslt.lcod_lbl_payment_date_paid} ${NoyaFormatter.generate(paidBills.date)}',
-                //                     color: paidc,
-                //                     trailing: Text(NoyaFormatter.generateAmount(
-                //                         paidBills.amount)),
-                //                     leading: const Icon(
-                //                       Icons.receipt_long_outlined,
-                //                       color: paidc,
-                //                       size: 30,
-                //                     ),
-                //                   );
-                //                 },
-                //               );
-                //             }
-                //           }
-                //         } else if (snapshot.hasError) {
-                //           return Text(
-                //               '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
-                //         }
-                //         return const LoadingIndicator();
-                //       },
-                //     );
-                //   },
-                // ),
               ),
               Container(
                 width: size.width,

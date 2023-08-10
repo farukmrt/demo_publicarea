@@ -8,6 +8,8 @@ class CustomTextFieldMedium extends StatelessWidget {
   final Color? color;
   final int? minlinee;
   final int? maxlinee;
+  final int? maxLength;
+  final String? Function(String?)? validator;
 
   const CustomTextFieldMedium({
     Key? key,
@@ -17,6 +19,8 @@ class CustomTextFieldMedium extends StatelessWidget {
     this.color,
     this.minlinee,
     this.maxlinee,
+    this.maxLength,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -24,10 +28,14 @@ class CustomTextFieldMedium extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        validator: validator,
+        maxLength: maxLength,
+        //35. satır açılırsa sayaç gözükmeyecektir(counterText)
         minLines: 2,
         maxLines: 4,
         controller: controller!,
         decoration: InputDecoration(
+          // counterText: '',
           filled: true,
           fillColor: color,
           labelText: labelText,

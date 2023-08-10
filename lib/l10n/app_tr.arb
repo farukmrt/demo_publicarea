@@ -129,7 +129,7 @@
     "lcod_lbl_selected_amount":"Seçilen tutar",
     "lcod_lbl_card_number":"Kart numarası",
     "lcod_lbl_expiration":"Son kullanma tarihi",
-    "lcod_lbl_card_holder":"Kart sahibi",
+    "lcod_lbl_card_holder":"Kart Sahibi",
     "lcod_lbl_payment_successful":"Ödeme başarılı",
     "lcod_lbl_wrong_card_information":"Kart bilgileri hatalı lütfen kontrol edin",
     "lcod_lbl_confirm_payment":"Ödemeyi onayla ",
@@ -177,6 +177,35 @@
     "lcod_lbl_update_email":"E-Mail Güncelleme",
     "lcod_lbl_update_username":"Kullanıcı Adı Güncelleme",
     "lcod_lbl_update_phone_number":"Telefon Numarası Güncelleme",
+
+    "lcod_lbl_control_email":"Mail'inizi kontrol ediniz",
+    "lcod_lbl_control_password":"Şifrenizi kontrol ediniz",
+    "lcod_lbl_control_username":"Kullanıcı adınızı kontrol ediniz",
+    "lcod_lbl_control_name":"Adınızı kontrol ediniz",
+    "lcod_lbl_control_surname":"Soyadınızı kontrol ediniz",
+    "lcod_lbl_control_building_name":"Bina adını kontrol ediniz",
+    "lcod_lbl_control_phone_number":"Telefon numaranızı kontrol ediniz",
+
+    "lcod_lbl_control_card_number":"Kart numarasını kontrol ediniz",
+    "lcod_lbl_control_cvv_code":"CVV kodunu kontrol ediniz",
+    "lcod_lbl_control_double_name":"İsminizi ve soyisminizi kontrol ediniz",
+    "lcod_lbl_control_valid_thru":"Son geçerlilik tarihini kontrol ediniz",
+
+    "lcod_lbl_control_title":"Başlığı kontrol ediniz",
+    "lcod_lbl_control_apartment_number":"Daire numaranızı kontrol ediniz",
+    "lcod_lbl_control_request_type":"Talep tipiniz seçiniz",
+    "lcod_lbl_control_request_explanation":"Talebinizin açıklamasını kontrol ediniz",
+
+    "lcod_lbl_message_password":"Geçerli şifre yanlış!",
+    "lcod_lbl_message_taken_username":"Bu kullanıcı adı zaten alınmış!",
+    "lcod_lbl_message_update_username":"Kullanıcı adınız güncellendi...",
+    "lcod_lbl_message_error_username":"Kullanıcı adı güncelleme hatası.",
+    "lcod_lbl_message_used_username":"Bu kullanıcı adı zaten kullanılıyor.",
+    "lcod_lbl_message_not_found_user":"Kullanıcı bulunamadı!",
+
+    "lcod_lbl_message_error_profile_photo":"Profil resmi güncellenirken bir hata oluştu.",
+
+    "lcod_lbl_message_error_logout":"Çıkış yaparken bir hata oluştu.",
 
     "lcod_lbl_profile_settings":"Profil Ayarları",
     "lcod_lbl_new_building":"Yeni Siteye Kayıt Olma",

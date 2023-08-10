@@ -4,20 +4,18 @@ import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CustomUpdateProfilphoto extends StatefulWidget {
+class UpdateProfilphotoScreen extends StatefulWidget {
   static String routeName = '/updateProfilePhoto';
-  const CustomUpdateProfilphoto({Key? key}) : super(key: key);
+  const UpdateProfilphotoScreen({Key? key}) : super(key: key);
   @override
-  _CustomUpdateProfilphotoState createState() =>
-      _CustomUpdateProfilphotoState();
+  _UpdateProfilphotoScreenState createState() =>
+      _UpdateProfilphotoScreenState();
 }
 
-class _CustomUpdateProfilphotoState extends State<CustomUpdateProfilphoto> {
+class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
   File? selectedImage;
   String? imageUrl;
 

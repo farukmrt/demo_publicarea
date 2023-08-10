@@ -152,6 +152,8 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -206,153 +208,193 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
             color: backgroundColor,
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    child: buildImageWidget(),
-                    // width: double.infinity,
-                    // height: double.infinity,
-                  ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      child: buildImageWidget(),
+                      // width: double.infinity,
+                      // height: double.infinity,
+                    ),
 
-                  CustomTextField(
-                    controller: requestTitleController,
-                    labelText: trnslt.lcod_lbl_subject,
-                  ),
-                  CustomTextField(
-                    controller: apartmentNumberController,
-                    labelText: trnslt.lcod_lbl_apartment,
-                  ),
-                  //DropdownButtonFormField(items:, onChanged: (){})
+                    CustomTextField(
+                      controller: requestTitleController,
+                      labelText: trnslt.lcod_lbl_subject,
+                      maxLength: 20,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.characters.length < 4) {
+                          return trnslt.lcod_lbl_control_title;
+                        }
+                        return null; // Herhangi bir hata yoksa null döndürün.
+                      },
+                    ),
+                    CustomTextField(
+                      controller: apartmentNumberController,
+                      labelText: trnslt.lcod_lbl_apartment,
+                      maxLength: 10,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.characters.length < 4) {
+                          return trnslt.lcod_lbl_control_apartment_number;
+                        }
+                        return null; // Herhangi bir hata yoksa null döndürün.
+                      },
+                    ),
+                    //DropdownButtonFormField(items:, onChanged: (){})
 
-                  CustomDropdownButton(
-                    //controller: requestTypeController,
-                    labelText: trnslt.lcod_lbl_request_type,
-                    value: selectedValue,
-                    //items: const ['Arıza', 'Soru', 'Öneri', 'Şikayet'],
-                    items: [
-                      trnslt.lcod_lbl_fault,
-                      trnslt.lcod_lbl_question,
-                      trnslt.lcod_lbl_suggestion,
-                      trnslt.lcod_lbl_complaint
-                    ],
+                    CustomDropdownButton(
+                      //controller: requestTypeController,
+                      labelText: trnslt.lcod_lbl_request_type,
+                      value: selectedValue,
+                      //items: const ['Arıza', 'Soru', 'Öneri', 'Şikayet'],
+                      items: [
+                        trnslt.lcod_lbl_fault,
+                        trnslt.lcod_lbl_question,
+                        trnslt.lcod_lbl_suggestion,
+                        trnslt.lcod_lbl_complaint
+                      ],
 
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedValue = newValue;
-                        selectedValueController.text = selectedValue.toString();
-                        // apartmentNumberController.text.length;
-                        // requestExplanationController.text.length;
-                        // requestTitleController.text.length;
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue = newValue;
+                          selectedValueController.text =
+                              selectedValue.toString();
+                          // apartmentNumberController.text.length;
+                          // requestExplanationController.text.length;
+                          // requestTitleController.text.length;
 
-                        // if (selectedValue != null) {
-                        //   String lcod_lbl_fault = trnslt.lcod_lbl_fault;
-                        //   String lcod_lbl_question = trnslt.lcod_lbl_question;
-                        //   String lcod_lbl_suggestion =
-                        //       trnslt.lcod_lbl_suggestion;
-                        //   String lcod_lbl_complaint = trnslt.lcod_lbl_complaint;
-                        // }
-                      });
-                    },
-                  ),
+                          // if (selectedValue != null) {
+                          //   String lcod_lbl_fault = trnslt.lcod_lbl_fault;
+                          //   String lcod_lbl_question = trnslt.lcod_lbl_question;
+                          //   String lcod_lbl_suggestion =
+                          //       trnslt.lcod_lbl_suggestion;
+                          //   String lcod_lbl_complaint = trnslt.lcod_lbl_complaint;
+                          // }
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.characters.length < 4) {
+                          return trnslt.lcod_lbl_control_request_type;
+                        }
+                        return null; // Herhangi bir hata yoksa null döndürün.
+                      },
+                    ),
 
-                  // const CustomTextField(
-                  //   controller: ,
-                  //   labelText: 'Yaşam Alanı Tipi',
-                  // ),
-                  CustomTextFieldMedium(
-                    controller: requestExplanationController,
-                    labelText: trnslt.lcod_lbl_explanation,
+                    // const CustomTextField(
+                    //   controller: ,
+                    //   labelText: 'Yaşam Alanı Tipi',
+                    // ),
+                    CustomTextFieldMedium(
+                      controller: requestExplanationController,
+                      labelText: trnslt.lcod_lbl_explanation,
+                      maxLength: 200,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.characters.length < 4) {
+                          return trnslt.lcod_lbl_control_request_explanation;
+                        }
+                        return null; // Herhangi bir hata yoksa null döndürün.
+                      },
 
-                    //maxline: minLine + 1,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                      //maxline: minLine + 1,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
 
-                  CustomMainButton(
-                    color: negative,
-                    text: '${trnslt.lcod_lbl_add_image}',
-                    edgeInsets: const EdgeInsets.symmetric(horizontal: 100),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return CupertinoAlertDialog(
-                            // title: Text('Resim Ekle'),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    await photoProvider.takeAPhoto();
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      selectedImage =
-                                          photoProvider.selectedImage;
-                                    });
-                                  },
-                                  child: Text(
-                                    trnslt.lcod_lbl_shooting,
-                                    style: const TextStyle(
-                                        color: mainBackgroundColor),
+                    CustomMainButton(
+                      color: negative,
+                      text: '${trnslt.lcod_lbl_add_image}',
+                      edgeInsets: const EdgeInsets.symmetric(horizontal: 100),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoAlertDialog(
+                              // title: Text('Resim Ekle'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      await photoProvider.takeAPhoto();
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        selectedImage =
+                                            photoProvider.selectedImage;
+                                      });
+                                    },
+                                    child: Text(
+                                      trnslt.lcod_lbl_shooting,
+                                      style: const TextStyle(
+                                          color: mainBackgroundColor),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    // Galeri seçeneği için işlemler burada yapılacak
-                                    await photoProvider.getAPhoto();
-                                    Navigator.pop(
-                                        context); // Seçim yapıldığında, 'galeri' değeri ile iletişim kutusunu kapatacak
-                                    setState(() {
-                                      selectedImage =
-                                          photoProvider.selectedImage;
-                                    });
-                                  },
-                                  child: Text(
-                                    trnslt.lcod_lbl_upload_from_gallery,
-                                    style:
-                                        TextStyle(color: mainBackgroundColor),
+                                  const SizedBox(height: 10),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      // Galeri seçeneği için işlemler burada yapılacak
+                                      await photoProvider.getAPhoto();
+                                      Navigator.pop(
+                                          context); // Seçim yapıldığında, 'galeri' değeri ile iletişim kutusunu kapatacak
+                                      setState(() {
+                                        selectedImage =
+                                            photoProvider.selectedImage;
+                                      });
+                                    },
+                                    child: Text(
+                                      trnslt.lcod_lbl_upload_from_gallery,
+                                      style:
+                                          TextStyle(color: mainBackgroundColor),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+
+                    CustomMainButton(
+                      onTap: () async {
+                        if (_formKey.currentState!.validate() && changing) {
+                          requestProvider.sendRequestData(
+                            apartmentNumberController,
+                            requestTitleController,
+                            requestExplanationController,
+                            selectedValueType!,
+                            apartmentId!,
+                            userUid!,
+                            selectedImage,
                           );
-                        },
-                      );
-                    },
-                  ),
-
-                  CustomMainButton(
-                    onTap: () async {
-                      if (changing) {
-                        requestProvider.sendRequestData(
-                          apartmentNumberController,
-                          requestTitleController,
-                          requestExplanationController,
-                          selectedValueType!,
-                          apartmentId!,
-                          userUid!,
-                          selectedImage,
-                        );
-                        PersistentNavBarNavigator
-                            .pushNewScreenWithRouteSettings(
-                          context,
-                          settings:
-                              RouteSettings(name: RequestScreen.routeName),
-                          screen: const RequestScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      }
-                    },
-                    color:
-                        changing ? primaryColor : primaryColor.withOpacity(0.5),
-                    text: trnslt.lcod_lbl_send_request,
-                    edgeInsets: const EdgeInsets.symmetric(vertical: 25),
-                  ),
-                ],
+                          PersistentNavBarNavigator
+                              .pushNewScreenWithRouteSettings(
+                            context,
+                            settings:
+                                RouteSettings(name: RequestScreen.routeName),
+                            screen: const RequestScreen(),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        }
+                      },
+                      color: changing
+                          ? primaryColor
+                          : primaryColor.withOpacity(0.5),
+                      text: trnslt.lcod_lbl_send_request,
+                      edgeInsets: const EdgeInsets.symmetric(vertical: 25),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

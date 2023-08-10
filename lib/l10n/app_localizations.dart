@@ -610,7 +610,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_card_holder.
   ///
   /// In tr, this message translates to:
-  /// **'Kart sahibi'**
+  /// **'Kart Sahibi'**
   String get lcod_lbl_card_holder;
 
   /// No description provided for @lcod_lbl_payment_successful.
@@ -810,6 +810,144 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Telefon Numarası Güncelleme'**
   String get lcod_lbl_update_phone_number;
+
+  /// No description provided for @lcod_lbl_control_email.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mail\'inizi kontrol ediniz'**
+  String get lcod_lbl_control_email;
+
+  /// No description provided for @lcod_lbl_control_password.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifrenizi kontrol ediniz'**
+  String get lcod_lbl_control_password;
+
+  /// No description provided for @lcod_lbl_control_username.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı adınızı kontrol ediniz'**
+  String get lcod_lbl_control_username;
+
+  /// No description provided for @lcod_lbl_control_name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adınızı kontrol ediniz'**
+  String get lcod_lbl_control_name;
+
+  /// No description provided for @lcod_lbl_control_surname.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soyadınızı kontrol ediniz'**
+  String get lcod_lbl_control_surname;
+
+  /// No description provided for @lcod_lbl_control_building_name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bina adını kontrol ediniz'**
+  String get lcod_lbl_control_building_name;
+
+  /// No description provided for @lcod_lbl_control_phone_number.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon numaranızı kontrol ediniz'**
+  String get lcod_lbl_control_phone_number;
+
+  /// No description provided for @lcod_lbl_control_card_number.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kart numarasını kontrol ediniz'**
+  String get lcod_lbl_control_card_number;
+
+  /// No description provided for @lcod_lbl_control_cvv_code.
+  ///
+  /// In tr, this message translates to:
+  /// **'CVV kodunu kontrol ediniz'**
+  String get lcod_lbl_control_cvv_code;
+
+  /// No description provided for @lcod_lbl_control_double_name.
+  ///
+  /// In tr, this message translates to:
+  /// **'İsminizi ve soyisminizi kontrol ediniz'**
+  String get lcod_lbl_control_double_name;
+
+  /// No description provided for @lcod_lbl_control_valid_thru.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son geçerlilik tarihini kontrol ediniz'**
+  String get lcod_lbl_control_valid_thru;
+
+  /// No description provided for @lcod_lbl_control_title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlığı kontrol ediniz'**
+  String get lcod_lbl_control_title;
+
+  /// No description provided for @lcod_lbl_control_apartment_number.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daire numaranızı kontrol ediniz'**
+  String get lcod_lbl_control_apartment_number;
+
+  /// No description provided for @lcod_lbl_control_request_type.
+  ///
+  /// In tr, this message translates to:
+  /// **'Talep tipiniz seçiniz'**
+  String get lcod_lbl_control_request_type;
+
+  /// No description provided for @lcod_lbl_control_request_explanation.
+  ///
+  /// In tr, this message translates to:
+  /// **'Talebinizin açıklamasını kontrol ediniz'**
+  String get lcod_lbl_control_request_explanation;
+
+  /// No description provided for @lcod_lbl_message_password.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçerli şifre yanlış!'**
+  String get lcod_lbl_message_password;
+
+  /// No description provided for @lcod_lbl_message_taken_username.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kullanıcı adı zaten alınmış!'**
+  String get lcod_lbl_message_taken_username;
+
+  /// No description provided for @lcod_lbl_message_update_username.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı adınız güncellendi...'**
+  String get lcod_lbl_message_update_username;
+
+  /// No description provided for @lcod_lbl_message_error_username.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı adı güncelleme hatası.'**
+  String get lcod_lbl_message_error_username;
+
+  /// No description provided for @lcod_lbl_message_used_username.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kullanıcı adı zaten kullanılıyor.'**
+  String get lcod_lbl_message_used_username;
+
+  /// No description provided for @lcod_lbl_message_not_found_user.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı bulunamadı!'**
+  String get lcod_lbl_message_not_found_user;
+
+  /// No description provided for @lcod_lbl_message_error_profile_photo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil resmi güncellenirken bir hata oluştu.'**
+  String get lcod_lbl_message_error_profile_photo;
+
+  /// No description provided for @lcod_lbl_message_error_logout.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıkış yaparken bir hata oluştu.'**
+  String get lcod_lbl_message_error_logout;
 
   /// No description provided for @lcod_lbl_profile_settings.
   ///

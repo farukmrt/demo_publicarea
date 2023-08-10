@@ -366,6 +366,75 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lcod_lbl_update_phone_number => 'Mise à Jour du Numéro de Téléphone';
 
   @override
+  String get lcod_lbl_control_email => 'Vérifier votre courrier';
+
+  @override
+  String get lcod_lbl_control_password => 'Vérifiez votre mot de passe';
+
+  @override
+  String get lcod_lbl_control_username => 'Vérifiez votre nom d\'utilisateur';
+
+  @override
+  String get lcod_lbl_control_name => 'Vérifie ton nom';
+
+  @override
+  String get lcod_lbl_control_surname => 'Vérifiez votre nom de famille';
+
+  @override
+  String get lcod_lbl_control_building_name => 'Vérifier le nom du bâtiment';
+
+  @override
+  String get lcod_lbl_control_phone_number => 'Vérifiez votre numéro de téléphone';
+
+  @override
+  String get lcod_lbl_control_card_number => 'Vérifier le numéro de carte';
+
+  @override
+  String get lcod_lbl_control_cvv_code => 'Vérifier le code CVV';
+
+  @override
+  String get lcod_lbl_control_double_name => 'Vérifiez votre nom et prénom';
+
+  @override
+  String get lcod_lbl_control_valid_thru => 'Vérifiez la date de péremption';
+
+  @override
+  String get lcod_lbl_control_title => 'Vérifiez le titre';
+
+  @override
+  String get lcod_lbl_control_apartment_number => 'Vérifiez votre numéro d\'appartement';
+
+  @override
+  String get lcod_lbl_control_request_type => 'Choisissez votre type de demande';
+
+  @override
+  String get lcod_lbl_control_request_explanation => 'Vérifiez la description de votre demande';
+
+  @override
+  String get lcod_lbl_message_password => 'Le mot de passe actuel est incorrect !';
+
+  @override
+  String get lcod_lbl_message_taken_username => 'Ce nom d\'utilisateur est déjà pris!';
+
+  @override
+  String get lcod_lbl_message_update_username => 'Votre nom d\'utilisateur a été mis à jour...';
+
+  @override
+  String get lcod_lbl_message_error_username => 'Erreur de mise à jour du nom d\'utilisateur.';
+
+  @override
+  String get lcod_lbl_message_used_username => 'Ce nom d\'utilisateur est déjà utilisé.';
+
+  @override
+  String get lcod_lbl_message_not_found_user => 'Utilisateur non trouvé!';
+
+  @override
+  String get lcod_lbl_message_error_profile_photo => 'Une erreur s\'est produite lors de la mise à jour de la photo de profil.';
+
+  @override
+  String get lcod_lbl_message_error_logout => 'Une erreur s\'est produite lors de la déconnexion.';
+
+  @override
   String get lcod_lbl_profile_settings => 'Paramètres de profil';
 
   @override

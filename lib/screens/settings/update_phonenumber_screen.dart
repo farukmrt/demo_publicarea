@@ -1,23 +1,22 @@
-import 'package:demo_publicarea/l10n/app_localizations.dart';
-import 'package:demo_publicarea/providers/user_providers.dart';
-import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_listItem.dart';
-import 'package:demo_publicarea/widgets/custom_main_button.dart';
-import 'package:demo_publicarea/widgets/custom_textfield.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:demo_publicarea/utils/colors.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/widgets/custom_textfield.dart';
+import 'package:demo_publicarea/providers/user_providers.dart';
+import 'package:demo_publicarea/widgets/custom_main_button.dart';
 
-class CustomUpdatePhonenumber extends StatefulWidget {
+class UpdatePhonenumberScreen extends StatefulWidget {
   static String routeName = '/updatePhoneNumber';
-  const CustomUpdatePhonenumber({Key? key}) : super(key: key);
+  const UpdatePhonenumberScreen({Key? key}) : super(key: key);
 
   @override
-  _CustomUpdatePhonenumberState createState() =>
-      _CustomUpdatePhonenumberState();
+  _UpdatePhonenumberScreenState createState() =>
+      _UpdatePhonenumberScreenState();
 }
 
-class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
+class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
   // bool isPhoneNumberFull() {
   //   return newPhoneNumberController.text.startsWith('0') &&
   //       newPhoneNumberController.text.length == 11 &&
@@ -25,6 +24,7 @@ class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
   // }
 
   bool changing = false;
+  bool newPhoneNumberColor = false;
   TextEditingController currentValueController = TextEditingController();
   TextEditingController phoneNumberPassController = TextEditingController();
   TextEditingController newPhoneNumberController = TextEditingController();
@@ -46,30 +46,43 @@ class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
   }
 
   void _newPhoneNumberControllerListener() {
-    String newUsernameValue = newPhoneNumberController.text;
+    String newPhonenumberValue = newPhoneNumberController.text;
     String userPassValue = phoneNumberPassController.text;
-    print('Yeni telefon numarası: $newUsernameValue');
+    print('Yeni telefon numarası: $newPhonenumberValue');
     print('Yeni şifre: $userPassValue');
 
     setState(() {
       // changing;
-      if (newUsernameValue.startsWith('05') &&
-          newUsernameValue.length == 11 &&
+
+      if (newPhonenumberValue.startsWith('05') &&
+          newPhonenumberValue.length == 11 &&
           userPassValue.length > 5) {
         print('$changing');
         changing = true;
+
         // _changingStreamController.add(true);
 
         //sendButton = primaryColor;
       } else {
         print('$changing');
+
         changing = false;
         //_changingStreamController.add(false);
         //sendButton = primaryColor.withOpacity(0.5);
       }
       //_changingStreamController.add(changing);
     });
+    // if (newPhoneNumberController.text.length == 11 &&
+    //     newPhoneNumberController.text.startsWith('05')) {
+    //   newPhoneNumberColor = false;
+    // }
+    // // if (newPhonenumberValue == null)
+    // else {
+    //   newPhoneNumberColor = true;
+    // }
   }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -86,6 +99,7 @@ class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
     final size = MediaQuery.of(context).size;
 
     var trnslt = AppLocalizations.of(context)!;
+
     return Container(
       color: primaryColor,
       child: SafeArea(
@@ -99,11 +113,10 @@ class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
           ),
           body: Center(
             child: SingleChildScrollView(
-              child: Container(
-                height: size.height * 0.5,
-                width: size.width * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -113,13 +126,23 @@ class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
                         hintText: userProvider.user.phoneNumber,
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 9,
                       ),
                       CustomTextField(
                         controller: newPhoneNumberController,
                         hintText: '05xx',
                         labelText: trnslt.lcod_lbl_phone_text,
                         keyboardType: TextInputType.phone,
+                        maxLength: 11,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length != 11 ||
+                              !value.startsWith('05')) {
+                            return trnslt.lcod_lbl_control_phone_number;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -128,6 +151,15 @@ class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
                         controller: phoneNumberPassController,
                         labelText: trnslt.lcod_lbl_password_2,
                         obscore: true,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length < 6) {
+                            return trnslt.lcod_lbl_control_password;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 40,
@@ -137,7 +169,7 @@ class _CustomUpdatePhonenumberState extends State<CustomUpdatePhonenumber> {
                           setState(() {
                             changing;
                           });
-                          if (changing) {
+                          if (_formKey.currentState!.validate() && changing) {
                             String currentPasswordPhone =
                                 phoneNumberPassController.text;
                             String newPhoneNumber =

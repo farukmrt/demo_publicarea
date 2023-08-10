@@ -1,55 +1,23 @@
-// import 'dart:async';
-// import 'dart:io';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:flutter/material.dart';
-// import 'package:demo_publicarea/models/user.dart';
-// class UserProvider extends ChangeNotifier {
-//   User _user = User(
-//     uid: '',
-//     email: '',
-//     username: '',
-//     name: '',
-//     surname: '',
-//     building: '',
-//     apartmentId: '',
-//     buildingId: '',
-//     imageUrl: '',
-//   );
-//   User get user => _user;
-//   final StreamController<User> _userController = StreamController<User>();
-//   Stream<User> get userStream => _userController.stream;
-//   void setUser(User user) {
-//     _user = user;
-//     _userController.add(user); // Yeni veriyi Stream'e ekleyin
-//     notifyListeners();
-//   }
-//   // dispose metoduyla StreamController'ı kapatmayı unutmayın
-//   void dispose() {
-//     _userController.close();
-//     //super.dispose();
-//   }
-//   // setUser(User user) {
-//   //   _user = user;
-//   //   notifyListeners();
-//   // }
-// }
-
 import 'dart:async';
-import 'package:demo_publicarea/screens/login/onboard_screen.dart';
+import '../models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo_publicarea/utils/languages/lang.dart';
+import 'package:demo_publicarea/l10n/app_localizations.dart';
+import 'package:demo_publicarea/screens/login/onboard_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import '../models/user.dart';
 
 class UserProvider extends ChangeNotifier {
-  final _userController = StreamController<UserModel>.broadcast();
-  Stream<UserModel> get userStream => _userController.stream;
+  // final _userController = StreamController<UserModel>.broadcast();
+  // Stream<UserModel> get userStream => _userController.stream;
+  //tekli dinleme için kullanılır
 
   // final StreamController<UserModel> _userController =
   //     StreamController<UserModel>();
   // Stream<UserModel> get userStream =>
-  //     _userController.stream; //.asBroadcastStream();
+  //     _userController.stream.asBroadcastStream();
+  // // çoklu diinleme için
 
   UserModel _user = UserModel(
     uid: '',
@@ -72,16 +40,28 @@ class UserProvider extends ChangeNotifier {
 
   UserModel get user => _user;
 
+  late UserModel currentUser;
+
   void setUser(UserModel user) {
     _user = user;
-    _userController.add(user);
     notifyListeners();
+    // _userController.add(_user);
   }
 
   void updateUser(UserModel user) {
-    _user = user;
-    _userController.add(_user);
+    if (user.uid != "") {
+      _user = user;
+      // currentUser = user;
+    }
+
+    //_userController.add(_user);s
     notifyListeners();
+  }
+
+  void updateCurrentUser(UserModel user) {
+    if (user.uid != "") {
+      currentUser = user;
+    }
   }
 
   Future<void> updatePassword(
@@ -168,13 +148,14 @@ class UserProvider extends ChangeNotifier {
       // mevcut şifreyi doğrula
       bool isPasswordCorrect = await verifyPassword(currentPassword);
       if (!isPasswordCorrect) {
-        showSnackBar(context, "Geçerli şifre yanlış!");
+        showSnackBar(context, translation(context).lcod_lbl_message_password);
       }
 
       // Yeni kullanıcı adının kullanılabilir olup olmadığını kontrol et
       bool isThereUsername = await checkUsername(context, newUsername);
       if (isThereUsername) {
-        showSnackBar(context, "Bu kullanıcı adı zaten alınmış!");
+        showSnackBar(
+            context, translation(context).lcod_lbl_message_taken_username);
         return;
       }
 
@@ -182,10 +163,12 @@ class UserProvider extends ChangeNotifier {
 
       UserModel updatedUser = _user.copyWith(username: newUsername);
       updateUser(updatedUser);
-      showSnackBar(context, 'Kullanıcı adınız güncellendi...');
+      showSnackBar(
+          context, translation(context).lcod_lbl_message_update_username);
     } catch (e) {
       print("Kullanıcı adı güncelleme hatası: $e");
-      showSnackBar(context, "Kullanıcı adı güncelleme hatası.");
+      showSnackBar(
+          context, translation(context).lcod_lbl_message_error_username);
     }
   }
 
@@ -239,7 +222,7 @@ class UserProvider extends ChangeNotifier {
     if (uid != null) {
       final snap = await _userRef.doc(uid).get();
       if (snap.exists) {
-        //updateUser(user);
+        updateUser(user);
         return UserModel.fromFirestore(snap.data()!);
       }
       //updateUser();
@@ -259,12 +242,16 @@ class UserProvider extends ChangeNotifier {
         password: password,
       );
       if (cred.user != null) {
+        //updateUser(_user);
         UserModel? user = await getCurrentUser(cred.user!.uid);
         if (user != null) {
           //setUser(user);
-          updateUser(user);
+          updateCurrentUser(user);
+          //updateUser(user);
           notifyListeners();
+
           res = true;
+          //print('user değeri $user');
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -286,7 +273,8 @@ class UserProvider extends ChangeNotifier {
     bool res = false;
     bool usernameExists = await checkUsername(context, username);
     if (usernameExists) {
-      showSnackBar(context, 'Bu kullanıcı adı zaten kullanılıyor.');
+      showSnackBar(
+          context, translation(context).lcod_lbl_message_used_username);
       return false;
     }
     try {
@@ -323,7 +311,8 @@ class UserProvider extends ChangeNotifier {
       print(querySnapshot);
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
-      showSnackBar(context!, "Bu kullanıcı adı zaten alınmış!");
+      showSnackBar(
+          context!, translation(context).lcod_lbl_message_taken_username);
       return true;
     }
   }
@@ -354,6 +343,7 @@ class UserProvider extends ChangeNotifier {
       return imageUrl;
     } catch (e) {
       print("Profil resmi güncellenirken bir hata oluştu: $e");
+
       throw Exception("Profil resmi güncellenirken bir hata oluştu.");
     }
   }
@@ -374,9 +364,9 @@ class UserProvider extends ChangeNotifier {
         imageUrl: '',
         phoneNumber: '',
       );
-      _userController.add(_user);
-      //setUser(_user); // güncellenen yer
       notifyListeners();
+      // _userController.add(_user);
+      //setUser(_user); // güncellenen yer
 
       PersistentNavBarNavigator.pushNewScreen(
         context,
@@ -384,13 +374,16 @@ class UserProvider extends ChangeNotifier {
         withNavBar: false,
       );
     } catch (e) {
-      showSnackBar(context, 'Çıkış yaparken bir hata oluştu.');
+      showSnackBar(
+          context,
+          translation(context)
+              .lcod_lbl_message_error_logout); //'Çıkış yaparken bir hata oluştu.');
     }
   }
 
 //en son butun dinleyicileri kapat
   void dispose() {
-    _userController.close();
+    // _userController.close();
     super.dispose();
   }
 }

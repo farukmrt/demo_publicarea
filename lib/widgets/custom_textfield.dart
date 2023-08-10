@@ -1,5 +1,6 @@
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -14,28 +15,44 @@ class CustomTextField extends StatelessWidget {
   final bool? obscore;
   final Function? listenValue;
   final VoidCallback? onChanged;
+  final String? errorText;
+  final OutlineInputBorder? errorBorder;
+  final int? maxLength;
+  final String? Function(String?)? validator;
 
-  const CustomTextField({
-    Key? key,
-    this.controller,
-    this.labelText,
-    this.hintText,
-    this.color,
-    this.minlinee,
-    this.maxlinee,
-    this.textType,
-    this.readOnly,
-    this.keyboardType,
-    this.obscore = false,
-    this.listenValue,
-    this.onChanged,
-  }) : super(key: key);
+  final AutovalidateMode? autovalidate;
+
+  const CustomTextField(
+      {Key? key,
+      this.controller,
+      this.labelText,
+      this.hintText,
+      this.color,
+      this.minlinee,
+      this.maxlinee,
+      this.textType,
+      this.readOnly,
+      this.keyboardType,
+      this.obscore = false,
+      this.listenValue,
+      this.onChanged,
+      this.errorText,
+      this.errorBorder,
+      this.maxLength,
+      this.autovalidate,
+      this.validator})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        validator: validator,
+        autovalidateMode: autovalidate,
+        maxLength: maxLength,
+        maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+
         onTap: onChanged,
         readOnly: readOnly ?? false,
 
@@ -51,6 +68,8 @@ class CustomTextField extends StatelessWidget {
         // bu sebeple varsayilan olarak false verdik sifre kisimlarinda true atadik
         obscureText: obscore!,
         decoration: InputDecoration(
+          counterText: '',
+          errorText: errorText,
           suffixText: textType,
           filled: true,
           fillColor: color,
@@ -69,6 +88,12 @@ class CustomTextField extends StatelessWidget {
               color: buttonColor,
             ),
           ),
+          errorBorder: errorBorder ??
+              OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: negative,
+                ),
+              ),
         ),
 
         // if(minlinee != null)

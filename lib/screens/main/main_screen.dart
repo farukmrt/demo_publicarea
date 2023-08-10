@@ -303,6 +303,8 @@
 //   }
 // }
 
+import 'dart:async';
+
 import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/models/user.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
@@ -318,7 +320,6 @@ import 'package:demo_publicarea/widgets/custom_listitem_medium.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:demo_publicarea/widgets/loading_indicator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
@@ -331,25 +332,42 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  UserModel? _user; // Kullanıcı verilerini sakla
+  //UserModel? user; // Kullanıcı verilerini sakla
+  //late UserModel currentUser;
 
-  @override
-  void initState() {
-    super.initState();
-    // UserProvider'ı dinle alınan UserModel'i _user değişkenine ata
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // UserProvider'ı dinle alınan UserModel'i _user değişkenine ata
+  //   UserProvider userProvider =
+  //       Provider.of<UserProvider>(context, listen: true);
 
-    userProvider.userStream.listen((user) {
-      setState(() {
-        _user = user;
-      });
-    });
-  }
+  //   userProvider.userStream.listen((_user) {
+  //     setState(() {
+  //       user = _user;
+  //     });
+  //   });
+  // }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   UserProvider userProvider =
+  //       Provider.of<UserProvider>(context, listen: false);
+
+  //   userProvider.userStream.listen((_user) {
+  //     setState(() {
+  //       user = _user;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    setState(() {
+      //currentUser;
+      //user;
+    });
     final size = MediaQuery.of(context).size;
 
     UserProvider userProvider =
@@ -357,290 +375,332 @@ class _MainScreenState extends State<MainScreen> {
 
     var trnslt = AppLocalizations.of(context)!;
 
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              height: screenHeight / 4,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: primaryColor,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(45),
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    child: Image.asset(
-                      'assets/images/oval.png',
-                      scale: 1,
-                      alignment: Alignment.centerLeft,
-                    ),
+    return Container(
+      color: primaryColor,
+      child: SafeArea(
+        child: Scaffold(
+          body: Column(
+            children: [
+              Container(
+                height: size.height /
+                    3.5, // screenHeight / 4,//iphone8 ekranına uyumlu hale geldi
+                width: size.width, // double.infinity,
+                decoration: const BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(45),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(5),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${userProvider.user.name} ${userProvider.user.surname}',
-                                      //'${_user?.name} ${_user?.surname}',
-                                      style: const TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          color: mainBackgroundColor),
-                                    ),
-                                    Text(
-                                      userProvider.user.building,
-                                      //_user!.building,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: mainBackgroundColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: CircleAvatar(
-                                  foregroundImage:
-                                      NetworkImage(//_user!.imageUrl),
-                                          userProvider.user.imageUrl),
-                                  radius: size.width / 8.6,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: size.height / 115),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      trnslt.lcod_lbl_your_debt,
-                                      style: const TextStyle(
-                                          fontSize: 15, color: Colors.white),
-                                    ),
-                                    Consumer<BillProvider>(
-                                      builder: (context, data, index) {
-                                        return StreamBuilder<double>(
-                                          stream: data.fetchAmountTotalStatus(
-                                            false,
-                                            //_user!.apartmentId,
-                                            userProvider.user.apartmentId,
-                                          ),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<double> snapshot) {
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              );
-                                            } else if (snapshot.hasError) {
-                                              return Text(trnslt
-                                                  .lcod_lbl_error_data_not_received);
-                                            } else if (snapshot.hasData) {
-                                              // Veri mevcut olduğunda erişim yapın
-                                              double totalAmount =
-                                                  snapshot.data!;
-                                              return Text(
-                                                NoyaFormatter.generateAmount(
-                                                    totalAmount),
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              );
-                                            } else {
-                                              return Text(trnslt
-                                                  .lcod_lbl_data_not_received);
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            // //1.TASARIM
-            CustomMainButton(
-              edgeInsets:
-                  const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-              onTap: () {
-                PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                  context,
-                  settings: RouteSettings(name: PaymentSelectScreen.routeName),
-                  screen: const PaymentSelectScreen(),
-                  withNavBar: true,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
-              },
-              icon: Icons.redo_outlined,
-              text: trnslt.lcod_lbl_to_pay,
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomTextButton(
-                  onTap: () {
-                    PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                      context,
-                      settings: RouteSettings(
-                        arguments: {
-                          'buildingId': //_user!.buildingId,
-                              userProvider.user.buildingId,
-                        },
-                        name: AnnouncementScreen.routeName,
-                      ),
-                      screen: const AnnouncementScreen(),
-                      withNavBar: true,
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                  },
-                  text: trnslt.lcod_lbl_see_all,
                 ),
-                const SizedBox(width: 10),
-              ],
-            ),
-
-            Expanded(
-              child: Consumer<AnnouncementProvider>(
-                builder: (context, data, index) {
-                  return StreamBuilder(
-                    stream: data.fetchPage(
-                      //_user!.buildingId,
-                      userProvider.user.buildingId,
-                      limit: 6,
-                      // pageKey: 6,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 0,
+                      child: Image.asset(
+                        'assets/images/oval.png',
+                        scale: 1,
+                        alignment: Alignment.centerLeft,
+                      ),
                     ),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: LoadingIndicator(),
-                          );
-                        } else {
-                          var announcement = snapshot.data;
-                          if (announcement == null || announcement.isEmpty) {
-                            return CustomMediumListItem(
-                              image:
-                                  'https://firebasestorage.googleapis.com/v0/b/fir-publicarea.appspot.com/o/images%2Fmain%2Fempty.png?alt=media&token=d8fd106f-ce63-4f9d-96e1-3e2fc6c20458',
-                              text: trnslt.lcod_lbl_no_announcement_1,
-                              title: trnslt.lcod_lbl_no_announcement_2,
-                              subtitle: trnslt.lcod_lbl_no_announcement_3,
-                              color: primaryColor,
-                              leading: const Icon(
-                                Icons.quiz_outlined,
-                                color: primaryColor,
-                                size: 40,
-                              ),
-                            );
-                          } else {
-                            return ListView.builder(
-                              itemCount: announcement.length,
-                              itemBuilder: (context, index) {
-                                var announcementList = announcement[index];
-
-                                return GestureDetector(
-                                  onTap: () {
-                                    AnnouncementProvider().fetchAnAnnouncement(
-                                        announcementList.id.toString());
-
-                                    PersistentNavBarNavigator
-                                        .pushNewScreenWithRouteSettings(
-                                      context,
-                                      settings: RouteSettings(
-                                        name:
-                                            AnnouncementDetailScreen.routeName,
-                                        arguments:
-                                            announcementList.id.toString(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(5),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Consumer<UserProvider>(
+                                      //     builder: (context, data, index) {
+                                      //   return StreamBuilder<UserModel>(
+                                      //       initialData: user,
+                                      //       stream: data.userStream,
+                                      //       builder: (context, snapshot) {
+                                      //         if (snapshot.hasData) {
+                                      //           // Verileri kullanın
+                                      //           UserModel user = snapshot.data!;
+                                      //           return Text(
+                                      //             //'${userProvider.user.name} ${userProvider.user.surname}',
+                                      //             '${user.name} ${user.surname}',
+                                      //             style: const TextStyle(
+                                      //                 fontSize: 17,
+                                      //                 fontWeight:
+                                      //                     FontWeight.bold,
+                                      //                 color:
+                                      //                     mainBackgroundColor),
+                                      //           );
+                                      //         } else if (snapshot.hasError) {
+                                      //           return Text(
+                                      //               "Hata: ${snapshot.error}");
+                                      //         } else {
+                                      //           return CircularProgressIndicator();
+                                      //         }
+                                      //         // },
+                                      //       });
+                                      // }),
+                                      Text(
+                                        '${userProvider.currentUser.name} ${userProvider.currentUser.surname}',
+                                        // '${user.name} ${user.surname}',
+                                        style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            color: mainBackgroundColor),
                                       ),
-                                      screen: const AnnouncementDetailScreen(),
-                                      withNavBar: true,
-                                      pageTransitionAnimation:
-                                          PageTransitionAnimation.cupertino,
-                                    );
-                                  },
-                                  child: CustomListItem(
-                                    title: announcementList.title,
-                                    subtitle: announcementList.subtitle,
-                                    trailing: IconButton(
-                                      onPressed: () {
-                                        AnnouncementProvider()
-                                            .fetchAnAnnouncement(
-                                                announcementList.id.toString());
-
-                                        PersistentNavBarNavigator
-                                            .pushNewScreenWithRouteSettings(
-                                          context,
-                                          settings: RouteSettings(
-                                            name: AnnouncementDetailScreen
-                                                .routeName,
-                                            arguments:
-                                                announcementList.id.toString(),
-                                          ),
-                                          screen:
-                                              const AnnouncementDetailScreen(),
-                                          withNavBar: true,
-                                          pageTransitionAnimation:
-                                              PageTransitionAnimation.cupertino,
-                                        );
-                                      },
-                                      icon: const Icon(Icons.arrow_forward_ios),
-                                    ),
-                                    leading: const CircleAvatar(
-                                      radius: 25,
-                                      backgroundImage: AssetImage(
-                                          'assets/images/notice.png'),
-                                      //NetworkImage(announcement.imageUrl),
-                                    ),
+                                      Text(
+                                        userProvider.currentUser.building,
+                                        //_user!.building,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: mainBackgroundColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ); /////
-                              },
-                            );
-                          }
-                        }
-                      } else if (snapshot.hasError) {
-                        return Text(
-                            '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
-                      }
-                      return const LoadingIndicator();
-                    },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: CircleAvatar(
+                                    foregroundImage:
+                                        NetworkImage(//_user!.imageUrl),
+                                            userProvider.currentUser.imageUrl),
+                                    radius: size.width / 8.6,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: size.height / 115),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        trnslt.lcod_lbl_your_debt,
+                                        style: const TextStyle(
+                                            fontSize: 15, color: Colors.white),
+                                      ),
+                                      Consumer<BillProvider>(
+                                        builder: (context, data, index) {
+                                          return StreamBuilder<double>(
+                                            stream: data.fetchAmountTotalStatus(
+                                              false,
+                                              //_user!.apartmentId,
+                                              userProvider
+                                                  .currentUser.apartmentId,
+                                            ),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<double>
+                                                    snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              } else if (snapshot.hasError) {
+                                                return Text(trnslt
+                                                    .lcod_lbl_error_data_not_received);
+                                              } else if (snapshot.hasData) {
+                                                // Veri mevcut olduğunda erişim yapın
+                                                double totalAmount =
+                                                    snapshot.data!;
+                                                return Text(
+                                                  NoyaFormatter.generateAmount(
+                                                      totalAmount),
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                );
+                                              } else {
+                                                return Text(trnslt
+                                                    .lcod_lbl_data_not_received);
+                                              }
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              // //1.TASARIM
+              CustomMainButton(
+                edgeInsets:
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                onTap: () {
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    context,
+                    settings:
+                        RouteSettings(name: PaymentSelectScreen.routeName),
+                    screen: const PaymentSelectScreen(),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
+                icon: Icons.redo_outlined,
+                text: trnslt.lcod_lbl_to_pay,
               ),
-            ),
-          ],
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomTextButton(
+                    onTap: () {
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        settings: RouteSettings(
+                          arguments: {
+                            'buildingId': //_user!.buildingId,
+                                userProvider.currentUser.buildingId,
+                          },
+                          name: AnnouncementScreen.routeName,
+                        ),
+                        screen: const AnnouncementScreen(),
+                        withNavBar: true,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      );
+                    },
+                    text: trnslt.lcod_lbl_see_all,
+                  ),
+                  const SizedBox(width: 10),
+                ],
+              ),
+
+              Expanded(
+                child: Consumer<AnnouncementProvider>(
+                  builder: (context, data, index) {
+                    return StreamBuilder(
+                      stream: data.fetchPage(
+                        //_user!.buildingId,
+                        userProvider.user.buildingId,
+                        limit: 6,
+                        // pageKey: 6,
+                      ),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: LoadingIndicator(),
+                            );
+                          } else {
+                            var announcement = snapshot.data;
+                            if (announcement == null || announcement.isEmpty) {
+                              return CustomMediumListItem(
+                                image:
+                                    'https://firebasestorage.googleapis.com/v0/b/fir-publicarea.appspot.com/o/images%2Fmain%2Fempty.png?alt=media&token=d8fd106f-ce63-4f9d-96e1-3e2fc6c20458',
+                                text: trnslt.lcod_lbl_no_announcement_1,
+                                title: trnslt.lcod_lbl_no_announcement_2,
+                                subtitle: trnslt.lcod_lbl_no_announcement_3,
+                                color: primaryColor,
+                                leading: const Icon(
+                                  Icons.quiz_outlined,
+                                  color: primaryColor,
+                                  size: 40,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: announcement.length,
+                                itemBuilder: (context, index) {
+                                  var announcementList = announcement[index];
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      AnnouncementProvider()
+                                          .fetchAnAnnouncement(
+                                              announcementList.id.toString());
+
+                                      PersistentNavBarNavigator
+                                          .pushNewScreenWithRouteSettings(
+                                        context,
+                                        settings: RouteSettings(
+                                          name: AnnouncementDetailScreen
+                                              .routeName,
+                                          arguments:
+                                              announcementList.id.toString(),
+                                        ),
+                                        screen:
+                                            const AnnouncementDetailScreen(),
+                                        withNavBar: true,
+                                        pageTransitionAnimation:
+                                            PageTransitionAnimation.cupertino,
+                                      );
+                                    },
+                                    child: CustomListItem(
+                                      title: announcementList.title,
+                                      subtitle: announcementList.subtitle,
+                                      trailing: IconButton(
+                                        onPressed: () {
+                                          AnnouncementProvider()
+                                              .fetchAnAnnouncement(
+                                                  announcementList.id
+                                                      .toString());
+
+                                          PersistentNavBarNavigator
+                                              .pushNewScreenWithRouteSettings(
+                                            context,
+                                            settings: RouteSettings(
+                                              name: AnnouncementDetailScreen
+                                                  .routeName,
+                                              arguments: announcementList.id
+                                                  .toString(),
+                                            ),
+                                            screen:
+                                                const AnnouncementDetailScreen(),
+                                            withNavBar: true,
+                                            pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .cupertino,
+                                          );
+                                        },
+                                        icon:
+                                            const Icon(Icons.arrow_forward_ios),
+                                      ),
+                                      leading: const CircleAvatar(
+                                        radius: 25,
+                                        backgroundImage: AssetImage(
+                                            'assets/images/notice.png'),
+                                        //NetworkImage(announcement.imageUrl),
+                                      ),
+                                    ),
+                                  ); /////
+                                },
+                              );
+                            }
+                          }
+                        } else if (snapshot.hasError) {
+                          return Text(
+                              '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
+                        }
+                        return const LoadingIndicator();
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

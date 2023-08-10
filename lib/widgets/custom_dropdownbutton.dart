@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/utils/languages/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 
@@ -7,6 +8,7 @@ class CustomDropdownButton extends StatelessWidget {
   final List<String>? items;
   final void Function(String?)? onChanged;
   final String? labelText;
+  final String? Function(String?)? validator;
 
   const CustomDropdownButton({
     Key? key,
@@ -15,17 +17,20 @@ class CustomDropdownButton extends StatelessWidget {
     this.onChanged,
     this.labelText,
     this.controller,
+    this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String dropdownLabelText = labelText ?? 'Seçim Yapın';
+    String dropdownLabelText =
+        labelText ?? '${translation(context).lcod_lbl_explanation}';
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: DropdownButtonFormField<String>(
         //itemHeight: 150,
         value: value,
+        validator: validator,
         decoration: InputDecoration(
           //contentPadding: const EdgeInsets.symmetric(vertical: 10),
           filled: true,

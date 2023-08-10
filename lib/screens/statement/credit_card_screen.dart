@@ -3,9 +3,7 @@ import 'package:demo_publicarea/models/bill.dart';
 import 'package:demo_publicarea/models/creditCard.dart';
 import 'package:demo_publicarea/providers/payment_provider.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
-import 'package:demo_publicarea/screens/statement/statement_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:demo_publicarea/widgets/custom_double_button.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:flutter/material.dart';
@@ -47,16 +45,61 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
     cvv: '',
     holderName: '',
   );
+
+  @override
+  void initState() {
+    super.initState();
+    cardNumber.addListener(_cardControllerListener);
+    expiryDate.addListener(_cardControllerListener);
+    cvvCode.addListener(_cardControllerListener);
+    cardHolderName.addListener(_cardControllerListener);
+
+    _cardControllerListener();
+
+    border = const OutlineInputBorder(
+      borderSide: BorderSide(
+        color: buttonColor,
+        width: 2.0,
+      ),
+    );
+    // bankName = TextEditingController(text: "");
+    // super.initState();
+  }
+
+  void _cardControllerListener() {
+    String cardNumberValue = cardNumber.text;
+    String expiryDateValue = expiryDate.text;
+    String cvvCodeValue = cvvCode.text;
+    String CardHolderNameValue = cardHolderName.text;
+    print('Yeni kart numarası: $cardNumberValue');
+    print('Yeni tarih: $expiryDateValue');
+    print('Yeni cvv: $cvvCodeValue');
+    print('Yeni kart sahibi: $CardHolderNameValue');
+
+    setState(() {
+      if (cardNumberValue.length >= 18 &&
+          expiryDateValue.length == 5 &&
+          cvvCodeValue.length > 2 &&
+          CardHolderNameValue.isNotEmpty) {
+        print('$changing');
+        changing = true;
+      } else {
+        print('$changing');
+
+        changing = false;
+      }
+    });
+  }
+
 //   String cardNumber = '';
 //   String expiryDate = '';
 //   String cardHolderName = '';
 //   String cvvCode = '';
 //   bool isCvvFocused = false;
-//   // final TextEditingController _cardNumberController = TextEditingController();
-//   // final TextEditingController _expiryDateController = TextEditingController();
-//   // final TextEditingController _cardHolderNameController = TextEditingController();
-//   // final TextEditingController _cvvCodeController = TextEditingController();
-//   // //final TextEditingController _emailController = TextEditingController();
+  final TextEditingController cardNumber = TextEditingController();
+  final TextEditingController expiryDate = TextEditingController();
+  final TextEditingController cvvCode = TextEditingController();
+  final TextEditingController cardHolderName = TextEditingController();
 //   @override
 //   Widget build(BuildContext context) {
 //     return SafeArea(
@@ -138,25 +181,18 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
 //     ));
 //   }
 // }
-  String cardNumber = '';
-  String expiryDate = '';
-  String cardHolderName = '';
-  String cvvCode = '';
+
+  // String cardNumber = '';
+  // String expiryDate = '';
+  // String cvvCode = '';
+  // String cardHolderName = '';
   bool isCvvFocused = false;
   OutlineInputBorder? border;
+  bool changing = false;
   //TextEditingController bankName = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    border = const OutlineInputBorder(
-      borderSide: BorderSide(
-        color: buttonColor,
-        width: 2.0,
-      ),
-    );
-    // bankName = TextEditingController(text: "");
-    // super.initState();
-  }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -184,10 +220,10 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
               ),
               CreditCardWidget(
                 glassmorphismConfig: Glassmorphism.defaultConfig(),
-                cardNumber: cardNumber,
-                expiryDate: expiryDate,
-                cardHolderName: cardHolderName,
-                cvvCode: cvvCode,
+                cardNumber: cardNumber.text,
+                expiryDate: expiryDate.text,
+                cardHolderName: cardHolderName.text,
+                cvvCode: cvvCode.text,
                 // bankName: bankName.text,
                 //kart cevresindeki border
                 frontCardBorder: Border.all(color: buttonColor),
@@ -213,175 +249,221 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 170,
-                          right: 17,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 170,
+                            right: 17,
+                          ),
+                          child: CustomDoubleIconbutton(
+                            title: trnslt.lcod_lbl_selected_amount,
+                            color: positive.shade100,
+                            rightText: '$summary',
+                            icon: Icons.currency_lira_outlined,
+                            size: 40,
+                          ),
+                          // TextFormField(
+                          //   controller: bankName,
+                          //   style: const TextStyle(color: mytextcolor),
+                          //   onEditingComplete: (() => setState(() {})),
+                          // decoration: InputDecoration(
+                          //   labelText: 'Banka İsmi',
+                          //   hintText: '... Bank',
+                          //   hintStyle: const TextStyle(color: buttonColor),
+                          //   labelStyle: const TextStyle(color: buttonColor),
+                          //   focusedBorder: border,
+                          //   enabledBorder: border,
+                          // ),
+                          // ),
                         ),
-                        child: CustomDoubleIconbutton(
-                          title: trnslt.lcod_lbl_selected_amount,
-                          color: positive.shade100,
-                          rightText: '$summary',
-                          icon: Icons.currency_lira_outlined,
-                          size: 40,
+                        CreditCardForm(
+                          formKey: formKey,
+                          obscureCvv: true,
+                          obscureNumber: true,
+                          cardNumber: cardNumber.text,
+                          cardNumberValidator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.characters.length < 18) {
+                              return trnslt.lcod_lbl_control_card_number;
+                            }
+                            return null; // Herhangi bir hata yoksa null döndürün.
+                          },
+                          cvvCode: cvvCode.text,
+                          cvvValidator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.characters.length <= 2) {
+                              return trnslt.lcod_lbl_control_cvv_code;
+                            }
+                            return null; // Herhangi bir hata yoksa null döndürün.
+                          },
+                          isHolderNameVisible: true,
+                          isCardNumberVisible: true,
+                          isExpiryDateVisible: true,
+                          cardHolderName: cardHolderName.text,
+                          cardHolderValidator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return trnslt.lcod_lbl_control_double_name;
+                            }
+                            return null; // Herhangi bir hata yoksa null döndürün.
+                          },
+                          expiryDate: expiryDate.text,
+                          expiryDateValidator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.characters.length != 5) {
+                              return trnslt.lcod_lbl_control_valid_thru;
+                            }
+                            return null; // Herhangi bir hata yoksa null döndürün.
+                          },
+                          themeColor: buttonColor,
+                          textColor: mytextcolor,
+                          cardNumberDecoration: InputDecoration(
+                            labelText: trnslt.lcod_lbl_card_number,
+                            hintText: 'XXXX XXXX XXXX XXXX',
+                            hintStyle: const TextStyle(color: buttonColor),
+                            labelStyle: const TextStyle(color: buttonColor),
+                            focusedBorder: border,
+                            enabledBorder: border,
+                            errorBorder: border,
+                          ),
+                          expiryDateDecoration: InputDecoration(
+                            hintStyle: const TextStyle(color: buttonColor),
+                            labelStyle: const TextStyle(color: buttonColor),
+                            focusedBorder: border,
+                            enabledBorder: border,
+                            labelText: trnslt.lcod_lbl_expiration,
+                            hintText: 'XX/XX',
+                            errorBorder: border,
+                          ),
+                          cvvCodeDecoration: InputDecoration(
+                            hintStyle: const TextStyle(color: buttonColor),
+                            labelStyle: const TextStyle(color: buttonColor),
+                            focusedBorder: border,
+                            enabledBorder: border,
+                            labelText: 'CVV',
+                            hintText: 'XXX',
+                            errorBorder: border,
+                          ),
+                          cardHolderDecoration: InputDecoration(
+                            hintStyle: const TextStyle(color: buttonColor),
+                            labelStyle: const TextStyle(color: buttonColor),
+                            focusedBorder: border,
+                            enabledBorder: border,
+                            errorBorder: border,
+                            labelText: trnslt.lcod_lbl_card_holder,
+                          ),
+                          onCreditCardModelChange: onCreditCardModelChange,
                         ),
-                        // TextFormField(
-                        //   controller: bankName,
-                        //   style: const TextStyle(color: mytextcolor),
-                        //   onEditingComplete: (() => setState(() {})),
-                        // decoration: InputDecoration(
-                        //   labelText: 'Banka İsmi',
-                        //   hintText: '... Bank',
-                        //   hintStyle: const TextStyle(color: buttonColor),
-                        //   labelStyle: const TextStyle(color: buttonColor),
-                        //   focusedBorder: border,
-                        //   enabledBorder: border,
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        //  creditCard(
+                        //   cardNumber: creditCard.cardNumber,
+                        //   validTruh: creditCard.validTruh,
+                        //   cvv: creditCard.cvv,
+                        //   holderName: creditCard.holderName,
                         // ),
-                        // ),
-                      ),
-                      CreditCardForm(
-                        formKey: formKey,
-                        obscureCvv: true,
-                        obscureNumber: true,
-                        cardNumber: cardNumber,
-                        cvvCode: cvvCode,
-                        isHolderNameVisible: true,
-                        isCardNumberVisible: true,
-                        isExpiryDateVisible: true,
-                        cardHolderName: cardHolderName,
-                        expiryDate: expiryDate,
-                        themeColor: buttonColor,
-                        textColor: mytextcolor,
-                        cardNumberDecoration: InputDecoration(
-                          labelText: trnslt.lcod_lbl_card_number,
-                          hintText: 'XXXX XXXX XXXX XXXX',
-                          hintStyle: const TextStyle(color: buttonColor),
-                          labelStyle: const TextStyle(color: buttonColor),
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        expiryDateDecoration: InputDecoration(
-                          hintStyle: const TextStyle(color: buttonColor),
-                          labelStyle: const TextStyle(color: buttonColor),
-                          focusedBorder: border,
-                          enabledBorder: border,
-                          labelText: trnslt.lcod_lbl_expiration,
-                          hintText: 'XX/XX',
-                        ),
-                        cvvCodeDecoration: InputDecoration(
-                          hintStyle: const TextStyle(color: buttonColor),
-                          labelStyle: const TextStyle(color: buttonColor),
-                          focusedBorder: border,
-                          enabledBorder: border,
-                          labelText: 'CVV',
-                          hintText: 'XXX',
-                        ),
-                        cardHolderDecoration: InputDecoration(
-                          hintStyle: const TextStyle(color: buttonColor),
-                          labelStyle: const TextStyle(color: buttonColor),
-                          focusedBorder: border,
-                          enabledBorder: border,
-                          labelText: trnslt.lcod_lbl_card_holder,
-                        ),
-                        onCreditCardModelChange: onCreditCardModelChange,
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      //  creditCard(
-                      //   cardNumber: creditCard.cardNumber,
-                      //   validTruh: creditCard.validTruh,
-                      //   cvv: creditCard.cvv,
-                      //   holderName: creditCard.holderName,
-                      // ),
-                      CustomMainButton(
-                        onTap: () async {
-                          isMatched = await Provider.of<PaymentProvider>(
+                        CustomMainButton(
+                          onTap: () async {
+                            setState(() {
+                              changing;
+                            });
+                            if (formKey.currentState!.validate() && changing) {
+                              isMatched = await Provider.of<PaymentProvider>(
+                                      context,
+                                      listen: false)
+                                  .checkPayment(
+                                cardNumber.text,
+                                cardHolderName.text,
+                                cvvCode.text,
+                                expiryDate.text,
+                              );
+                              if (isMatched) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        trnslt.lcod_lbl_payment_successful),
+                                  ),
+                                );
+
+                                await Provider.of<PaymentProvider>(context,
+                                        listen: false)
+                                    .updateBillPaidStatus(selectedBill);
+
+                                PersistentNavBarNavigator
+                                    .pushNewScreenWithRouteSettings(
                                   context,
-                                  listen: false)
-                              .checkPayment(
-                            cardNumber,
-                            cardHolderName,
-                            cvvCode,
-                            expiryDate,
-                          );
-                          if (isMatched) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content:
-                                    Text(trnslt.lcod_lbl_payment_successful),
-                              ),
-                            );
-
-                            await Provider.of<PaymentProvider>(context,
-                                    listen: false)
-                                .updateBillPaidStatus(selectedBill);
-
-                            PersistentNavBarNavigator
-                                .pushNewScreenWithRouteSettings(
-                              context,
-                              settings: RouteSettings(
-                                  name: ItemizedAccountScreen.routeName),
-                              screen: const ItemizedAccountScreen(),
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino,
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    trnslt.lcod_lbl_wrong_card_information),
-                              ),
-                            );
-                          }
-                          // cardInfo.carnumber
-                          // loading true;
-                          // result = await cardprovider.completePayment(cardInfo, amount)
-                          // loading false;
-                          // result göster
-                          // ödeme başarılı ise öedenmişler sayfasına gönnder
-                        },
-                        text: trnslt.lcod_lbl_confirm_payment,
-                        edgeInsets: const EdgeInsets.symmetric(horizontal: 18),
-                      )
-                      // GestureDetector(
-                      //   onTap: () {},
-                      //   child: Container(
-                      //       margin: const EdgeInsets.symmetric(
-                      //           horizontal: 16, vertical: 8),
-                      //       // decoration: BoxDecoration(
-                      //       //   gradient: const LinearGradient(
-                      //       //     colors: <Color>[
-                      //       //       buttonColor,
-                      //       //       secondaryBackgroundColor,
-                      //       //     ],
-                      //       //     begin: Alignment.topCenter,
-                      //       //     end: Alignment.bottomCenter,
-                      //       //   ),
-                      //       //   borderRadius: BorderRadius.circular(8),
-                      //       // ),
-                      //       padding: const EdgeInsets.symmetric(vertical: 15),
-                      //       width: double.infinity,
-                      //       alignment: Alignment.center,
-                      //       child: CustomMainButton(
-                      //         onTap: () {},
-                      //         text: 'Ödemeyi Onayla',
-                      //         edgeInsets: const EdgeInsets.symmetric(vertical: 8),
-                      //       )
-                      //       // const Text(
-                      //       //   'Ödemeyi Onayla',
-                      //       //   style: TextStyle(
-                      //       //     color: Colors.black,
-                      //       //     fontFamily: 'halter',
-                      //       //     fontSize: 14,
-                      //       //     package: 'flutter_credit_card',
-                      //       //   ),
-                      //       // ),
-                      //       ),
-                      // ),
-                    ],
+                                  settings: RouteSettings(
+                                      name: ItemizedAccountScreen.routeName),
+                                  screen: const ItemizedAccountScreen(),
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        trnslt.lcod_lbl_wrong_card_information),
+                                  ),
+                                );
+                              }
+                            }
+                            // cardInfo.carnumber
+                            // loading true;
+                            // result = await cardprovider.completePayment(cardInfo, amount)
+                            // loading false;
+                            // result göster
+                            // ödeme başarılı ise öedenmişler sayfasına gönnder
+                          },
+                          color: changing
+                              ? primaryColor
+                              : primaryColor.withOpacity(0.5),
+                          text: trnslt.lcod_lbl_confirm_payment,
+                          edgeInsets:
+                              const EdgeInsets.symmetric(horizontal: 18),
+                        )
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //       margin: const EdgeInsets.symmetric(
+                        //           horizontal: 16, vertical: 8),
+                        //       // decoration: BoxDecoration(
+                        //       //   gradient: const LinearGradient(
+                        //       //     colors: <Color>[
+                        //       //       buttonColor,
+                        //       //       secondaryBackgroundColor,
+                        //       //     ],
+                        //       //     begin: Alignment.topCenter,
+                        //       //     end: Alignment.bottomCenter,
+                        //       //   ),
+                        //       //   borderRadius: BorderRadius.circular(8),
+                        //       // ),
+                        //       padding: const EdgeInsets.symmetric(vertical: 15),
+                        //       width: double.infinity,
+                        //       alignment: Alignment.center,
+                        //       child: CustomMainButton(
+                        //         onTap: () {},
+                        //         text: 'Ödemeyi Onayla',
+                        //         edgeInsets: const EdgeInsets.symmetric(vertical: 8),
+                        //       )
+                        //       // const Text(
+                        //       //   'Ödemeyi Onayla',
+                        //       //   style: TextStyle(
+                        //       //     color: Colors.black,
+                        //       //     fontFamily: 'halter',
+                        //       //     fontSize: 14,
+                        //       //     package: 'flutter_credit_card',
+                        //       //   ),
+                        //       // ),
+                        //       ),
+                        // ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -399,6 +481,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
   //     _showValidDialog(context, "Not Valid", "Try Again !!!");
   //   }
   // }
+
   // void onCreditCardModelChange(CreditCardModel creditCardModel) {
   //   setState(() {
   //     creditCard.cardNumber = creditCardModel.cardNumber;
@@ -411,10 +494,10 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
   // }
   void onCreditCardModelChange(CreditCardModel creditCardModel) {
     setState(() {
-      cardNumber = creditCardModel.cardNumber;
-      expiryDate = creditCardModel.expiryDate;
-      cardHolderName = creditCardModel.cardHolderName;
-      cvvCode = creditCardModel.cvvCode;
+      cardNumber.text = creditCardModel.cardNumber;
+      expiryDate.text = creditCardModel.expiryDate;
+      cardHolderName.text = creditCardModel.cardHolderName;
+      cvvCode.text = creditCardModel.cvvCode;
       isCvvFocused = creditCardModel.isCvvFocused;
     });
   }

@@ -7,11 +7,11 @@ import 'package:demo_publicarea/screens/main/announcement_detail_screen.dart';
 import 'package:demo_publicarea/screens/request/request_detail_screen.dart';
 import 'package:demo_publicarea/screens/request/create_request_screen.dart';
 import 'package:demo_publicarea/screens/request/request_screen.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_email.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_password.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_phonenumber.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_profilphoto.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_username.dart';
+import 'package:demo_publicarea/screens/settings/update_email_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_password_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_phonenumber_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_profilphoto_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_username_screen.dart';
 import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
 import 'package:demo_publicarea/screens/settings/profile_settings_screen.dart';
 import 'package:demo_publicarea/screens/settings/user_agreement.dart';
@@ -134,63 +134,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // debugShowCheckedModeBanner: false,
-
-      // /// Delegate: Temsilci Listesi
-      // localizationsDelegates: AppLocalizations.localizationsDelegates,
-
-      // /// Desteklenen Diller
-      // supportedLocales: AppLocalizations.supportedLocales,
-
-      // localeResolutionCallback:
-      //     (Locale? locale, Iterable<Locale> supportedLocales) {
-      //   /// [locale]: Cihazın dili null değilse
-      //   if (locale != null) {
-      //     log("Algılanan cihaz dili: Dil Kodu: ${locale.languageCode}, Ülke Kodu: ${locale.countryCode}");
-
-      //     /// for döngüsü yardımıyla [supportedLocales] listesi içinde arama yapıyoruz
-      //     for (var supportedLocale in supportedLocales) {
-      //       /// Cihazın dil kodu [locale.languageCode] ve ülke kodu [locale.countryCode]
-      //       /// desteklenen diller arasındaki dil ve ülke kodlarının içinde [supportedLocale] var mı?
-      //       if (supportedLocale.languageCode == locale.languageCode &&
-      //           locale.countryCode == locale.countryCode) {
-      //         /// Varsa desteklenen dili döndür
-      //         return supportedLocale;
-      //       }
-      //     }
-      //   }
-      //   log("Algılanan cihaz dili desteklenen diller arasında bulunmuyor.");
-
-      //   /// Yoksa [supportedLocales] Listesindeki ilk sonucu döndür.
-      //   log("Uygulamanın başlatılması istenen dil: Dil Kodu: ${supportedLocales.first.languageCode}, Ülke Kodu: ${supportedLocales.first.countryCode}");
-      //   return supportedLocales.first;
-      // },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: _locale,
-      // localizationsDelegates: [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
-      // supportedLocales: [
-      //   Locale('ar', ''),
-      //   Locale('en', ''),
-      //   Locale('fr', ''),
-      //   Locale('tr', ''),
-      // ],
-      // locale: Locale('tr', ''),
-
-      // supportedLocales: context.supportedLocales ?? [const Locale('tr', 'TR')],
-      // localizationsDelegates: context.localizationDelegates ??
-      //     EasyLocalization.of(context)!.delegates,
-      // locale: context.locale ?? const Locale('tr', 'TR'),
-
-      // supportedLocales: context.supportedLocales,
-      // localizationsDelegates: context.localizationDelegates,
-      // locale: context.locale,
-      //debugShowCheckedModeBanner: false,
-
       title: 'publicarea',
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: backgroundColor,
@@ -224,11 +170,8 @@ class _MyAppState extends State<MyApp> {
         CreditCardScreen.routeName: (context) => const CreditCardScreen(
               arguments: {},
             ),
-        // LiveRequestScreen.routeName: (context) => const LiveRequestScreen(),
         CreateRequestScreen.routeName: (context) => const CreateRequestScreen(),
         RequestScreen.routeName: (context) => const RequestScreen(),
-        // CompleteRequestScreen.routeName: (context) =>
-        //     const CompleteRequestScreen(),
         AnnouncementScreen.routeName: (context) => const AnnouncementScreen(),
         AnnouncementDetailScreen.routeName: (context) =>
             const AnnouncementDetailScreen(),
@@ -237,18 +180,68 @@ class _MyAppState extends State<MyApp> {
             const ProfileSettingsScreen(),
         KvkkScreen.routeName: (context) => const KvkkScreen(),
         UserAgreementScreen.routeName: (context) => const UserAgreementScreen(),
-        CustomUpdateEmail.routeName: (context) => const CustomUpdateEmail(),
-        CustomUpdatePassword.routeName: (context) =>
-            const CustomUpdatePassword(),
-        CustomUpdatePhonenumber.routeName: (context) =>
-            const CustomUpdatePhonenumber(),
-        CustomUpdateProfilphoto.routeName: (context) =>
-            const CustomUpdateProfilphoto(),
-        CustomUpdateUsername.routeName: (context) =>
-            const CustomUpdateUsername(),
+        UpdateEmailScreen.routeName: (context) => const UpdateEmailScreen(),
+        UpdatePasswordScreen.routeName: (context) =>
+            const UpdatePasswordScreen(),
+        UpdatePhonenumberScreen.routeName: (context) =>
+            const UpdatePhonenumberScreen(),
+        UpdateProfilphotoScreen.routeName: (context) =>
+            const UpdateProfilphotoScreen(),
+        UpdateUsernameScreen.routeName: (context) =>
+            const UpdateUsernameScreen(),
       },
+      home:
+          // StreamBuilder<model.UserModel>(
+          //   stream: UserProvider().userStream,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return const LoadingIndicator();
+          //     }
 
-      home: FutureBuilder<model.UserModel?>(
+          //     // eger kullanici mevcutsa direk ana ekrana yonlendirir
+
+          //     //snapashot'ın datasını incele
+          //     if (snapshot.hasData && snapshot.data != null) {
+          //       Provider.of<UserProvider>(context, listen: true)
+          //           .updateUser(snapshot.data!);
+          //       return const TabsScreen();
+          //     }
+          //     return const OnboardingScreen();
+          //   },
+          // )
+
+          //     FutureBuilder<model.UserModel?>(
+          //   future: UserProvider()
+          //       .getCurrentUser(FirebaseAuth.instance.currentUser != null
+          //           ? FirebaseAuth.instance.currentUser!.uid
+          //           : null)
+          //       .then((value) {
+          //     if (value != null) {
+          //       Provider.of<UserProvider>(context, listen: true).updateUser(
+          //         value,
+          //       );
+          //     }
+          //     return value;
+          //   }),
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return const LoadingIndicator();
+          //     }
+
+          //     // eger kullanici mevcutsa direk ana ekrana yonlendirir
+
+          //     //snapashot'ın datasını incele
+          //     if (snapshot.hasData && snapshot.data != null) {
+          //       // Provider.of<UserProvider>(context, listen: false)
+          //       //     .updateUser(snapshot.data!);
+          //       return const TabsScreen();
+          //     }
+
+          //     return const OnboardingScreen();
+          //   },
+          // )
+
+          FutureBuilder<model.UserModel?>(
         future: UserProvider().getCurrentUser(
             FirebaseAuth.instance.currentUser != null
                 ? FirebaseAuth.instance.currentUser!.uid
@@ -263,45 +256,13 @@ class _MyAppState extends State<MyApp> {
           //snapashot'ın datasını incele
           if (snapshot.hasData && snapshot.data != null) {
             Provider.of<UserProvider>(context, listen: false)
-                .updateUser(snapshot.data!);
+                .updateCurrentUser(snapshot.data!);
             return const TabsScreen();
           }
 
           return const OnboardingScreen();
         },
       ),
-      // FutureBuilder(
-      //   future:
-
-      //       // UserProvider().getCurrentUser(
-      //       //     FirebaseAuth.instance.currentUser != null
-      //       //         ? FirebaseAuth.instance.currentUser!.uid
-      //       //         : null),
-
-      //       UserProvider()
-      //           .getCurrentUser(FirebaseAuth.instance.currentUser != null
-      //               ? FirebaseAuth.instance.currentUser!.uid
-      //               : null)
-      //           .then((value) {
-      //     if (value != null) {
-      //       Provider.of<UserProvider>(context, listen: false).setUser(
-      //         model.UserModel.fromMap(value as Map<String, dynamic>),
-      //       );
-      //     }
-      //     return value;
-      //   }),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const LoadingIndicator();
-      //     }
-
-      //     //eger kullanici mevcutsa direk ana ekrana yonlendirir
-      //     if (snapshot.hasData) {
-      //       return const TabsScreen();
-      //     }
-      //     return const OnboardingScreen();
-      //   },
-      // ),
     );
   }
 }

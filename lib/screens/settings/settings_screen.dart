@@ -1,6 +1,5 @@
 import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
-import 'package:demo_publicarea/screens/settings/language_settings.dart';
 import 'package:demo_publicarea/screens/settings/user_agreement.dart';
 import 'package:demo_publicarea/utils/languages/language.dart';
 // import 'package:easy_localization/easy_localization.dart';

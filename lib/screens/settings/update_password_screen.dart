@@ -7,15 +7,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CustomUpdatePassword extends StatefulWidget {
+class UpdatePasswordScreen extends StatefulWidget {
   static String routeName = '/updatePassword';
-  const CustomUpdatePassword({Key? key}) : super(key: key);
+  const UpdatePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _CustomUpdatePasswordState createState() => _CustomUpdatePasswordState();
+  _UpdatePasswordScreenState createState() => _UpdatePasswordScreenState();
 }
 
-class _CustomUpdatePasswordState extends State<CustomUpdatePassword> {
+class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   // bool isPasswordFull() {
   //   return currentPassController.text.length > 5 &&
   //       newPassController.text.length > 5 &&
@@ -83,6 +83,8 @@ class _CustomUpdatePasswordState extends State<CustomUpdatePassword> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
@@ -103,11 +105,10 @@ class _CustomUpdatePasswordState extends State<CustomUpdatePassword> {
           ),
           body: Center(
             child: SingleChildScrollView(
-              child: Container(
-                height: size.height * 0.5,
-                width: size.width * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -115,6 +116,15 @@ class _CustomUpdatePasswordState extends State<CustomUpdatePassword> {
                         controller: currentPassController,
                         labelText: trnslt.lcod_lbl_current_password,
                         obscore: true,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length < 6) {
+                            return trnslt.lcod_lbl_control_password;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 20,
@@ -123,6 +133,15 @@ class _CustomUpdatePasswordState extends State<CustomUpdatePassword> {
                         controller: newPassController,
                         labelText: trnslt.lcod_lbl_new_password,
                         obscore: true,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length < 6) {
+                            return trnslt.lcod_lbl_control_password;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 20,
@@ -131,6 +150,15 @@ class _CustomUpdatePasswordState extends State<CustomUpdatePassword> {
                         controller: againNewPassController,
                         labelText: trnslt.lcod_lbl_new_password_again,
                         obscore: true,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length < 6) {
+                            return trnslt.lcod_lbl_control_password;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 40,
@@ -140,7 +168,7 @@ class _CustomUpdatePasswordState extends State<CustomUpdatePassword> {
                           setState(() {
                             changing;
                           });
-                          if (changing) {
+                          if (_formKey.currentState!.validate() && changing) {
                             String currentPassword = currentPassController.text;
                             String newPassword = newPassController.text;
                             String newPasswordAgain =

@@ -11,15 +11,15 @@ import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 
-class CustomUpdateEmail extends StatefulWidget {
+class UpdateEmailScreen extends StatefulWidget {
   static String routeName = '/updateEmail';
-  const CustomUpdateEmail({Key? key}) : super(key: key);
+  const UpdateEmailScreen({Key? key}) : super(key: key);
 
   @override
-  _CustomUpdateEmailState createState() => _CustomUpdateEmailState();
+  _UpdateEmailScreenState createState() => _UpdateEmailScreenState();
 }
 
-class _CustomUpdateEmailState extends State<CustomUpdateEmail> {
+class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
   //StreamController<bool> _changingStreamController = StreamController<bool>();
 
   bool changing = false;
@@ -94,6 +94,7 @@ class _CustomUpdateEmailState extends State<CustomUpdateEmail> {
       // changing;
       if (newMailValue.endsWith('.com') &&
           newMailValue.contains('@') &&
+          newMailValue.length > 9 &&
           mailPassValue.length > 5) {
         print('$changing');
         changing = true;
@@ -120,6 +121,8 @@ class _CustomUpdateEmailState extends State<CustomUpdateEmail> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     var trnslt = AppLocalizations.of(context)!;
@@ -138,13 +141,12 @@ class _CustomUpdateEmailState extends State<CustomUpdateEmail> {
           ),
           body: Center(
             child: SingleChildScrollView(
-              child: Container(
-                height: size.height * 0.5,
-                width: size.width * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    //crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomTextField(
@@ -158,6 +160,17 @@ class _CustomUpdateEmailState extends State<CustomUpdateEmail> {
                       CustomTextField(
                         controller: newMailController,
                         labelText: trnslt.lcod_lbl_new_email,
+                        maxLength: 33,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              !value.endsWith('.com') ||
+                              !value.contains('@') ||
+                              value.characters.length < 9) {
+                            return trnslt.lcod_lbl_control_email;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -166,6 +179,15 @@ class _CustomUpdateEmailState extends State<CustomUpdateEmail> {
                         controller: mailPassController,
                         labelText: trnslt.lcod_lbl_password_2,
                         obscore: true,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length < 6) {
+                            return trnslt.lcod_lbl_control_password;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 40,
@@ -176,7 +198,7 @@ class _CustomUpdateEmailState extends State<CustomUpdateEmail> {
                           //   //buradaki setstate işlemi sayesinde veri güncelleniyor ancak tıklama yapılması şart yoksa güncellemiyor
                           //   changing;
                           // });
-                          if (changing) {
+                          if (_formKey.currentState!.validate() && changing) {
                             String currentPassword = mailPassController.text;
                             String currentEmail = currentValueController.text;
                             String newEmail = newMailController.text;

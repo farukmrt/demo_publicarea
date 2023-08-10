@@ -174,7 +174,36 @@
     "lcod_lbl_update_email":"تحديث البريد الإلكتروني",
     "lcod_lbl_update_username":"تحديث اسم المستخدم",
     "lcod_lbl_update_phone_number":"تحديث رقم الهاتف",
-   
+
+    "lcod_lbl_control_email":"راجع بريدك",
+    "lcod_lbl_control_password":"تحقق من كلمة المرور الخاصة بك",
+    "lcod_lbl_control_username":"تحقق من اسم المستخدم الخاص بك",
+    "lcod_lbl_control_name":"تحقق من اسمك",
+    "lcod_lbl_control_surname":"تحقق من لقبك",
+    "lcod_lbl_control_building_name":"تحقق من اسم المبنى",
+    "lcod_lbl_control_phone_number":"تحقق من رقم هاتفك",
+
+    "lcod_lbl_control_card_number":"تحقق من رقم البطاقة",
+    "lcod_lbl_control_cvv_code":"تحقق من رمز CVV",
+    "lcod_lbl_control_double_name":"تحقق من اسمك ولقبك",
+    "lcod_lbl_control_valid_thru":"تحقق من تاريخ انتهاء الصلاحية",
+
+    "lcod_lbl_control_title":"تحقق من العنوان",
+    "lcod_lbl_control_apartment_number":"تحقق من رقم شقتك",
+    "lcod_lbl_control_request_type":"اختر نوع طلبك",
+    "lcod_lbl_control_request_explanation":"تحقق من وصف طلبك",
+
+    "lcod_lbl_message_password":"كلمة المرور الحالية غير صحيحة!",
+    "lcod_lbl_message_taken_username":"أسم المستخدم مأخوذ مسبقا!",
+    "lcod_lbl_message_update_username":"تم تحديث اسم المستخدم الخاص بك ...",
+    "lcod_lbl_message_error_username":"خطأ في تحديث اسم المستخدم.",
+    "lcod_lbl_message_used_username":"اسم المستخدم هذا تم استخدامه.",
+    "lcod_lbl_message_not_found_user":"لم يتم العثور على المستخدم!",
+
+    "lcod_lbl_message_error_profile_photo":"حدث خطأ أثناء تحديث صورة الملف الشخصي.",
+    
+    "lcod_lbl_message_error_logout":"حدث خطأ أثناء تسجيل الخروج.",
+
     "lcod_lbl_profile_settings": "إعدادات الملف الشخصي" ,
     "lcod_lbl_new_building": "تسجيل موقع جديد" ,
     "lcod_lbl_kvkk": "نص KVKK" ,

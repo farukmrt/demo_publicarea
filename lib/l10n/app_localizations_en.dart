@@ -366,6 +366,75 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lcod_lbl_update_phone_number => 'Phone Number Update';
 
   @override
+  String get lcod_lbl_control_email => 'Check your mail';
+
+  @override
+  String get lcod_lbl_control_password => 'Check your password';
+
+  @override
+  String get lcod_lbl_control_username => 'Check your username';
+
+  @override
+  String get lcod_lbl_control_name => 'Check your name';
+
+  @override
+  String get lcod_lbl_control_surname => 'Check your surname';
+
+  @override
+  String get lcod_lbl_control_building_name => 'Check the building name';
+
+  @override
+  String get lcod_lbl_control_phone_number => 'Check your phone number';
+
+  @override
+  String get lcod_lbl_control_card_number => 'Check the card number';
+
+  @override
+  String get lcod_lbl_control_cvv_code => 'Check the CVV code';
+
+  @override
+  String get lcod_lbl_control_double_name => 'Check your name and surname';
+
+  @override
+  String get lcod_lbl_control_valid_thru => 'Check the expiry date';
+
+  @override
+  String get lcod_lbl_control_title => 'Check the title';
+
+  @override
+  String get lcod_lbl_control_apartment_number => 'Check your flat number';
+
+  @override
+  String get lcod_lbl_control_request_type => 'Choose your request type';
+
+  @override
+  String get lcod_lbl_control_request_explanation => 'Check the description of your request';
+
+  @override
+  String get lcod_lbl_message_password => 'The current password is incorrect!';
+
+  @override
+  String get lcod_lbl_message_taken_username => 'This username is already taken!';
+
+  @override
+  String get lcod_lbl_message_update_username => 'Your username has been updated...';
+
+  @override
+  String get lcod_lbl_message_error_username => 'Username update error.';
+
+  @override
+  String get lcod_lbl_message_used_username => 'This username is already in use.';
+
+  @override
+  String get lcod_lbl_message_not_found_user => 'User not found!';
+
+  @override
+  String get lcod_lbl_message_error_profile_photo => 'An error occurred while updating the profile picture.';
+
+  @override
+  String get lcod_lbl_message_error_logout => 'An error occurred while logging out.';
+
+  @override
   String get lcod_lbl_profile_settings => 'Profile Settings';
 
   @override

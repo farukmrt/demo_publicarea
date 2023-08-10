@@ -353,6 +353,8 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var trnslt = AppLocalizations.of(context)!;
@@ -366,128 +368,198 @@ class _SignupScreenState extends State<SignupScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: Column(
-            children: [
-              SizedBox(height: size.height * 0.05),
-              GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return CupertinoAlertDialog(
-                        // title: Text('Resim Ekle'),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              trnslt.lcod_lbl_profilphoto,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(height: size.height * 0.05),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          // title: Text('Resim Ekle'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                trnslt.lcod_lbl_profilphoto,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                await photoProvider.takeAPhoto();
-
-                                setState(() {
-                                  // if (selectedImage == null) {
-                                  //   selectedImage = File(defaultImageUrl);
-                                  // }
-                                  selectedImage = photoProvider.selectedImage;
-                                });
-
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                trnslt.lcod_lbl_shooting,
-                                style: TextStyle(color: mainBackgroundColor),
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            ElevatedButton(
-                              onPressed: () async {
-                                // Galeri seçeneği için işlemler burada yapılacak
-                                await photoProvider.getAPhoto();
-                                // Seçim yapıldığında, 'galeri' değeri ile iletişim kutusunu kapatacak
-                                setState(() {
-                                  // if (selectedImage == null) {
-                                  //   selectedImage = File(defaultImageUrl);
-                                  // }
-                                  selectedImage = photoProvider.selectedImage;
-                                });
+                              ElevatedButton(
+                                onPressed: () async {
+                                  await photoProvider.takeAPhoto();
 
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                trnslt.lcod_lbl_upload_gallery,
-                                style:
-                                    const TextStyle(color: mainBackgroundColor),
+                                  setState(() {
+                                    // if (selectedImage == null) {
+                                    //   selectedImage = File(defaultImageUrl);
+                                    // }
+                                    selectedImage = photoProvider.selectedImage;
+                                  });
+
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  trnslt.lcod_lbl_shooting,
+                                  style: TextStyle(color: mainBackgroundColor),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: CircleAvatar(
-                    foregroundImage: buildImageProvider(),
-                    radius: 60,
+                              const SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  // Galeri seçeneği için işlemler burada yapılacak
+                                  await photoProvider.getAPhoto();
+                                  // Seçim yapıldığında, 'galeri' değeri ile iletişim kutusunu kapatacak
+                                  setState(() {
+                                    // if (selectedImage == null) {
+                                    //   selectedImage = File(defaultImageUrl);
+                                    // }
+                                    selectedImage = photoProvider.selectedImage;
+                                  });
+
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  trnslt.lcod_lbl_upload_gallery,
+                                  style: const TextStyle(
+                                      color: mainBackgroundColor),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CircleAvatar(
+                      foregroundImage: buildImageProvider(),
+                      radius: 60,
+                    ),
                   ),
                 ),
-              ),
-              CustomTextField(
-                controller: _emailController,
-                labelText: trnslt.lcod_lbl_email,
-              ),
-              CustomTextField(
-                controller: _passwordController,
-                labelText: trnslt.lcod_lbl_create_password,
-                obscore: true,
-              ),
-              CustomTextField(
-                controller: _usernameController,
-                labelText: trnslt.lcod_lbl_create_username,
-              ),
-              CustomTextField(
-                controller: _nameController,
-                labelText: trnslt.lcod_lbl_enter_name,
-              ),
-              CustomTextField(
-                controller: _surnameController,
-                labelText: trnslt.lcod_lbl_enter_surname,
-              ),
-              CustomTextField(
-                controller: _buildingController,
-                labelText: trnslt.lcod_lbl_enter_building,
-              ),
-              CustomTextField(
-                controller: _phoneNumberController,
-                labelText: trnslt.lcod_lbl_enter_phonenumber,
-                keyboardType: TextInputType.phone,
-                hintText: '05XX',
-              ),
-              const SizedBox(height: 15),
-              CustomMainButton(
-                onTap: () {
-                  setState(() {
-                    changing;
-                  });
-                  if (changing) {
-                    signUpUser();
-                  }
-                },
-                text: trnslt.lcod_lbl_signup,
-                edgeInsets: const EdgeInsets.symmetric(vertical: 8),
-                color: changing ? primaryColor : primaryColor.withOpacity(0.5),
-              )
-            ],
+                CustomTextField(
+                  controller: _emailController,
+                  labelText: trnslt.lcod_lbl_email,
+                  maxLength: 33,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !value.endsWith('.com') ||
+                        !value.contains('@') ||
+                        value.characters.length < 9) {
+                      return trnslt.lcod_lbl_control_email;
+                    }
+                    return null; // Herhangi bir hata yoksa null döndürün.
+                  },
+                ),
+                CustomTextField(
+                  controller: _passwordController,
+                  labelText: trnslt.lcod_lbl_create_password,
+                  obscore: true,
+                  maxLength: 20,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.characters.length < 6) {
+                      return trnslt.lcod_lbl_control_password;
+                    }
+                    return null; // Herhangi bir hata yoksa null döndürün.
+                  },
+                ),
+                CustomTextField(
+                  controller: _usernameController,
+                  labelText: trnslt.lcod_lbl_create_username,
+                  maxLength: 15,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.characters.length < 4) {
+                      return trnslt.lcod_lbl_control_username;
+                    }
+                    return null; // Herhangi bir hata yoksa null döndürün.
+                  },
+                ),
+                CustomTextField(
+                  controller: _nameController,
+                  labelText: trnslt.lcod_lbl_enter_name,
+                  maxLength: 15,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.characters.length < 4) {
+                      return trnslt.lcod_lbl_control_name;
+                    }
+                    return null; // Herhangi bir hata yoksa null döndürün.
+                  },
+                ),
+                CustomTextField(
+                  controller: _surnameController,
+                  labelText: trnslt.lcod_lbl_enter_surname,
+                  maxLength: 15,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.characters.length <= 2) {
+                      return trnslt.lcod_lbl_control_surname;
+                    }
+                    return null; // Herhangi bir hata yoksa null döndürün.
+                  },
+                ),
+                CustomTextField(
+                  controller: _buildingController,
+                  labelText: trnslt.lcod_lbl_enter_building,
+                  maxLength: 35,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.characters.length < 4) {
+                      return trnslt.lcod_lbl_control_building_name;
+                    }
+                    return null; // Herhangi bir hata yoksa null döndürün.
+                  },
+                ),
+                CustomTextField(
+                  controller: _phoneNumberController,
+                  labelText: trnslt.lcod_lbl_enter_phonenumber,
+                  keyboardType: TextInputType.phone,
+                  hintText: '05XX',
+                  maxLength: 11,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.characters.length != 11 ||
+                        !value.startsWith('05')) {
+                      return trnslt.lcod_lbl_control_phone_number;
+                    }
+                    return null; // Herhangi bir hata yoksa null döndürün.
+                  },
+                ),
+                const SizedBox(height: 15),
+                CustomMainButton(
+                  onTap: () {
+                    setState(() {
+                      changing;
+                    });
+                    if (_formKey.currentState!.validate() && changing) {
+                      signUpUser();
+                    }
+                  },
+                  text: trnslt.lcod_lbl_signup,
+                  edgeInsets: const EdgeInsets.symmetric(vertical: 8),
+                  color:
+                      changing ? primaryColor : primaryColor.withOpacity(0.5),
+                )
+              ],
+            ),
           ),
         ),
       ),

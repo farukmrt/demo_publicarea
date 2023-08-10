@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:demo_publicarea/screens/settings/custom_update_email.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_password.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_phonenumber.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_profilphoto.dart';
-import 'package:demo_publicarea/screens/settings/custom_update_username.dart';
+import 'package:demo_publicarea/screens/settings/update_email_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_password_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_phonenumber_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_profilphoto_screen.dart';
+import 'package:demo_publicarea/screens/settings/update_username_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -53,20 +53,32 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               children: [
                 GestureDetector(
                   onLongPress: () {
-                    CupertinoAlertDialog(
-                      content: CircleAvatar(
-                        foregroundImage:
-                            NetworkImage(userProvider.user.imageUrl),
-                        radius: 160,
-                      ),
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          content: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(35)),
+                            width: size.width * (3 / 2),
+                            //height: 200,
+                            child: GestureDetector(
+                              child: Image.network(userProvider.user.imageUrl),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                   onTap: () {
                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                       context,
                       settings: RouteSettings(
-                          name: CustomUpdateProfilphoto.routeName),
-                      screen: const CustomUpdateProfilphoto(),
+                          name: UpdateProfilphotoScreen.routeName),
+                      screen: const UpdateProfilphotoScreen(),
                       withNavBar: true,
                     );
                   },
@@ -84,8 +96,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                               .pushNewScreenWithRouteSettings(
                             context,
                             settings: RouteSettings(
-                                name: CustomUpdateProfilphoto.routeName),
-                            screen: const CustomUpdateProfilphoto(),
+                                name: UpdateProfilphotoScreen.routeName),
+                            screen: const UpdateProfilphotoScreen(),
                             withNavBar: true,
                           );
                         },
@@ -100,8 +112,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                       context,
                       settings:
-                          RouteSettings(name: CustomUpdateEmail.routeName),
-                      screen: const CustomUpdateEmail(),
+                          RouteSettings(name: UpdateEmailScreen.routeName),
+                      screen: const UpdateEmailScreen(),
                       withNavBar: true,
                     );
                   },
@@ -119,8 +131,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             .pushNewScreenWithRouteSettings(
                           context,
                           settings:
-                              RouteSettings(name: CustomUpdateEmail.routeName),
-                          screen: const CustomUpdateEmail(),
+                              RouteSettings(name: UpdateEmailScreen.routeName),
+                          screen: const UpdateEmailScreen(),
                           withNavBar: true,
                         );
                       },
@@ -136,8 +148,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                       context,
                       settings:
-                          RouteSettings(name: CustomUpdateUsername.routeName),
-                      screen: const CustomUpdateUsername(),
+                          RouteSettings(name: UpdateUsernameScreen.routeName),
+                      screen: const UpdateUsernameScreen(),
                       withNavBar: true,
                     );
                   },
@@ -155,8 +167,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             .pushNewScreenWithRouteSettings(
                           context,
                           settings: RouteSettings(
-                              name: CustomUpdateUsername.routeName),
-                          screen: const CustomUpdateUsername(),
+                              name: UpdateUsernameScreen.routeName),
+                          screen: const UpdateUsernameScreen(),
                           withNavBar: true,
                         );
                       },
@@ -172,8 +184,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                       context,
                       settings: RouteSettings(
-                          name: CustomUpdatePhonenumber.routeName),
-                      screen: const CustomUpdatePhonenumber(),
+                          name: UpdatePhonenumberScreen.routeName),
+                      screen: const UpdatePhonenumberScreen(),
                       withNavBar: true,
                     );
                   },
@@ -191,8 +203,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             .pushNewScreenWithRouteSettings(
                           context,
                           settings: RouteSettings(
-                              name: CustomUpdatePhonenumber.routeName),
-                          screen: const CustomUpdatePhonenumber(),
+                              name: UpdatePhonenumberScreen.routeName),
+                          screen: const UpdatePhonenumberScreen(),
                           withNavBar: true,
                         );
                       },
@@ -246,8 +258,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                       context,
                       settings:
-                          RouteSettings(name: CustomUpdatePassword.routeName),
-                      screen: const CustomUpdatePassword(),
+                          RouteSettings(name: UpdatePasswordScreen.routeName),
+                      screen: const UpdatePasswordScreen(),
                       withNavBar: true,
                     );
                   },
@@ -258,8 +270,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                         context,
                         settings:
-                            RouteSettings(name: CustomUpdatePassword.routeName),
-                        screen: const CustomUpdatePassword(),
+                            RouteSettings(name: UpdatePasswordScreen.routeName),
+                        screen: const UpdatePasswordScreen(),
                         withNavBar: true,
                       );
                     },

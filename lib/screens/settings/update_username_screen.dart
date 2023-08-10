@@ -12,20 +12,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-class CustomUpdateUsername extends StatefulWidget {
+class UpdateUsernameScreen extends StatefulWidget {
   static String routeName = '/updateUsername';
-  const CustomUpdateUsername({Key? key}) : super(key: key);
+  const UpdateUsernameScreen({Key? key}) : super(key: key);
 
   @override
-  _CustomUpdateUsernameState createState() => _CustomUpdateUsernameState();
+  _UpdateUsernameScreenState createState() => _UpdateUsernameScreenState();
 }
 
-class _CustomUpdateUsernameState extends State<CustomUpdateUsername> {
+class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
   // final _changingStreamController = StreamController<bool>.broadcast();
   // Stream<bool> get changingStream => _changingStreamController.stream;
 
   bool changing = false;
   bool isUsernameAvailable = false;
+  //bool autovalidate = false;
   TextEditingController currentValueController = TextEditingController();
   TextEditingController usernamePassController = TextEditingController();
   TextEditingController newUsernameController = TextEditingController();
@@ -76,6 +77,7 @@ class _CustomUpdateUsernameState extends State<CustomUpdateUsername> {
         //_changingStreamController.add(false);
         //sendButton = primaryColor.withOpacity(0.5);
       }
+
       //_changingStreamController.add(changing);
     });
   }
@@ -94,6 +96,8 @@ class _CustomUpdateUsernameState extends State<CustomUpdateUsername> {
   //   return newUsernameController.text.isNotEmpty &&
   //       usernamePassController.text.length > 5;
   // }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -118,11 +122,10 @@ class _CustomUpdateUsernameState extends State<CustomUpdateUsername> {
           ),
           body: Center(
             child: SingleChildScrollView(
-              child: Container(
-                height: size.height * 0.5,
-                width: size.width * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -137,6 +140,17 @@ class _CustomUpdateUsernameState extends State<CustomUpdateUsername> {
                       CustomTextField(
                         controller: newUsernameController,
                         labelText: trnslt.lcod_lbl_new_username,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length < 4) {
+                            return trnslt.lcod_lbl_control_username;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
+
+                        //if(isUsernameAvailable==1)
                       ),
                       const SizedBox(
                         height: 10,
@@ -145,6 +159,15 @@ class _CustomUpdateUsernameState extends State<CustomUpdateUsername> {
                         controller: usernamePassController,
                         labelText: trnslt.lcod_lbl_password_2,
                         obscore: true,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.characters.length < 6) {
+                            return trnslt.lcod_lbl_control_password;
+                          }
+                          return null; // Herhangi bir hata yoksa null döndürün.
+                        },
                       ),
                       const SizedBox(
                         height: 40,
@@ -156,7 +179,9 @@ class _CustomUpdateUsernameState extends State<CustomUpdateUsername> {
                               changing;
                               isUsernameAvailable;
                             });
-                            if (changing && isUsernameAvailable) {
+                            if (_formKey.currentState!.validate() &&
+                                changing &&
+                                isUsernameAvailable) {
                               String currentPasswordUsername =
                                   usernamePassController.text;
                               String newUsername = newUsernameController.text;
