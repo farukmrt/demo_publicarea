@@ -48,7 +48,8 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
         Provider.of<AnnouncementProvider>(context);
     _pagingController.addPageRequestListener((pageKey) {
       announcementProvider
-          .fetchPage(userProvider.user.buildingId, limit: 6, pageKey: pageKey)
+          .fetchPage(userProvider.currentUser.buildingId,
+              limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
 

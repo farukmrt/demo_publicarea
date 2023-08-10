@@ -65,7 +65,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
     BillProvider billProvider = Provider.of<BillProvider>(context);
     _pagingController.addPageRequestListener((pageKey) {
       billProvider
-          .fetchPageBillByPaidStatus(false, userProvider.user.apartmentId,
+          .fetchPageBillByPaidStatus(
+              false, userProvider.currentUser.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
@@ -96,7 +97,7 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
             children: [
               //const CustomTitle(mainTitle: 'Ödeme'),
               CustomSubtitle(
-                title: userProvider.user.building,
+                title: userProvider.currentUser.building,
               ),
               Expanded(
                 child: RefreshIndicator(
@@ -250,8 +251,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
                               return StreamBuilder<double>(
-                                stream: data.fetchAmountTotalStatus(
-                                    false, userProvider.user.apartmentId),
+                                stream: data.fetchAmountTotalStatus(false,
+                                    userProvider.currentUser.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;
                                   if (snapshot.hasData) {

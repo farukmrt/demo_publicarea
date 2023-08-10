@@ -29,21 +29,21 @@ class StatementScreen extends StatefulWidget {
 }
 
 class _StatementScreenState extends State<StatementScreen> {
-  // void _refreshData() {
-  //   _pagingControllerFalse.refresh();
-  //   _pagingControllerTrue.refresh();
-  // }
+  void _refreshData() {
+    _pagingControllerFalse.refresh();
+    _pagingControllerTrue.refresh();
+  }
 
   ScrollController _scrollController = ScrollController();
 
-  // PagingController<int, Bill> get pagingControllerTrue => _pagingControllerTrue;
-  // final PagingController<int, Bill> _pagingControllerTrue =
-  //     PagingController(firstPageKey: 0);
+  PagingController<int, Bill> get pagingControllerTrue => _pagingControllerTrue;
+  final PagingController<int, Bill> _pagingControllerTrue =
+      PagingController(firstPageKey: 0);
 
-  // PagingController<int, Bill> get pagingControllerFalse =>
-  //     _pagingControllerFalse;
-  // final PagingController<int, Bill> _pagingControllerFalse =
-  //     PagingController(firstPageKey: 0);
+  PagingController<int, Bill> get pagingControllerFalse =>
+      _pagingControllerFalse;
+  final PagingController<int, Bill> _pagingControllerFalse =
+      PagingController(firstPageKey: 0);
 
   StreamSubscription<List<Bill>>? _billStreamSubscription;
   List<Bill> _bills = [];
@@ -51,69 +51,62 @@ class _StatementScreenState extends State<StatementScreen> {
   @override
   void initState() {
     super.initState();
-    // _refreshData();
+    _refreshData();
     _billStreamSubscription = BillProvider().billStream.listen((bills) {
       setState(() {
         _bills = bills;
       });
     });
   }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _billStreamSubscription = BillProvider().billStream.listen((bills) {
-  //     setState(() {
-  //       _bills = bills;
-  //     });
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     BillProvider billProviderT = Provider.of<BillProvider>(context);
     BillProvider billProviderF = Provider.of<BillProvider>(context);
+    BillProvider billProvider =
+        Provider.of<BillProvider>(context, listen: true);
 
-    // _pagingControllerTrue.addPageRequestListener((pageKey) {
-    //   billProviderT
-    //       .fetchPageBillByPaidStatus(true, userProvider.user.apartmentId,
-    //           limit: 6, pageKey: pageKey)
-    //       .listen((tempList) {
-    //     final isLastPage = tempList.length < 6;
+    _pagingControllerTrue.addPageRequestListener((pageKey) {
+      billProviderT
+          .fetchPageBillByPaidStatus(true, userProvider.user.apartmentId,
+              limit: 6, pageKey: pageKey)
+          .listen((tempList) {
+        final isLastPage = tempList.length < 6;
 
-    //     if (isLastPage) {
-    //       _pagingControllerTrue.appendLastPage(tempList);
-    //     } else {
-    //       final nextPageKey = pageKey + 1;
+        if (isLastPage) {
+          _pagingControllerTrue.appendLastPage(tempList);
+        } else {
+          final nextPageKey = pageKey + 1;
 
-    //       _pagingControllerTrue.appendPage(tempList, nextPageKey);
-    //     }
-    //     print('Value from controller: $pageKey');
-    //   });
-    // });
+          _pagingControllerTrue.appendPage(tempList, nextPageKey);
+        }
+        print('Value from controller: $pageKey');
+      });
+    });
 
-    // _pagingControllerFalse.addPageRequestListener((pageKey) {
-    //   billProviderF
-    //       .fetchPageBillByPaidStatus(false, userProvider.user.apartmentId,
-    //           limit: 6, pageKey: pageKey)
-    //       .listen((tempList) {
-    //     final isLastPage = tempList.length < 6;
+    _pagingControllerFalse.addPageRequestListener((pageKey) {
+      billProviderF
+          .fetchPageBillByPaidStatus(false, userProvider.user.apartmentId,
+              limit: 6, pageKey: pageKey)
+          .listen((tempList) {
+        final isLastPage = tempList.length < 6;
 
-    //     if (isLastPage) {
-    //       _pagingControllerFalse.appendLastPage(tempList);
-    //     } else {
-    //       final nextPageKey = pageKey + 1;
+        if (isLastPage) {
+          _pagingControllerFalse.appendLastPage(tempList);
+        } else {
+          final nextPageKey = pageKey + 1;
 
-    //       _pagingControllerFalse.appendPage(tempList, nextPageKey);
-    //     }
-    //     print('Value from controller: $pageKey');
-    //   });
-    // });
+          _pagingControllerFalse.appendPage(tempList, nextPageKey);
+        }
+        print('Value from controller: $pageKey');
+      });
+    });
 
-    // setState(() {
-    //   _refreshData();
-    // });
-    //var outputFormat = DateFormat('MM/dd/yyyy');
+    setState(() {
+      _refreshData();
+    });
+
     final size = MediaQuery.of(context).size;
 
     var trnslt = AppLocalizations.of(context)!;
@@ -132,7 +125,7 @@ class _StatementScreenState extends State<StatementScreen> {
                 children: [
                   CustomSubtitle(
                     title: trnslt.lcod_lbl_statement_unpaid,
-                    subtitle: userProvider.user.building,
+                    subtitle: userProvider.currentUser.building,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -141,11 +134,23 @@ class _StatementScreenState extends State<StatementScreen> {
                         padding: const EdgeInsets.all(10.0),
                         child: CustomTextButton(
                             onTap: () {
-                              Navigator.of(context, rootNavigator: false).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const UnpaidItemizedAccountScreen(),
-                                      maintainState: true));
+                              PersistentNavBarNavigator
+                                  .pushNewScreenWithRouteSettings(
+                                context,
+                                settings: RouteSettings(
+                                    name:
+                                        UnpaidItemizedAccountScreen.routeName),
+                                screen: const UnpaidItemizedAccountScreen(),
+                                withNavBar: true,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+
+                              // Navigator.of(context, rootNavigator: false).push(
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             const UnpaidItemizedAccountScreen(),
+                              //         maintainState: true));
                             },
                             text: trnslt.lcod_lbl_see_all),
                       ),
@@ -155,70 +160,6 @@ class _StatementScreenState extends State<StatementScreen> {
               ),
               Expanded(
                 child:
-                    // StreamBuilder<List<Bill>>(
-                    //   stream: billProviderF.fetchPageBillByPaidStatus(
-                    //     false,
-                    //     userProvider.user.apartmentId,
-                    //     limit: 6,
-                    //     pageKey: _pagingControllerFalse.firstPageKey,
-                    //   ),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState == ConnectionState.waiting) {
-                    //       return const Center(child: LoadingIndicator());
-                    //     } else if (snapshot.hasError) {
-                    //       return Text(
-                    //           '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
-                    //     } else {
-                    //       var tempList = snapshot.data;
-                    //       if (tempList == null || tempList.isEmpty) {
-                    //         return CustomListItem(
-                    //           title: trnslt.lcod_lbl_thanks,
-                    //           subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
-                    //           color: positive,
-                    //           leading: const Icon(
-                    //             Icons.done_outline_outlined,
-                    //             color: positive,
-                    //             size: 40,
-                    //           ),
-                    //         );
-                    //       } else {
-                    //         return PagedListView<int, Bill>(
-                    //           pagingController: _pagingControllerFalse,
-                    //           builderDelegate: PagedChildBuilderDelegate<Bill>(
-                    //             itemBuilder: (context, unpaidBills, index) =>
-                    //                 Padding(
-                    //               padding: const EdgeInsets.all(1.0),
-                    //               child: CustomListItem(
-                    //                 title: unpaidBills.name,
-                    //                 subtitle:
-                    //                     '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
-                    //                 color: unpaidc,
-                    //                 trailing: Text(NoyaFormatter.generateAmount(
-                    //                     unpaidBills.amount)),
-                    //                 leading: const Icon(
-                    //                   Icons.receipt_long_outlined,
-                    //                   color: unpaidc,
-                    //                   size: 30,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             noItemsFoundIndicatorBuilder: (context) =>
-                    //                 CustomListItem(
-                    //               title: trnslt.lcod_lbl_thanks,
-                    //               subtitle: trnslt.lcod_lbl_no_invoice_unpaid,
-                    //               color: positive,
-                    //               leading: const Icon(
-                    //                 Icons.done_outline_outlined,
-                    //                 color: positive,
-                    //                 size: 40,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         );
-                    //       }
-                    //     }
-                    //   },
-                    // ),
 
                     //     RefreshIndicator(
                     //   onRefresh: () =>
@@ -259,8 +200,8 @@ class _StatementScreenState extends State<StatementScreen> {
                     Consumer<BillProvider>(
                   builder: (context, data, index) {
                     return StreamBuilder(
-                      stream: data.fetchPageBillByPaidStatus(
-                          false, userProvider.user.apartmentId,
+                      stream: data.fetchBillByPaidStatus(
+                          false, userProvider.currentUser.apartmentId,
                           limit: 4),
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.hasData) {
@@ -328,7 +269,7 @@ class _StatementScreenState extends State<StatementScreen> {
                         builder: (context, data, index) {
                           return StreamBuilder<double>(
                             stream: data.fetchAmountTotalStatus(
-                                false, userProvider.user.apartmentId),
+                                false, userProvider.currentUser.apartmentId),
                             builder: (BuildContext context, snapshot) {
                               //var bill = snapshot.data?;
                               if (snapshot.hasData) {
@@ -367,11 +308,22 @@ class _StatementScreenState extends State<StatementScreen> {
                         padding: const EdgeInsets.all(10.0),
                         child: CustomTextButton(
                             onTap: () {
-                              Navigator.of(context, rootNavigator: false).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ItemizedAccountScreen(),
-                                      maintainState: true));
+                              PersistentNavBarNavigator
+                                  .pushNewScreenWithRouteSettings(
+                                context,
+                                settings: RouteSettings(
+                                    name: ItemizedAccountScreen.routeName),
+                                screen: const ItemizedAccountScreen(),
+                                withNavBar: true,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+
+                              // Navigator.of(context, rootNavigator: false).push(
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             const ItemizedAccountScreen(),
+                              //         maintainState: true));
                             },
                             text: trnslt.lcod_lbl_see_all),
                       ),
@@ -381,72 +333,7 @@ class _StatementScreenState extends State<StatementScreen> {
               ),
               Expanded(
                 child:
-                    // StreamBuilder<List<Bill>>(
-                    //   stream: billProviderT.fetchPageBillByPaidStatus(
-                    //     true,
-                    //     userProvider.user.apartmentId,
-                    //     limit: 6,
-                    //     pageKey: _pagingControllerTrue.nextPageKey,
-                    //   ),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState == ConnectionState.waiting) {
-                    //       return const Center(child: LoadingIndicator());
-                    //     } else if (snapshot.hasError) {
-                    //       return Text(
-                    //           '${trnslt.lcod_lbl_error_snapshot} ${snapshot.error}');
-                    //     } else {
-                    //       var tempList = snapshot.data;
-                    //       if (tempList == null || tempList.isEmpty) {
-                    //         return CustomListItem(
-                    //           title: trnslt.lcod_lbl_payment_bill,
-                    //           subtitle: trnslt.lcod_lbl_no_invoice_paid,
-                    //           color: unpaidc,
-                    //           leading: const Icon(
-                    //             Icons.priority_high_outlined,
-                    //             color: unpaidc,
-                    //             size: 40,
-                    //           ),
-                    //         );
-                    //       } else {
-                    //         return PagedListView<int, Bill>(
-                    //           pagingController: _pagingControllerTrue,
-                    //           builderDelegate: PagedChildBuilderDelegate<Bill>(
-                    //             itemBuilder: (context, paidBills, index) => Padding(
-                    //               padding: const EdgeInsets.all(1.0),
-                    //               child: GestureDetector(
-                    //                 onTap: () {},
-                    //                 child: CustomListItem(
-                    //                   title: paidBills.name,
-                    //                   subtitle:
-                    //                       '${trnslt.lcod_lbl_payment_date_paid} ${NoyaFormatter.generate(paidBills.date)}',
-                    //                   color: paidc,
-                    //                   trailing: Text(NoyaFormatter.generateAmount(
-                    //                       paidBills.amount)),
-                    //                   leading: const Icon(
-                    //                     Icons.receipt_long_outlined,
-                    //                     color: paidc,
-                    //                     size: 30,
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             noItemsFoundIndicatorBuilder: (context) =>
-                    //                 CustomListItem(
-                    //               title: trnslt.lcod_lbl_payment_bill,
-                    //               subtitle: trnslt.lcod_lbl_no_invoice_paid,
-                    //               color: unpaidc,
-                    //               leading: const Icon(
-                    //                 Icons.priority_high_outlined,
-                    //                 color: unpaidc,
-                    //                 size: 40,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         );
-                    //       }
-                    //     }
-                    //   },
-                    // ),
+
                     ////////////////////////////////////
                     //     RefreshIndicator(
                     //   onRefresh: () =>
@@ -490,8 +377,8 @@ class _StatementScreenState extends State<StatementScreen> {
                     Consumer<BillProvider>(
                   builder: (context, data, index) {
                     return StreamBuilder(
-                      stream: data.fetchPageBillByPaidStatus(
-                          true, userProvider.user.apartmentId,
+                      stream: data.fetchBillByPaidStatus(
+                          true, userProvider.currentUser.apartmentId,
                           limit: 4),
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.hasData) {
@@ -587,14 +474,6 @@ class _StatementScreenState extends State<StatementScreen> {
                         //           builder: (context) => const PaymentSelectScreen(),
                         //           maintainState: true));
                         //   //^^rotanin etkin olmadiginde bellekte kalmasi gerekip gerekmedigi
-                        // },
-
-                        // ontap: () {
-                        //   Navigator.of(context).push(
-                        //     MaterialPageRoute(
-                        //       builder: (ctx) => const PaymentSelectScreen(),
-                        //     ),
-                        //   );
                         // },
                       ),
                     ),

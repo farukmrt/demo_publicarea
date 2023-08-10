@@ -246,22 +246,22 @@ class _SignupScreenState extends State<SignupScreen> {
 
 //default olan değer    firebasestorage
 //resim seçilen         /data/
-  signUpUser() async {
+  signUpUser(UserProvider userProvider, PhotoProvider photoProvider) async {
     if (selectedImage == null) {
       // Eğer resim yüklenmediyse default resmi URL'sini kullanmak istiyorum
       // ancak olmuyor, sendPP içerisinde taskSnapshot kısmında patlıyor.
       selectedImage = File(defaultImageUrl);
-      imageUrl = await PhotoProvider().sendPP(
+      imageUrl = await photoProvider.sendPP(
         selectedImage!,
         _usernameController.text,
       );
     }
-    imageUrl = await PhotoProvider().sendPP(
+    imageUrl = await photoProvider.sendPP(
       selectedImage!,
       _usernameController.text,
     );
 
-    bool res = await UserProvider().signUpUser(
+    bool res = await userProvider.signUpUser(
       context,
       _emailController.text,
       _usernameController.text,
@@ -276,7 +276,7 @@ class _SignupScreenState extends State<SignupScreen> {
       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
         context,
         settings:
-            RouteSettings(name: TabsScreen.routeName, arguments: UserProvider),
+            RouteSettings(name: TabsScreen.routeName, arguments: userProvider),
         screen: const TabsScreen(),
         withNavBar: false,
         pageTransitionAnimation: PageTransitionAnimation.cupertino,
@@ -326,7 +326,7 @@ class _SignupScreenState extends State<SignupScreen> {
           passValue.length > 5 &&
           usernameValue.length > 3 &&
           nameValue.length > 3 &&
-          surnameValue.length > 3 &&
+          surnameValue.length > 2 &&
           buildingValue.length > 5 &&
           phonenumberValue.startsWith('05') &&
           phonenumberValue.length == 11) {
@@ -360,6 +360,7 @@ class _SignupScreenState extends State<SignupScreen> {
     var trnslt = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
     PhotoProvider photoProvider = Provider.of<PhotoProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -550,7 +551,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       changing;
                     });
                     if (_formKey.currentState!.validate() && changing) {
-                      signUpUser();
+                      signUpUser(userProvider, photoProvider);
                     }
                   },
                   text: trnslt.lcod_lbl_signup,

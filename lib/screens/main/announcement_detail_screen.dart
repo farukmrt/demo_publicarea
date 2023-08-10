@@ -136,7 +136,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(userProvider.user.building),
+              title: Text(userProvider.currentUser.building),
               backgroundColor: mainBackgroundColor,
             ),
             body: const Center(
@@ -146,7 +146,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
         } else if (snapshot.hasError) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(userProvider.user.building),
+              title: Text(userProvider.currentUser.building),
               backgroundColor: mainBackgroundColor,
             ),
             body: Center(
@@ -159,7 +159,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
           if (announcement == null) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(userProvider.user.building),
+                title: Text(userProvider.currentUser.building),
                 backgroundColor: mainBackgroundColor,
               ),
               body: Center(
@@ -173,7 +173,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             child: SafeArea(
               child: Scaffold(
                 appBar: AppBar(
-                  title: Text(userProvider.user.building),
+                  title: Text(userProvider.currentUser.building),
                   backgroundColor: mainBackgroundColor,
                 ),
                 body: SingleChildScrollView(
@@ -186,7 +186,8 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                         image: announcement.imageUrl,
                         title: announcement.title,
                         subtitle: trnslt.lcod_lbl_dear_username_surname(
-                            userProvider.user.name, userProvider.user.surname),
+                            userProvider.currentUser.name,
+                            userProvider.currentUser.surname),
                         text: announcement.subtitle,
                       ),
                     ],

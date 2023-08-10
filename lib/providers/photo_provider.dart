@@ -5,9 +5,9 @@ import 'package:image_picker/image_picker.dart';
 
 class PhotoProvider with ChangeNotifier {
   File? selectedImage;
+  final imagePicker = ImagePicker();
 
   Future takeAPhoto() async {
-    final imagePicker = ImagePicker();
     final pickedImage =
         await imagePicker.pickImage(source: ImageSource.camera, maxHeight: 600);
     if (pickedImage == null) {
@@ -18,7 +18,6 @@ class PhotoProvider with ChangeNotifier {
   }
 
   Future getAPhoto() async {
-    final imagePicker = ImagePicker();
     final pickedImage = await imagePicker.pickImage(
         source: ImageSource.gallery, maxHeight: 600);
     if (pickedImage == null) {

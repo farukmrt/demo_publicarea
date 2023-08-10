@@ -48,7 +48,7 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
     BillProvider billProvider = Provider.of<BillProvider>(context);
     _pagingController.addPageRequestListener((pageKey) {
       billProvider
-          .fetchPageBillByPaidStatus(true, userProvider.user.apartmentId,
+          .fetchPageBillByPaidStatus(true, userProvider.currentUser.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
@@ -82,7 +82,7 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
               //const CustomTitle(mainTitle: 'Ödeme'),
               CustomSubtitle(
                 title: trnslt.lcod_lbl_paid_bills,
-                subtitle: userProvider.user.building,
+                subtitle: userProvider.currentUser.building,
               ),
               Expanded(
                 child: RefreshIndicator(
@@ -199,8 +199,8 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                             child: Consumer<BillProvider>(
                               builder: (context, data, index) {
                                 return StreamBuilder<double>(
-                                  stream: data.fetchAmountTotalStatus(
-                                      false, userProvider.user.apartmentId),
+                                  stream: data.fetchAmountTotalStatus(false,
+                                      userProvider.currentUser.apartmentId),
                                   builder: (BuildContext context, snapshot) {
                                     //var bill = snapshot.data?;
                                     if (snapshot.hasData) {
@@ -234,8 +234,8 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                             child: Consumer<BillProvider>(
                               builder: (context, data, index) {
                                 return StreamBuilder<double>(
-                                  stream: data.fetchAmountTotalStatus(
-                                      true, userProvider.user.apartmentId),
+                                  stream: data.fetchAmountTotalStatus(true,
+                                      userProvider.currentUser.apartmentId),
                                   builder: (BuildContext context, snapshot) {
                                     //var bill = snapshot.data?;
                                     if (snapshot.hasData) {

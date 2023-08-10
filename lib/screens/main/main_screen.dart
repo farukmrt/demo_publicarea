@@ -332,9 +332,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  //UserModel? user; // Kullanıcı verilerini sakla
-  //late UserModel currentUser;
-
   // @override
   // void initState() {
   //   super.initState();
@@ -364,16 +361,11 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      //currentUser;
-      //user;
-    });
-    final size = MediaQuery.of(context).size;
-
     UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false); //degistirr
+        Provider.of<UserProvider>(context, listen: true);
 
     var trnslt = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
 
     return Container(
       color: primaryColor,
@@ -446,7 +438,6 @@ class _MainScreenState extends State<MainScreen> {
                                       // }),
                                       Text(
                                         '${userProvider.currentUser.name} ${userProvider.currentUser.surname}',
-                                        // '${user.name} ${user.surname}',
                                         style: const TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
@@ -454,7 +445,6 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                       Text(
                                         userProvider.currentUser.building,
-                                        //_user!.building,
                                         style: const TextStyle(
                                           fontSize: 16,
                                           color: mainBackgroundColor,
@@ -466,9 +456,8 @@ class _MainScreenState extends State<MainScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: CircleAvatar(
-                                    foregroundImage:
-                                        NetworkImage(//_user!.imageUrl),
-                                            userProvider.currentUser.imageUrl),
+                                    foregroundImage: NetworkImage(
+                                        userProvider.currentUser.imageUrl),
                                     radius: size.width / 8.6,
                                   ),
                                 ),
@@ -493,7 +482,6 @@ class _MainScreenState extends State<MainScreen> {
                                           return StreamBuilder<double>(
                                             stream: data.fetchAmountTotalStatus(
                                               false,
-                                              //_user!.apartmentId,
                                               userProvider
                                                   .currentUser.apartmentId,
                                             ),
@@ -510,7 +498,6 @@ class _MainScreenState extends State<MainScreen> {
                                                 return Text(trnslt
                                                     .lcod_lbl_error_data_not_received);
                                               } else if (snapshot.hasData) {
-                                                // Veri mevcut olduğunda erişim yapın
                                                 double totalAmount =
                                                     snapshot.data!;
                                                 return Text(
@@ -542,7 +529,6 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
               ),
-              // //1.TASARIM
               CustomMainButton(
                 edgeInsets:
                     const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
@@ -559,7 +545,6 @@ class _MainScreenState extends State<MainScreen> {
                 icon: Icons.redo_outlined,
                 text: trnslt.lcod_lbl_to_pay,
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -569,8 +554,7 @@ class _MainScreenState extends State<MainScreen> {
                         context,
                         settings: RouteSettings(
                           arguments: {
-                            'buildingId': //_user!.buildingId,
-                                userProvider.currentUser.buildingId,
+                            'buildingId': userProvider.currentUser.buildingId,
                           },
                           name: AnnouncementScreen.routeName,
                         ),
@@ -585,16 +569,13 @@ class _MainScreenState extends State<MainScreen> {
                   const SizedBox(width: 10),
                 ],
               ),
-
               Expanded(
                 child: Consumer<AnnouncementProvider>(
                   builder: (context, data, index) {
                     return StreamBuilder(
                       stream: data.fetchPage(
-                        //_user!.buildingId,
-                        userProvider.user.buildingId,
+                        userProvider.currentUser.buildingId,
                         limit: 6,
-                        // pageKey: 6,
                       ),
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.hasData) {
@@ -681,7 +662,6 @@ class _MainScreenState extends State<MainScreen> {
                                         radius: 25,
                                         backgroundImage: AssetImage(
                                             'assets/images/notice.png'),
-                                        //NetworkImage(announcement.imageUrl),
                                       ),
                                     ),
                                   ); /////
@@ -708,7 +688,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    // Kaynakları serbest bırakır
     super.dispose();
   }
 }

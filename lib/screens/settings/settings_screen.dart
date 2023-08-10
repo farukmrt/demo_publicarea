@@ -65,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             //toolbarHeight: 80,
             centerTitle: true,
             title: Text(
-                '${trnslt.lcod_lbl_dear_username_surname(userProvider.user.name, userProvider.user.surname)} \n${userProvider.user.building}',
+                '${trnslt.lcod_lbl_dear_username_surname(userProvider.currentUser.name, userProvider.currentUser.surname)} \n${userProvider.currentUser.building}',
                 //textAlign: TextAlign.center,
                 // 'Sayın ${userProvider.user.name} ${userProvider.user.surname}\n${userProvider.user.building}',
                 style: TextStyle(color: mainBackgroundColor)),

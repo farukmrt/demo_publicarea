@@ -58,7 +58,7 @@ class _RequestScreenState extends State<RequestScreen> {
     RequestProvider requestProviderF = Provider.of<RequestProvider>(context);
     _pagingControllerTrue.addPageRequestListener((pageKey) {
       requestProviderT
-          .fetchPageRequestByStatus(true, userProvider.user.apartmentId,
+          .fetchPageRequestByStatus(true, userProvider.currentUser.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
@@ -76,7 +76,7 @@ class _RequestScreenState extends State<RequestScreen> {
 
     _pagingControllerFalse.addPageRequestListener((pageKey) {
       requestProviderF
-          .fetchPageRequestByStatus(false, userProvider.user.apartmentId,
+          .fetchPageRequestByStatus(false, userProvider.currentUser.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
@@ -115,8 +115,8 @@ class _RequestScreenState extends State<RequestScreen> {
                     settings: RouteSettings(
                       name: CreateRequestScreen.routeName,
                       arguments: {
-                        'apartmentId': userProvider.user.apartmentId,
-                        'userUid': userProvider.user.uid
+                        'apartmentId': userProvider.currentUser.apartmentId,
+                        'userUid': userProvider.currentUser.uid
                       },
                     ),
                     screen: const CreateRequestScreen(),

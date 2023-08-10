@@ -123,7 +123,7 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
                       CustomTextField(
                         readOnly: true,
                         controller: currentValueController,
-                        hintText: userProvider.user.phoneNumber,
+                        hintText: userProvider.currentUser.phoneNumber,
                       ),
                       const SizedBox(
                         height: 9,
@@ -180,7 +180,7 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
 
                             if (isPasswordCorrectPhone) {
                               await userProvider.updatePhoneNumber(
-                                  userProvider.user.uid,
+                                  userProvider.currentUser.uid,
                                   newPhoneNumber,
                                   currentPasswordPhone);
                               Navigator.pop(context);

@@ -49,7 +49,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(userProvider.user.building),
+              title: Text(userProvider.currentUser.building),
               backgroundColor: mainBackgroundColor,
             ),
             body: const Center(
@@ -59,7 +59,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
         } else if (snapshot.hasError) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(userProvider.user.building),
+              title: Text(userProvider.currentUser.building),
               backgroundColor: mainBackgroundColor,
             ),
             body: Center(
@@ -88,7 +88,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
           if (request == null) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(userProvider.user.building),
+                title: Text(userProvider.currentUser.building),
                 backgroundColor: mainBackgroundColor,
               ),
               body: Center(
@@ -111,7 +111,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
             child: SafeArea(
               child: Scaffold(
                 appBar: AppBar(
-                  title: Text(userProvider.user.building),
+                  title: Text(userProvider.currentUser.building),
                   backgroundColor: mainBackgroundColor,
                 ),
                 body: SingleChildScrollView(
@@ -123,8 +123,8 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                       CustomBigListItem(
                         image: request.imageUrl, //request.imageUrl,
                         title: trnslt.lcod_lbl_request_title(
-                            userProvider.user.name,
-                            userProvider.user.surname,
+                            userProvider.currentUser.name,
+                            userProvider.currentUser.surname,
                             request.apartmentNumber),
 
                         subtitle: subtitleText,

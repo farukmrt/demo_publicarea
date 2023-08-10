@@ -38,7 +38,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     var trnslt = AppLocalizations.of(context)!;
-    UserProvider userProvider = Provider.of<UserProvider>(context);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: true);
 
     return Container(
       color: backgroundColor,
@@ -63,7 +64,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             width: size.width * (3 / 2),
                             //height: 200,
                             child: GestureDetector(
-                              child: Image.network(userProvider.user.imageUrl),
+                              child: Image.network(
+                                  userProvider.currentUser.imageUrl),
                               onTap: () {
                                 Navigator.of(context).pop();
                               },
@@ -84,10 +86,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   },
                   child: CustomListItem(
                     title:
-                        '${userProvider.user.name} ${userProvider.user.surname}',
+                        '${userProvider.currentUser.name} ${userProvider.currentUser.surname}',
                     subtitle: trnslt.lcod_lbl_name_surname,
                     leading: CircleAvatar(
-                      foregroundImage: NetworkImage(userProvider.user.imageUrl),
+                      foregroundImage:
+                          NetworkImage(userProvider.currentUser.imageUrl),
                       radius: 35,
                     ),
                     trailing: IconButton(
@@ -118,7 +121,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     );
                   },
                   child: CustomListItem(
-                    title: userProvider.user.email,
+                    title: userProvider.currentUser.email,
                     subtitle: trnslt.lcod_lbl_email_text,
                     leading: const Icon(
                       Icons.email_outlined,
@@ -154,7 +157,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     );
                   },
                   child: CustomListItem(
-                    title: userProvider.user.username,
+                    title: userProvider.currentUser.username,
                     subtitle: trnslt.lcod_lbl_username,
                     leading: const Icon(
                       Icons.account_circle_outlined,
@@ -190,7 +193,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     );
                   },
                   child: CustomListItem(
-                    title: userProvider.user.phoneNumber,
+                    title: userProvider.currentUser.phoneNumber,
                     subtitle: trnslt.lcod_lbl_phone_number,
                     leading: const Icon(
                       Icons.call,
@@ -215,7 +218,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   height: 10,
                 ),
                 CustomListItem(
-                  title: userProvider.user.building,
+                  title: userProvider.currentUser.building,
                   subtitle: trnslt.lcod_lbl_building,
                   leading: const Icon(
                     Icons.apartment_outlined,

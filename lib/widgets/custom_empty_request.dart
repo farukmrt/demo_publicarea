@@ -32,8 +32,8 @@ class CustomEmptyRequest extends StatelessWidget {
           PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
             context,
             settings: RouteSettings(arguments: {
-              'apartmentId': userProvider.user.apartmentId,
-              'userUid': userProvider.user.uid
+              'apartmentId': userProvider.currentUser.apartmentId,
+              'userUid': userProvider.currentUser.uid
             }, name: CreateRequestScreen.routeName),
             screen: const CreateRequestScreen(),
             withNavBar: true,

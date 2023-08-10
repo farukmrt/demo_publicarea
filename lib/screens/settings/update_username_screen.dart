@@ -132,7 +132,7 @@ class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
                       CustomTextField(
                         readOnly: true,
                         controller: currentValueController,
-                        hintText: userProvider.user.username,
+                        hintText: userProvider.currentUser.username,
                       ),
                       const SizedBox(
                         height: 10,
@@ -193,9 +193,10 @@ class _UpdateUsernameScreenState extends State<UpdateUsernameScreen> {
                               if (isPasswordCorrectUsername) {
                                 await userProvider.updateUsername(
                                     context,
-                                    userProvider.user.uid,
+                                    userProvider.currentUser.uid,
                                     newUsername,
                                     currentPasswordUsername);
+
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

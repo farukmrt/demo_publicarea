@@ -43,7 +43,8 @@ class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
-                    foregroundImage: NetworkImage(userProvider.user.imageUrl),
+                    foregroundImage:
+                        NetworkImage(userProvider.currentUser.imageUrl),
                     radius: size.width * 0.45,
                   ),
                   SizedBox(height: 15),
@@ -56,9 +57,9 @@ class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
                         selectedImage = photoProvider.selectedImage;
                       });
                       imageUrl = await photoProvider.sendPP(
-                          selectedImage!, userProvider.user.username);
+                          selectedImage!, userProvider.currentUser.username);
                       await userProvider.updatePP(
-                          userProvider.user.uid, imageUrl!);
+                          userProvider.currentUser.uid, imageUrl!);
                       Navigator.pop(context);
                     },
                     child: Text(
@@ -76,9 +77,9 @@ class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
                         selectedImage = photoProvider.selectedImage;
                       });
                       imageUrl = await photoProvider.sendPP(
-                          selectedImage!, userProvider.user.username);
+                          selectedImage!, userProvider.currentUser.username);
                       await userProvider.updatePP(
-                          userProvider.user.uid, imageUrl!);
+                          userProvider.currentUser.uid, imageUrl!);
                       Navigator.pop(context);
                     },
                     child: Text(

@@ -152,7 +152,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                       CustomTextField(
                         readOnly: true,
                         controller: currentValueController,
-                        hintText: userProvider.user.email,
+                        hintText: userProvider.currentUser.email,
                       ),
                       const SizedBox(
                         height: 10,
