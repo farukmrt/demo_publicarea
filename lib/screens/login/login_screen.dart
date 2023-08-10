@@ -1,8 +1,4 @@
-import 'package:demo_publicarea/models/user.dart';
-import 'package:demo_publicarea/screens/login/onboard_screen.dart';
 import 'package:demo_publicarea/utils/colors.dart';
-import 'package:demo_publicarea/widgets/loading_indicator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/l10n/app_localizations.dart';
 import 'package:demo_publicarea/providers/user_providers.dart';

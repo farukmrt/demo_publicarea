@@ -188,7 +188,7 @@ class BillProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    // _billStreamController.close();
+    _billStreamController.close();
     super.dispose();
   }
 }
