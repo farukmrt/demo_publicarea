@@ -1,5 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
+import 'package:demo_publicarea/models/building.dart';
+import 'package:demo_publicarea/providers/building_provider.dart';
+import 'package:demo_publicarea/screens/login/extra_signup_screen.dart';
+import 'package:demo_publicarea/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -10,6 +18,8 @@ import 'package:demo_publicarea/screens/main/tabs_screen.dart';
 import 'package:demo_publicarea/widgets/custom_textfield.dart';
 import 'package:demo_publicarea/widgets/custom_main_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class SignupScreen extends StatefulWidget {
   static const String routeName = '/sign';
@@ -26,12 +36,16 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _buildingController = TextEditingController();
+  final TextEditingController _buildingIdController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
+  // ignore: unused_field
+  final List<BuildingModel> _buildingList = [];
   bool changing = false;
+  bool isLoading = false;
   File? selectedImage;
   String? imageUrl;
-  final String defaultImageUrl =
+  String defaultImageUrl =
       'https://firebasestorage.googleapis.com/v0/b/fir-publicarea.appspot.com/o/images%2FprofilePhoto%2Fdefault_pp.jpg?alt=media&token=b01afd32-81fd-46ce-b972-88c5e7278c7b';
 
   ImageProvider<Object>? buildImageProvider() {
@@ -44,7 +58,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
 //default olan değer    firebasestorage
 //resim seçilen         /data/
-  signUpUser(UserProvider userProvider, PhotoProvider photoProvider) async {
+  signUpUser(UserProvider userProvider, PhotoProvider photoProvider,
+      BuildingProvider buildingProvider) async {
     if (selectedImage == null) {
       // Eğer resim yüklenmediyse default resmi URL'sini kullanmak istiyorum
       // ancak olmuyor, sendPP içerisinde taskSnapshot kısmında patlıyor.
@@ -69,8 +84,19 @@ class _SignupScreenState extends State<SignupScreen> {
       _buildingController.text,
       imageUrl ?? defaultImageUrl,
       _phoneNumberController.text,
+      _buildingIdController.text,
+
+      // userProvider
+      //     .updateBuildingId(buildingProvider.currentBuilding.buildingId),
+
+      //buildingProvider,
+
+      //await buildingProvider.currentBuilding.buildingId);
     );
     if (res) {
+      await buildingProvider.fetchBuilding(_buildingController.text);
+      userProvider.updateBuildinId(buildingProvider.currentBuilding.buildingId);
+      //print(buildingProvider.currentBuilding.buildingId);
       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
         context,
         settings:
@@ -92,6 +118,8 @@ class _SignupScreenState extends State<SignupScreen> {
     _surnameController.addListener(_mailControllerListener);
     _buildingController.addListener(_mailControllerListener);
     _phoneNumberController.addListener(_mailControllerListener);
+
+    //_buildingListFuture = BuildingProvider().fetchBuildingList();
   }
 
   void _mailControllerListener() {
@@ -138,6 +166,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   final _formKey = GlobalKey<FormState>();
+  late Stream<List<BuildingModel>> buildingStream;
 
   @override
   Widget build(BuildContext context) {
@@ -146,11 +175,20 @@ class _SignupScreenState extends State<SignupScreen> {
     PhotoProvider photoProvider = Provider.of<PhotoProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
 
+    BuildingProvider buildingProvider = Provider.of<BuildingProvider>(context);
+    // ignore: unused_local_variable
+    BuildingModel? selectedBuilding;
+    // ignore: unused_local_variable
+    String? selectedBuildingName;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(trnslt.lcod_lbl_signup),
       ),
-      body: SingleChildScrollView(
+      body:
+          // Stack(
+          //   children: [
+          SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Form(
@@ -217,28 +255,140 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10),
-                    child: CircleAvatar(
-                      foregroundImage: buildImageProvider(),
-                      radius: 60,
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          foregroundImage: buildImageProvider(),
+                          radius: 60,
+                        ),
+                        Positioned(
+                          //icon
+                          bottom: 0, right: 0,
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: primaryColor.withOpacity(0.9),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Center(
+                              heightFactor: 15,
+                              widthFactor: 15,
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
+                CustomIconbutton(
+                  title: 'title',
+                  icon: Icons.g_mobiledata,
+                  onTap: () async {
+                    await userProvider.signInWithGoogle();
+                    setState(() {
+                      _emailController.text = userProvider.currentUser.email;
+                      _nameController.text = userProvider.currentUser.name;
+                      _phoneNumberController.text =
+                          userProvider.currentUser.phoneNumber;
+                      defaultImageUrl = userProvider.currentUser.imageUrl;
+                    });
+                    print('asd ${userProvider.currentUser.name}');
+                    // PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    //   context,
+                    //   settings: RouteSettings(
+                    //       name: ExtraSignupScreen.routeName,
+                    //       arguments: userProvider),
+                    //   screen: const ExtraSignupScreen(),
+                    //   withNavBar: false,
+                    //   pageTransitionAnimation:
+                    //       PageTransitionAnimation.cupertino,
+                    // );
+                  },
+                ),
+                GestureDetector(
+                  // onTap: () {
+                  //   // Navigator.of(context).prepareAuthEvent;
+                  //   userProvider.signInWithGoogle();
+                  // },
+                  child: CustomIconbutton(
+                    title: 'title',
+                    icon: Icons.g_mobiledata,
+                    onTap: () async {
+                      await userProvider.signInWithGoogle();
+                      setState(() {
+                        _emailController.text = userProvider.currentUser.email;
+                        _nameController.text = userProvider.currentUser.name;
+                        _phoneNumberController.text =
+                            userProvider.currentUser.phoneNumber;
+                        defaultImageUrl = userProvider.currentUser.imageUrl;
+                      });
+                      print('asd ${userProvider.currentUser.name}');
+                      // PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                      //   context,
+                      //   settings: RouteSettings(
+                      //       name: ExtraSignupScreen.routeName,
+                      //       arguments: userProvider),
+                      //   screen: const ExtraSignupScreen(),
+                      //   withNavBar: false,
+                      //   pageTransitionAnimation:
+                      //       PageTransitionAnimation.cupertino,
+                      // );
+                    },
+                  ),
+
+                  // CustomMainButton(
+                  //   icon: Icons.g_mobiledata,
+                  //   text: 'google ile giriş için tıklayın',
+                  //   edgeInsets: const EdgeInsets.symmetric(horizontal: 25),
+                  //   onTap: () {
+                  //     userProvider.signInWithGoogle();
+                  //   },
+                  // ),
+                ),
                 CustomTextField(
+                  textName: 'createEmail',
                   controller: _emailController,
                   labelText: trnslt.lcod_lbl_email,
                   maxLength: 33,
-                  validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !value.endsWith('.com') ||
-                        !value.contains('@') ||
-                        value.characters.length < 9) {
-                      return trnslt.lcod_lbl_control_email;
-                    }
-                    return null;
-                  },
+                  // validator: FormBuilderValidators.compose([
+                  //   FormBuilderValidators.required(context),
+                  //   FormBuilderValidators.email(context),
+                  // ]),
+                  // (value) {
+
+                  //   if (value == null ||
+                  //       value.isEmpty ||
+                  //       !value.endsWith('.com') ||
+                  //       !value.contains('@') ||
+                  //       value.characters.length < 9) {
+                  //     return trnslt.lcod_lbl_control_email;
+                  //   }
+                  //   return null;
+                  // },
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.email(
+                        errorText:
+                            'Lütfen E-Mail adresinizi kontrol ediniz'), //trnslt.lcod_lbl_email;
+                    FormBuilderValidators.required(
+                        errorText: 'Lütfen E-Mail adresinizi girin'),
+                    (value) {
+                      if (value != null &&
+                          (value.length < 7 ||
+                              !value.endsWith('.com') ||
+                              !value.contains('@'))) {
+                        return 'Lütfen E-Mail adresinizi kontrol ediniz3'; //trnslt.lcod_lbl_email;
+                      }
+                      return null;
+                    },
+                  ]),
                 ),
                 CustomTextField(
+                  textName: 'createPass',
                   controller: _passwordController,
                   labelText: trnslt.lcod_lbl_create_password,
                   obscore: true,
@@ -253,6 +403,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                 ),
                 CustomTextField(
+                  textName: 'createUsername',
                   controller: _usernameController,
                   labelText: trnslt.lcod_lbl_create_username,
                   maxLength: 15,
@@ -266,6 +417,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                 ),
                 CustomTextField(
+                  textName: 'createName',
                   controller: _nameController,
                   labelText: trnslt.lcod_lbl_enter_name,
                   maxLength: 15,
@@ -279,6 +431,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                 ),
                 CustomTextField(
+                  textName: 'createSurename',
                   controller: _surnameController,
                   labelText: trnslt.lcod_lbl_enter_surname,
                   maxLength: 15,
@@ -291,20 +444,42 @@ class _SignupScreenState extends State<SignupScreen> {
                     return null;
                   },
                 ),
+                TypeAheadField<String>(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      controller: _buildingController,
+                      decoration: InputDecoration(
+                        labelText: trnslt.lcod_lbl_enter_building,
+                      ),
+                    ),
+                    suggestionsCallback: (pattern) async {
+                      List<BuildingModel> buildingList =
+                          await BuildingProvider.fetchBuildingList();
+                      return buildingList
+                          .where((building) => building.buildName
+                              .toLowerCase()
+                              .contains(pattern.toLowerCase()))
+                          .map((building) => building.buildName)
+                          .toList();
+                    },
+                    itemBuilder: (context, selected) {
+                      return ListTile(
+                        title: Text(selected),
+                      );
+                    },
+                    onSuggestionSelected: (selected) async {
+                      setState(() {
+                        _buildingController.text = selected;
+                      });
+                      var buildingId = await buildingProvider
+                          .fetchBuildingId(_buildingController.text);
+                      setState(() {
+                        _buildingIdController.text = buildingId;
+                      });
+
+                      print('loginsccc $buildingId');
+                    }),
                 CustomTextField(
-                  controller: _buildingController,
-                  labelText: trnslt.lcod_lbl_enter_building,
-                  maxLength: 35,
-                  validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        value.characters.length < 4) {
-                      return trnslt.lcod_lbl_control_building_name;
-                    }
-                    return null;
-                  },
-                ),
-                CustomTextField(
+                  textName: 'createPhoneNumber',
                   controller: _phoneNumberController,
                   labelText: trnslt.lcod_lbl_enter_phonenumber,
                   keyboardType: TextInputType.phone,
@@ -326,8 +501,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     setState(() {
                       changing;
                     });
+                    isLoading = true;
                     if (_formKey.currentState!.validate() && changing) {
-                      signUpUser(userProvider, photoProvider);
+                      signUpUser(userProvider, photoProvider, buildingProvider);
                     }
                   },
                   text: trnslt.lcod_lbl_signup,
@@ -340,6 +516,13 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
+      //     if (isLoading)
+      //       Center(
+      //         child: LoadingAnimationWidget.halfTriangleDot(
+      //             color: primaryColor, size: size.width / 3),
+      //       ),
+      //   ],
+      // ),
     );
   }
 }
