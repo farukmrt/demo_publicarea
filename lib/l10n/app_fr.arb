@@ -157,8 +157,8 @@
     "lcod_lbl_payment_date_unpaid": "Date de paiement : ",
 
     
-    "lcod_lbl_statement_unpaid":"Non payé",
-    "lcod_lbl_statement_paid":"Payé",
+    "lcod_lbl_statement_unpaid":"Factures Impayées",
+    "lcod_lbl_statement_paid":"Factures Payées",
     "lcod_lbl_statement_total":"Total",
     "lcod_lbl_statement_chart":"Plan comptable",
 

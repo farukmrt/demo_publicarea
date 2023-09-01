@@ -10,27 +10,30 @@ class AnnouncementProvider with ChangeNotifier {
   Stream<List<Announcement>> get announcementStream =>
       _announcementStreamController.stream;
 
-  Stream<List<Announcement>> fetchAnnouncement(String build_id, {int? limit}) {
-    var collection = FirebaseFirestore.instance.collection("announcements");
-    var query = collection.where('build_id', isEqualTo: build_id);
-    query = limit != null ? query.limit(limit) : query;
+  // Stream<List<Announcement>> fetchAnnouncement(String build_id, {int? limit}) {
+  //   var collection = FirebaseFirestore.instance.collection("announcements");
+  //   var query = collection
+  //       .where('build_id', isEqualTo: build_id)
+  //       // .where('date')
+  //       .orderBy('date', descending: true);
+  //   query = limit != null ? query.limit(limit) : query;
 
-    return query.snapshots().map((querySnapshot) {
-      List<Announcement> tempList = [];
-      querySnapshot.docs.forEach((element) {
-        var announcement = Announcement(
-          id: element.data()['id'],
-          build_uid: element.data()['build_id'],
-          title: element.data()['title'],
-          subtitle: element.data()['subtitle'],
-          date: element.data()['date'],
-          imageUrl: element.data()['imageUrl'],
-        );
-        tempList.add(announcement);
-      });
-      return tempList;
-    });
-  }
+  //   return query.snapshots().map((querySnapshot) {
+  //     List<Announcement> tempList = [];
+  //     querySnapshot.docs.forEach((element) {
+  //       var announcement = Announcement(
+  //         id: element.data()['id'],
+  //         build_uid: element.data()['build_id'],
+  //         title: element.data()['title'],
+  //         subtitle: element.data()['subtitle'],
+  //         date: element.data()['date'],
+  //         imageUrl: element.data()['imageUrl'],
+  //       );
+  //       tempList.add(announcement);
+  //     });
+  //     return tempList;
+  //   });
+  // }
 
   DocumentSnapshot? lastDocument; // _fetchPage dışında bir yerde tanımlanacak
 
@@ -38,11 +41,15 @@ class AnnouncementProvider with ChangeNotifier {
 
   List<Announcement> get announcements => _announcements;
 
-  Stream<List<Announcement>> fetchPage(String build_id,
+  Stream<List<Announcement>> fetchPageAnnouncement(String build_id,
       {int? limit, int? pageKey}) async* {
     try {
       var collection = FirebaseFirestore.instance.collection("announcements");
-      var query = collection.where('build_id', isEqualTo: build_id);
+      var query = collection
+          .where('build_id', isEqualTo: build_id)
+
+          //query = query.where('date').orderBy('date', descending: false);
+          .orderBy('date', descending: true);
       query = limit != null ? query.limit(limit) : query;
 
       if (pageKey != null) {
@@ -77,7 +84,7 @@ class AnnouncementProvider with ChangeNotifier {
     }
   }
 
-  Stream<Announcement?> fetchAnAnnouncement(String announcementId) {
+  Stream<Announcement?> fetchAnnouncementDetails(String announcementId) {
     var collection = FirebaseFirestore.instance.collection('announcements');
     var query = collection.where('id', isEqualTo: announcementId).limit(1);
 

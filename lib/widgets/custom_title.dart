@@ -5,20 +5,26 @@ class CustomTitle extends StatelessWidget {
   final String mainTitle;
   final IconData? button;
   final VoidCallback? onTap;
+  final Color? color;
+  final double? fontSize;
+  final TextAlign? textAlign;
 
   const CustomTitle({
     Key? key,
     required this.mainTitle,
     this.button,
     this.onTap,
+    this.color = mainBackgroundColor,
+    this.fontSize = 16.0,
+    this.textAlign = TextAlign.start,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 30,
-      color: mainBackgroundColor,
+      height: (fontSize! * 2.5),
+      color: color,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -27,8 +33,9 @@ class CustomTitle extends StatelessWidget {
             children: [
               Text(
                 mainTitle,
-                style: const TextStyle(
-                  fontSize: 16,
+                textAlign: textAlign,
+                style: TextStyle(
+                  fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),

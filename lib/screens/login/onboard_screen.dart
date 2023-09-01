@@ -1,3 +1,6 @@
+// import 'package:provider/provider.dart';
+// import 'package:demo_publicarea/providers/building_provider.dart';
+// import 'package:demo_publicarea/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/l10n/app_localizations.dart';
@@ -13,6 +16,9 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var trnslt = AppLocalizations.of(context)!;
+    // UserProvider userProvider = Provider.of<UserProvider>(context);
+
+    // BuildingProvider buildingProvider = Provider.of<BuildingProvider>(context);
     return WillPopScope(
       onWillPop: () async {
         return false;

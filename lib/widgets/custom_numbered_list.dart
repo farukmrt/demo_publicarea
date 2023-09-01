@@ -32,19 +32,21 @@ class CustomNumberedList extends StatelessWidget {
             if (subtitle != null)
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-                child: RichText(
-                  text: TextSpan(
+                child: Text.rich(
+                  TextSpan(
                     style: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.w700),
                     children: [
                       TextSpan(
                         text: number!,
                         style: const TextStyle(
+                            //fontFamily: 'JosefinSans',
                             color: Colors.black), // Başlık metninin rengi
                       ),
                       TextSpan(
                         text: subtitle!,
                         style: const TextStyle(
+                            //fontFamily: 'JosefinSans',
                             fontSize: 14,
                             color: Colors.black54,
                             fontWeight: FontWeight

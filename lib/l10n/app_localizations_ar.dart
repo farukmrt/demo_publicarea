@@ -324,10 +324,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lcod_lbl_payment_date_unpaid => 'تاريخ الدفع: ';
 
   @override
-  String get lcod_lbl_statement_unpaid => 'غير مدفوعة الأجر';
+  String get lcod_lbl_statement_unpaid => 'الفواتير غير المسددة';
 
   @override
-  String get lcod_lbl_statement_paid => 'مدفوع';
+  String get lcod_lbl_statement_paid => 'فواتير مدفوعة';
 
   @override
   String get lcod_lbl_statement_total => 'المجموع';

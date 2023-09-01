@@ -37,7 +37,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
     var trnslt = AppLocalizations.of(context)!;
 
     return StreamBuilder<Announcement?>(
-      stream: annoProvider.fetchAnAnnouncement(announcementId),
+      stream: annoProvider.fetchAnnouncementDetails(announcementId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
@@ -86,7 +86,8 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                   child: Column(
                     children: [
                       CustomTitle(
-                        mainTitle: NoyaFormatter.generate(announcement.date),
+                        mainTitle:
+                            NoyaFormatter.generateDetail(announcement.date),
                       ),
                       CustomBigListItem(
                         image: announcement.imageUrl,

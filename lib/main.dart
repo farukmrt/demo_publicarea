@@ -1,9 +1,13 @@
-import 'models/user.dart' as model;
+import 'package:google_fonts/google_fonts.dart';
+import 'package:demo_publicarea/models/userData.dart';
+import 'package:demo_publicarea/providers/building_provider.dart';
+import 'package:demo_publicarea/screens/login/extra_signup_screen.dart';
+
+import 'providers/userData_provider.dart';
 import 'utils/languages/lang.dart';
 import 'l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/providers/bill_provider.dart';
@@ -41,13 +45,15 @@ void main() async {
   await Firebase.initializeApp();
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
     ChangeNotifierProvider<AnnouncementProvider>(
         create: (_) => AnnouncementProvider()),
     ChangeNotifierProvider<BillProvider>(create: (_) => BillProvider()),
+    ChangeNotifierProvider<BuildingProvider>(create: (_) => BuildingProvider()),
     ChangeNotifierProvider<PaymentProvider>(create: (_) => PaymentProvider()),
-    ChangeNotifierProvider<RequestProvider>(create: (_) => RequestProvider()),
     ChangeNotifierProvider<PhotoProvider>(create: (_) => PhotoProvider()),
+    ChangeNotifierProvider<RequestProvider>(create: (_) => RequestProvider()),
+    ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
+    ChangeNotifierProvider<UserDataProvider>(create: (_) => UserDataProvider()),
   ], child: const MyApp()));
 }
 
@@ -85,18 +91,75 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       locale: _locale,
       title: 'publicarea',
-      theme: ThemeData.light().copyWith(
+      theme: ThemeData.
+              //fontFamily: 'JosefinSans').
+              //use material açılınca tonlamalar düzeliyor
+              light() //(useMaterial3: true)
+          .copyWith(
+        //textTheme: GoogleFonts.josefinSansTextTheme(),
+        //textTheme: GoogleFonts.robotoTextTheme(),
+        textTheme: GoogleFonts.lexendDecaTextTheme(),
+
         scaffoldBackgroundColor: backgroundColor,
         //elevatedbutton'un varsayilan rengi veriliyor
+        //iconTheme: IconThemeData(color: primaryColor),
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(35),
+            borderSide: const BorderSide(
+              color: buttonColor,
+              width: 2,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(35),
+            borderSide: const BorderSide(
+              color: buttonColor,
+              width: 2,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(35),
+            borderSide: const BorderSide(
+              color: buttonColor,
+              width: 2,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(35),
+            borderSide: const BorderSide(
+              color: negative,
+              width: 2.5,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(35),
+            borderSide: const BorderSide(
+              color: buttonColor,
+              width: 2,
+            ),
+          ),
+        ),
+        //cardColor: Color.fromARGB(255, 88, 39, 39),
+        cardTheme: CardTheme.of(context).copyWith(color: Colors.white),
+        //cardColor: Color(: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(35.0),
+            )),
             backgroundColor: MaterialStateProperty.all(buttonColor),
           ),
         ),
         appBarTheme: AppBarTheme.of(context).copyWith(
+          // toolbarTextStyle: TextStyle(
+          //     fontFamily:
+          //         '${GoogleFonts.qwitcherGrypen}'), //lexendDecaTextTheme()}'),
           backgroundColor: backgroundColor,
           elevation: 0,
           titleTextStyle: const TextStyle(
+            fontFamily: 'lexendDeca',
             color: primaryColor,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -136,29 +199,65 @@ class _MyAppState extends State<MyApp> {
             const UpdateProfilphotoScreen(),
         UpdateUsernameScreen.routeName: (context) =>
             const UpdateUsernameScreen(),
+        ExtraSignupScreen.routeName: (context) => const ExtraSignupScreen(),
       },
-      home: FutureBuilder<model.UserModel?>(
-        future: UserProvider().getCurrentUser(
-            FirebaseAuth.instance.currentUser != null
-                ? FirebaseAuth.instance.currentUser!.uid
-                : null),
-        builder: (context, snapshot) {
+      home: FutureBuilder<UserData>(
+        future: UserDataProvider().getUserData(),
+        builder: (context, AsyncSnapshot<UserData> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingIndicator();
+            return const LoadingIndicator(); // Yükleme göstergesi
           }
 
-          // eger kullanici mevcutsa direk ana ekrana yonlendirir
+          // if (snapshot.hasError) {
+          //   // return OnboardingScreen();
+          //   return Text("Hata: ${snapshot.error}");
+          // }
 
-          //snapashot'ın datasını incele
           if (snapshot.hasData && snapshot.data != null) {
+            // if (snapshot.data!.user !=
+            //     null) //&& snapshot.data!.building != null)
             Provider.of<UserProvider>(context, listen: false)
-                .updateCurrentUser(snapshot.data!);
+                .updateCurrentUser(snapshot.data!.user!);
+
+            Provider.of<BuildingProvider>(context, listen: false)
+                .updateCurrentBuilder(snapshot.data!.building!);
+
             return const TabsScreen();
           }
-
           return const OnboardingScreen();
         },
       ),
+
+      //     // FutureBuilder<model.UserModel?>(
+      //     //   future: UserProvider().getCurrentUser(
+      //     //       FirebaseAuth.instance.currentUser != null
+      //     //           ? FirebaseAuth.instance.currentUser!.uid
+      //     //           : null),
+      //     //   builder: (context, AsyncSnapshot snapshot) {
+      //     //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //     //       return const LoadingIndicator();
+      //     //     }
+
+      //         // eger kullanici mevcutsa direk ana ekrana yonlendirir
+
+      //         //snapashot'ın datasını incele
+      //         if (snapshot.hasData && snapshot.data != null) {
+      //           Provider.of<UserProvider>(context, listen: false)
+      //               .updateCurrentUser(snapshot.data!);
+
+      //           Provider.of<BuildingProvider>(context, listen: false)
+      //               .fetchBuilding(snapshot.data!.buildingId);
+
+      //           //BuildingProvider().buildingStream.;
+      //           // Provider.of<BuildingProvider>(context, listen: true)
+      //           //     .updateCurrentBuilder(BuildingProvider().currentBuilding);
+
+      //           return const TabsScreen();
+      //         }
+
+      //         return const OnboardingScreen();
+      //       },
+      //     ),
     );
   }
 }

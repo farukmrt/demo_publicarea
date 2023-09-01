@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 
@@ -32,6 +33,7 @@ class CustomBigListItem extends StatefulWidget {
 class _CustomBigListItemState extends State<CustomBigListItem> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(1),
@@ -67,10 +69,27 @@ class _CustomBigListItemState extends State<CustomBigListItem> {
             ),
             if (widget.image != null)
               Container(
-                color: buttonColor2,
+                height: size.width,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: buttonColor2,
+                  borderRadius: BorderRadius.circular(35),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.all(45),
-                  child: Image.network(widget.image!),
+                  padding: const EdgeInsets.all(15),
+                  child: Container(
+                    child: Image.network(
+                      widget.image!,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return LoadingIndicator();
+                        }
+                      },
+                    ),
+                  ),
                 ),
               ),
           ],
@@ -79,3 +98,28 @@ class _CustomBigListItemState extends State<CustomBigListItem> {
     );
   }
 }
+//  Container(
+//                 width: double.infinity,
+//                 decoration: BoxDecoration(
+//                   color: buttonColor2,
+//                   borderRadius: BorderRadius.vertical(
+//                       bottom: Radius.circular(35), top: Radius.circular(5)),
+
+//                   //child: Padding(
+//                   // padding: const EdgeInsets.all(15),
+//                   image: DecorationImage(
+//                     fit: BoxFit.cover,
+//                     image: NetworkImage(
+//                       widget.image!,
+//                       // loadingBuilder: (BuildContext context, Widget child,
+//                       //     ImageChunkEvent? loadingProgress) {
+//                       //   if (loadingProgress == null) {
+//                       //     return child;
+//                       //   } else {
+//                       //     return LoadingIndicator();
+//                       //   }
+//                       // },
+//                     ),
+//                   ),
+//                 ),
+//               ),

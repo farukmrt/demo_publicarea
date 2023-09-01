@@ -41,11 +41,26 @@ class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(
-                    foregroundImage:
-                        NetworkImage(userProvider.currentUser.imageUrl),
-                    radius: size.width * 0.45,
+                  Container(
+                    width: size.width * 0.9,
+                    height: size.width * 0.9,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: primaryColor, width: 5),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          userProvider.currentUser.imageUrl,
+                        ),
+                      ),
+                    ),
                   ),
+
+                  // CircleAvatar(
+                  //   foregroundImage:
+                  //       NetworkImage(userProvider.currentUser.imageUrl),
+                  //   radius: size.width * 0.45,
+                  // ),
                   SizedBox(height: 15),
                   //Text(trnslt.lcod_lbl_update_profile_screen),
                   ElevatedButton(
@@ -67,6 +82,46 @@ class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     showDialog(
+                  //       context: context,
+                  //       builder: (BuildContext context) {
+                  //         return AlertDialog(
+                  //           backgroundColor: primaryColor.withOpacity(0.1),
+                  //           content: Center(
+                  //             child: CircularProgressIndicator(),
+                  //             //   SizedBox(width: 16),
+                  //             //   Text('İşlem tamamlanana kadar bekleyin...'),
+                  //             // ],
+                  //           ),
+                  //         );
+                  //       },
+                  //     );
+
+                  //     // Galeri seçeneği için işlemler burada yapılacak
+                  //     await photoProvider.getAPhoto();
+                  //     // Seçim yapıldığında, iletişim kutusunu kapatacak
+                  //     setState(() {
+                  //       selectedImage = photoProvider.selectedImage;
+                  //     });
+                  //     imageUrl = await photoProvider.sendPP(
+                  //         selectedImage!, userProvider.currentUser.username);
+                  //     await userProvider.updatePP(
+                  //         userProvider.currentUser.uid, imageUrl!);
+
+                  //     // İşlem tamamlandı, beklemek için bir süre sonra dialogu kapat
+                  //     await Future.delayed(Duration(seconds: 1));
+                  //     Navigator.pop(context);
+
+                  //     // ... diğer işlemler ...
+                  //   },
+                  //   child: Text(
+                  //     trnslt.lcod_lbl_upload_gallery,
+                  //     style: TextStyle(color: mainBackgroundColor),
+                  //   ),
+                  // ),
+
                   ElevatedButton(
                     onPressed: () async {
                       // Galeri seçeneği için işlemler burada yapılacak
@@ -79,6 +134,7 @@ class _UpdateProfilphotoScreenState extends State<UpdateProfilphotoScreen> {
                           selectedImage!, userProvider.currentUser.username);
                       await userProvider.updatePP(
                           userProvider.currentUser.uid, imageUrl!);
+
                       Navigator.pop(context);
                     },
                     child: Text(

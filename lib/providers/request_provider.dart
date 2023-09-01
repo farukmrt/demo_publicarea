@@ -33,14 +33,14 @@ class RequestProvider with ChangeNotifier {
   final List<Request> _requests = [];
   List<Request> get requests => _requests;
 
-  @override
   Stream<List<Request>> fetchPageRequestByStatus(
       bool status, String apartmentId,
       {int? limit, int? pageKey}) async* {
     var collection = FirebaseFirestore.instance.collection('request');
     var query = collection
         .where("status", isEqualTo: status)
-        .where("apartmentId", isEqualTo: apartmentId);
+        .where("apartmentId", isEqualTo: apartmentId)
+        .orderBy('requestDate', descending: true);
     //.orderBy("requestDate");
 
     query = limit != null ? query.limit(limit) : query;
@@ -62,10 +62,12 @@ class RequestProvider with ChangeNotifier {
             apartmentId: element.data()['apartmentId'],
             apartmentNumber: element.data()['apartmentNumber'],
             status: element.data()['status'],
+            isPositive: element.data()['isPositive'],
             requestType: element.data()['requestType'],
             requestExplanation: element.data()['requestExplanation'],
             requester: element.data()['requester'],
             requestDate: element.data()['requestDate'],
+            resultDescription: element.data()['resultDescription'],
           );
 
           templist.add(request);
@@ -75,34 +77,31 @@ class RequestProvider with ChangeNotifier {
     yield templist;
   }
 
-  Stream<List<Request>> fetchRequestByStatus(bool status, String apartmentId,
-      {int? limit, int? pageKey}) {
-    var collection = FirebaseFirestore.instance.collection('request');
-    var query = collection
-        .where("status", isEqualTo: status)
-        .where("apartmentId", isEqualTo: apartmentId);
-
-    query = limit != null ? query.limit(limit) : query;
-
-    return query.snapshots().map((querySnapshot) {
-      List<Request> requests = [];
-      querySnapshot.docs.forEach((element) {
-        var request = Request(
-            requestId: element.data()['requestId'],
-            requestTitle: element.data()['requestTitle'],
-            apartmentId: element.data()['apartmentId'],
-            apartmentNumber: element.data()['apartmentNumber'],
-            status: element.data()['status'],
-            requestType: element.data()['requestType'],
-            requestExplanation: element.data()['requestExplanation'],
-            requester: element.data()['requester'],
-            requestDate: element.data()['requestDate']);
-
-        requests.add(request);
-      });
-      return requests;
-    });
-  }
+  // Stream<List<Request>> fetchRequestByStatus(bool status, String apartmentId,
+  //     {int? limit, int? pageKey}) {
+  //   var collection = FirebaseFirestore.instance.collection('request');
+  //   var query = collection
+  //       .where("status", isEqualTo: status)
+  //       .where("apartmentId", isEqualTo: apartmentId);
+  //   query = limit != null ? query.limit(limit) : query;
+  //   return query.snapshots().map((querySnapshot) {
+  //     List<Request> requests = [];
+  //     querySnapshot.docs.forEach((element) {
+  //       var request = Request(
+  //           requestId: element.data()['requestId'],
+  //           requestTitle: element.data()['requestTitle'],
+  //           apartmentId: element.data()['apartmentId'],
+  //           apartmentNumber: element.data()['apartmentNumber'],
+  //           status: element.data()['status'],
+  //           requestType: element.data()['requestType'],
+  //           requestExplanation: element.data()['requestExplanation'],
+  //           requester: element.data()['requester'],
+  //           requestDate: element.data()['requestDate']);
+  //       requests.add(request);
+  //     });
+  //     return requests;
+  //   });
+  // }
 
   Future<void> sendRequestData(
     TextEditingController apartmentNumberController,
@@ -137,9 +136,11 @@ class RequestProvider with ChangeNotifier {
         'requestExplanation': requestExplanationController.text,
         'requestType': requestTypeController,
         'status': true,
+        'isPositive': true,
         'requester': userUid,
         'requestDate': Timestamp.now(),
         'imageUrl': imageUrl,
+        'resultDescription': '',
       });
       print('Veriler Firestore\'a başarıyla gönderildi.');
     } catch (e) {
@@ -166,6 +167,8 @@ class RequestProvider with ChangeNotifier {
           apartmentNumber: document.data()['apartmentNumber'],
           requestExplanation: document.data()['requestExplanation'],
           imageUrl: document.data()['imageUrl'],
+          isPositive: document.data()['isPositive'],
+          resultDescription: document.data()['resultDescription'],
         );
         return request;
       } else {

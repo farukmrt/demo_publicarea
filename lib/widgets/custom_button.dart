@@ -4,21 +4,25 @@ import 'package:demo_publicarea/utils/colors.dart';
 class CustomIconbutton extends StatefulWidget {
   final String title;
   final IconData icon;
+  final double? textSize;
   final VoidCallback? onTap;
   final Color? color;
   final String? rightText;
   final double? size;
   final Opacity? opacity;
+  final TextAlign? textAlign;
 
   const CustomIconbutton({
     Key? key,
     required this.title,
     required this.icon,
+    this.textSize,
     this.onTap,
     this.color,
     this.rightText,
     this.size,
     this.opacity,
+    this.textAlign = TextAlign.start,
   }) : super(key: key);
 
   @override
@@ -35,7 +39,7 @@ class _CustomIconbuttonState extends State<CustomIconbutton> {
           backgroundColor: MaterialStateProperty.all(widget.color),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(35),
             ),
           ),
         ),
@@ -56,8 +60,10 @@ class _CustomIconbuttonState extends State<CustomIconbutton> {
             Flexible(
               child: Text(
                 widget.title,
+                textAlign: widget.textAlign,
                 overflow: TextOverflow.fade,
-                style: const TextStyle(
+                style: TextStyle(
+                  fontSize: widget.textSize,
                   color: mainBackgroundColor,
                 ),
               ),

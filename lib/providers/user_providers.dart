@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'package:demo_publicarea/providers/bill_provider.dart';
+import 'package:demo_publicarea/providers/building_provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import '../models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,15 +23,18 @@ class UserProvider extends ChangeNotifier {
     buildingId: '',
     imageUrl: '',
     phoneNumber: '',
+    registrationTime: Timestamp.now(),
   );
 
   final _auth = FirebaseAuth.instance;
   final _userRef = FirebaseFirestore.instance.collection('users');
-  final _currentUser = FirebaseAuth.instance.currentUser;
+
+  //final _currentUser = FirebaseAuth.instance.currentUser;
   //giriş yapan kullanıcıyı alma yöntemi
   //her defasında uid ile kullanici çekip işlemi yaptık
 
-  UserModel get user => _user;
+  //UserModel get user => _user;
+
   late UserModel currentUser;
 
   void updateCurrentUser(UserModel user) {
@@ -67,15 +74,17 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<bool> signUpUser(
-      BuildContext context,
-      String email,
-      String username,
-      String password,
-      String name,
-      String surname,
-      String building,
-      String imageUrl,
-      String phoneNumber) async {
+    BuildContext context,
+    String email,
+    String username,
+    String password,
+    String name,
+    String surname,
+    String building,
+    String imageUrl,
+    String phoneNumber,
+    String buildingId,
+  ) async {
     bool res = false;
     bool usernameExists = await checkUsername(context, username);
     if (usernameExists) {
@@ -95,9 +104,10 @@ class UserProvider extends ChangeNotifier {
           building: building.trim(),
           uid: cred.user!.uid,
           apartmentId: '',
-          buildingId: '',
           imageUrl: imageUrl.trim(),
           phoneNumber: phoneNumber.trim(),
+          registrationTime: Timestamp.now(),
+          buildingId: buildingId,
         );
         await _userRef.doc(cred.user!.uid).set(user.toMap());
 
@@ -109,6 +119,107 @@ class UserProvider extends ChangeNotifier {
     }
     return res;
   }
+
+  // signInWithGoogle() async {
+  //   final GoogleSignInAccount? googleUser =
+  //       await GoogleSignIn(scopes: <String>['email']).signIn();
+  //   final GoogleSignInAuthentication googleAuth =
+  //       await googleUser!.authentication;
+  //   final credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth.accessToken,
+  //     idToken: googleAuth.idToken,
+  //   );
+  //   return await FirebaseAuth.instance.signInWithCredential(credential);
+  // }
+  Future<void> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn(
+      scopes: ['email', 'profile'],
+    ).signIn();
+
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    // final GoogleSignInAccount? account = await GoogleSignIn().signInSilently();
+    // final GoogleSignInAuthentication auth = await account!.authentication;
+    //final String? phoneNumber = account.phoneNumber;
+    if (googleUser != null) {
+      final email = googleUser.email;
+      final displayName = googleUser.displayName;
+      final photoUrl = googleUser.photoUrl;
+      final uid = googleUser.id;
+
+      UserModel user = UserModel(
+          uid: googleUser.id,
+          email: googleUser.email,
+          username: '',
+          name: googleUser.displayName!,
+          surname: '',
+          building: '',
+          apartmentId: '',
+          buildingId: '',
+          imageUrl: googleUser.photoUrl ?? '',
+          phoneNumber: '',
+          registrationTime: Timestamp.now());
+
+      updateCurrentUser(user);
+    }
+
+    // final authResult =
+    //     await FirebaseAuth.instance.signInWithCredential(credential);
+    // if (authResult.user != null) {
+    //   UserModel user = UserModel(
+    //     uid: authResult.user!.uid,
+    //     email: authResult.user!.email!,
+    //     name: authResult.user!.displayName!,
+    //     surname: '',
+    //     username: '',
+    //     apartmentId: '',
+    //     building: '',
+    //     buildingId: '',
+    //     imageUrl: authResult.user!.photoURL!,
+    //     phoneNumber: authResult.user!.phoneNumber ?? '05XX',
+    //     registrationTime: Timestamp.now(),
+    //   );
+    //   // _userRef.doc(user.uid).set(user.toMap());
+    //   updateCurrentUser(user);
+    // }
+  }
+
+//   void signInWithGoogle() async {
+//   final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+//   final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+//   if (googleUser != null) {
+//     // Google People API için yetkilendirme
+//     final peopleApi = people.PeopleApi(await googleUser.authHeaders);
+
+//     // Google kullanıcısının e-posta ve adı
+//     final String email = googleUser.email;
+//     final String displayName = googleUser.displayName!;
+
+//     // Google kullanıcısının profil fotoğrafı
+//     final String? photoUrl = googleUser.photoUrl;
+
+//     // Google People API aracılığıyla telefon numarasını al
+//     final people.Person mePerson = await peopleApi.people.get('people/me',
+//         personFields: 'phoneNumbers') as people.Person;
+
+//     // Telefon numarasını alma
+//     String? phoneNumber;
+//     if (mePerson.phoneNumbers != null && mePerson.phoneNumbers!.isNotEmpty) {
+//       phoneNumber = mePerson.phoneNumbers![0].value;
+//     }
+
+//     // Alınan bilgileri kullanarak istediğiniz işlemleri yapabilirsiniz
+//     print('E-Posta: $email');
+//     print('Ad: $displayName');
+//     print('Profil Fotoğrafı URL: $photoUrl');
+//     print('Telefon Numarası: $phoneNumber');
+//   }
+// }
 
   Future<void> signOut(BuildContext context) async {
     try {
@@ -125,8 +236,11 @@ class UserProvider extends ChangeNotifier {
         buildingId: '',
         imageUrl: '',
         phoneNumber: '',
+        registrationTime: Timestamp.now(),
       );
       notifyListeners();
+      await BuildingProvider().signOutBuilding(context);
+      BuildingProvider().notifyListeners();
       // _userController.add(_user);
       //setUser(_user); // güncellenen yer
 
@@ -304,6 +418,17 @@ class UserProvider extends ChangeNotifier {
 
       throw Exception("Profil resmi güncellenirken bir hata oluştu.");
     }
+  }
+
+  String updateBuildingId(String buildingId) {
+    _user = _user.copyWith(buildingId: buildingId);
+    notifyListeners();
+    return buildingId;
+  }
+
+  void updateBuildinId(String buildingId) {
+    _user = _user.copyWith(buildingId: buildingId);
+    notifyListeners();
   }
 
   Future<UserModel?> getCurrentUser(String? uid) async {

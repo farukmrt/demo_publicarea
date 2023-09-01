@@ -7,6 +7,7 @@ class Bill {
   num amount;
   bool isPaid;
   String apartmentId;
+  // bool isSelected;
 
   Bill({
     required this.id,
@@ -15,5 +16,6 @@ class Bill {
     required this.amount,
     required this.isPaid,
     required this.apartmentId,
+    // this.isSelected = false,
   });
 }

@@ -14,7 +14,7 @@ class KvkkScreen extends StatefulWidget {
 class _KvkkScreenState extends State<KvkkScreen> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    //final size = MediaQuery.of(context).size;
 
     return Container(
       color: backgroundColor,

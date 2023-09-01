@@ -31,8 +31,9 @@ class CustomTextFieldMedium extends StatelessWidget {
         validator: validator,
         maxLength: maxLength,
         //35. satır açılırsa sayaç gözükmeyecektir(counterText)
-        minLines: 2,
-        maxLines: 4,
+        minLines: 1,
+        maxLines: 2,
+
         controller: controller!,
         decoration: InputDecoration(
           // counterText: '',
@@ -42,17 +43,19 @@ class CustomTextFieldMedium extends StatelessWidget {
           labelStyle: const TextStyle(color: secondaryBackgroundColor),
           hintText: hintText,
           hintStyle: const TextStyle(color: secondaryBackgroundColor),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: buttonColor,
-              width: 2,
-            ),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: buttonColor,
-            ),
-          ),
+          // focusedBorder: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(35.0),
+          //   borderSide: const BorderSide(
+          //     //color: buttonColor,
+          //     //width: 2,
+          //   ),
+          // ),
+          // enabledBorder: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(35.0),
+          //   borderSide: const BorderSide(
+          //     color: buttonColor,
+          //   ),
+          // ),
         ),
       ),
     );

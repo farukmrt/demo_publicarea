@@ -8,9 +8,11 @@ class Request {
   String requestTitle;
   String requestExplanation;
   bool status;
+  bool isPositive;
   Timestamp requestDate;
   String? imageUrl;
   String requestType;
+  String resultDescription;
 
   Request({
     this.imageUrl,
@@ -21,8 +23,10 @@ class Request {
     required this.requestExplanation,
     required this.apartmentNumber,
     required this.status,
+    required this.isPositive,
     required this.requestType,
     required this.apartmentId,
+    required this.resultDescription,
     //required this.date,
   });
 }

@@ -14,7 +14,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_login => 'Giriş Yap';
 
   @override
-  String get lcod_lbl_email => 'Email adresinizi girin';
+  String get lcod_lbl_email => 'Email Adresinizi Girin';
 
   @override
   String get lcod_lbl_password => 'Parolanızı girin';
@@ -26,28 +26,28 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_signup => 'Üye Ol';
 
   @override
-  String get lcod_lbl_profilphoto => 'Profil resmi ekleyiniz..';
+  String get lcod_lbl_profilphoto => 'Profil Resmi Ekleyiniz..';
 
   @override
-  String get lcod_lbl_upload_gallery => 'Galeriden yükle';
+  String get lcod_lbl_upload_gallery => 'Galeriden Yükle';
 
   @override
-  String get lcod_lbl_create_password => 'Parolanızı oluşturun';
+  String get lcod_lbl_create_password => 'Parolanızı Oluşturun';
 
   @override
-  String get lcod_lbl_create_username => 'Kullanıcı adınızı oluşturun';
+  String get lcod_lbl_create_username => 'Kullanıcı Adınızı Oluşturun';
 
   @override
-  String get lcod_lbl_enter_name => 'Adınızı girin';
+  String get lcod_lbl_enter_name => 'Adınızı Girin';
 
   @override
-  String get lcod_lbl_enter_surname => 'Soyadınızı girin';
+  String get lcod_lbl_enter_surname => 'Soyadınızı Girin';
 
   @override
-  String get lcod_lbl_enter_building => 'Bina adını girin';
+  String get lcod_lbl_enter_building => 'Bina Adını Girin';
 
   @override
-  String get lcod_lbl_enter_phonenumber => 'Telefon numaranızı girin';
+  String get lcod_lbl_enter_phonenumber => 'Telefon Numaranızı Girin';
 
   @override
   String get main => 'asagida main sayfasi bulunmaktadir';
@@ -76,7 +76,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_data_not_received => 'Veri bulunamadı veya hata oluştu.';
 
   @override
-  String get lcod_lbl_to_pay => 'Ödeme yap';
+  String get lcod_lbl_to_pay => 'Ödeme Yap';
 
   @override
   String get lcod_lbl_see_all => 'Tümünü Gör ->';
@@ -97,7 +97,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_statement_screen => 'Hesap Özeti';
 
   @override
-  String get lcod_lbl_request_screen => 'Taleplerim';
+  String get lcod_lbl_request_screen => 'Talepler';
 
   @override
   String get lcod_lbl_settings_screen => 'Ayarlar';
@@ -120,7 +120,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get lcod_lbl_create_request => 'Talep oluştur';
+  String get lcod_lbl_create_request => 'Talep Oluştur';
 
   @override
   String get lcod_lbl_subject => 'Konu';
@@ -129,7 +129,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_apartment => 'Daire';
 
   @override
-  String get lcod_lbl_request_type => 'Talep tipi';
+  String get lcod_lbl_request_type => 'Talep Tipi';
 
   @override
   String get lcod_lbl_request_list => '\'Arıza\', \'Soru\', \'Öneri\', \'Şikayet\'';
@@ -150,25 +150,25 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_explanation => 'Açıklama';
 
   @override
-  String get lcod_lbl_add_image => 'Resim ekle..';
+  String get lcod_lbl_add_image => 'Resim Ekle';
 
   @override
-  String get lcod_lbl_shooting => 'Çekim yap';
+  String get lcod_lbl_shooting => 'Çekim Yap';
 
   @override
-  String get lcod_lbl_upload_from_gallery => 'Galeriden yükle';
+  String get lcod_lbl_upload_from_gallery => 'Galeriden Yükle';
 
   @override
-  String get lcod_lbl_send_request => 'Talebi gönder..';
+  String get lcod_lbl_send_request => 'Talebi Gönder';
 
   @override
-  String get lcod_lbl_new_request => 'Yeni talep';
+  String get lcod_lbl_new_request => 'Yeni Talep';
 
   @override
-  String get lcod_lbl_current_request => 'Güncel talepler';
+  String get lcod_lbl_current_request => 'Güncel';
 
   @override
-  String get lcod_lbl_complete_request => 'Tamamlanmış t.';
+  String get lcod_lbl_complete_request => 'Tamamlanmış';
 
   @override
   String get lcod_lbl_no_current_request => 'Güncel talebiniz bulunmuyor';
@@ -183,22 +183,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settings => 'Asagida settings sayfasi bulunmaktadir';
 
   @override
-  String get lcod_lbl_profile_screen => 'Profil ekranı';
+  String get lcod_lbl_profile_screen => 'Profil Ekranı';
 
   @override
-  String get lcod_lbl_update_profile_screen => 'Profil resmini güncelle';
+  String get lcod_lbl_update_profile_screen => 'Profil Resmini Güncelle';
 
   @override
-  String get lcod_lbl_name_surname => 'İsim soyisim';
+  String get lcod_lbl_name_surname => 'İsim Soyisim';
 
   @override
-  String get lcod_lbl_email_text => 'E-mail';
+  String get lcod_lbl_email_text => 'E-Mail';
 
   @override
-  String get lcod_lbl_new_email => 'Yeni e-mail adresini girin';
+  String get lcod_lbl_new_email => 'Yeni e-mail Adresini Girin';
 
   @override
-  String get lcod_lbl_password_2 => 'Şifrenizi girin';
+  String get lcod_lbl_password_2 => 'Şifrenizi Girin';
 
   @override
   String get lcod_lbl_updated_email => 'E-mail adresiniz güncellendi...';
@@ -210,13 +210,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_update => 'Güncelle';
 
   @override
-  String get lcod_lbl_username => 'Kullanıcı adı';
+  String get lcod_lbl_username => 'Kullanıcı Adı';
 
   @override
-  String get lcod_lbl_new_username => 'Yeni kullanıcı adını girin';
+  String get lcod_lbl_new_username => 'Yeni Kullanıcı Adını Girin';
 
   @override
-  String get lcod_lbl_phone_number => 'Telefon numarası';
+  String get lcod_lbl_phone_number => 'Telefon Numarası';
 
   @override
   String get lcod_lbl_phone_text => 'Telefon';
@@ -231,22 +231,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_building => 'Bina';
 
   @override
-  String get lcod_lbl_current_password => 'Güncel şifrenizi giriniz';
+  String get lcod_lbl_current_password => 'Güncel Şifrenizi Giriniz';
 
   @override
-  String get lcod_lbl_new_password => 'Yeni şifrenizi oluşturun';
+  String get lcod_lbl_new_password => 'Yeni Şifrenizi Oluşturun';
 
   @override
-  String get lcod_lbl_new_password_again => 'Yeni şifrenizi tekrar girin';
+  String get lcod_lbl_new_password_again => 'Yeni Şifrenizi Tekrar Girin';
 
   @override
   String get lcod_lbl_wrong_password_long => 'Şifreler uyuşmuyor, kontrol ederek tekrar girin..';
 
   @override
-  String get lcod_lbl_update_password => 'Şifreyi güncelle';
+  String get lcod_lbl_update_password => 'Şifreyi Güncelle';
 
   @override
-  String get lcod_lbl_logout => 'Hesaptan çıkış yap';
+  String get lcod_lbl_logout => 'Hesaptan Çıkış Yap';
 
   @override
   String get statement => 'Asagida statement sayfasi bulunmaktadir';
@@ -255,13 +255,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_card_screen => 'Kart Ekranı';
 
   @override
-  String get lcod_lbl_selected_amount => 'Seçilen tutar';
+  String get lcod_lbl_selected_amount => 'Seçilen Tutar';
 
   @override
-  String get lcod_lbl_card_number => 'Kart numarası';
+  String get lcod_lbl_card_number => 'Kart Numarası';
 
   @override
-  String get lcod_lbl_expiration => 'Son kullanma tarihi';
+  String get lcod_lbl_expiration => 'Son Kullanma Tarihi';
 
   @override
   String get lcod_lbl_card_holder => 'Kart Sahibi';
@@ -273,19 +273,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_wrong_card_information => 'Kart bilgileri hatalı lütfen kontrol edin';
 
   @override
-  String get lcod_lbl_confirm_payment => 'Ödemeyi onayla ';
+  String get lcod_lbl_confirm_payment => 'Ödemeyi Onayla ';
 
   @override
   String get lcod_lbl_statement => 'Hesap Dökümü';
 
   @override
-  String get lcod_lbl_paid_bills => 'Ödenen faturalar';
+  String get lcod_lbl_paid_bills => 'Ödenen Faturalar';
 
   @override
-  String get lcod_lbl_payment_bill => 'Lütfen ödeme yapın..';
+  String get lcod_lbl_payment_bill => 'Lütfen Ödeme Yapın..';
 
   @override
-  String get lcod_lbl_no_invoice_paid => 'Ödenmiş faturanız bulunmamaktadır!!';
+  String get lcod_lbl_no_invoice_paid => 'Ödenmiş Faturanız Bulunmamaktadır!!';
 
   @override
   String get lcod_lbl_payment_date_paid => 'Ödeme Tarihi: ';
@@ -312,22 +312,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_selected_amount_double => 'Seçilen\ntutar';
 
   @override
-  String get lcod_lbl_unpaid_bills => 'Ödenmeyen faturalar';
+  String get lcod_lbl_unpaid_bills => 'Ödenmeyen Faturalar';
 
   @override
   String get lcod_lbl_thanks => 'Teşekkürler..';
 
   @override
-  String get lcod_lbl_no_invoice_unpaid => 'Ödenmemiş faturanız bulunmamaktadır!!';
+  String get lcod_lbl_no_invoice_unpaid => 'Ödenmemiş Faturanız Bulunmamaktadır!!';
 
   @override
   String get lcod_lbl_payment_date_unpaid => 'Ödeme Tarihi: ';
 
   @override
-  String get lcod_lbl_statement_unpaid => 'Ödenmemişler';
+  String get lcod_lbl_statement_unpaid => 'Ödenmeyen Faturalar';
 
   @override
-  String get lcod_lbl_statement_paid => 'Ödenmişler';
+  String get lcod_lbl_statement_paid => 'Ödenen Faturalar';
 
   @override
   String get lcod_lbl_statement_total => 'Toplam';

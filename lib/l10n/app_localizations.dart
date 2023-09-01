@@ -118,7 +118,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_email.
   ///
   /// In tr, this message translates to:
-  /// **'Email adresinizi girin'**
+  /// **'Email Adresinizi Girin'**
   String get lcod_lbl_email;
 
   /// No description provided for @lcod_lbl_password.
@@ -142,49 +142,49 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_profilphoto.
   ///
   /// In tr, this message translates to:
-  /// **'Profil resmi ekleyiniz..'**
+  /// **'Profil Resmi Ekleyiniz..'**
   String get lcod_lbl_profilphoto;
 
   /// No description provided for @lcod_lbl_upload_gallery.
   ///
   /// In tr, this message translates to:
-  /// **'Galeriden yükle'**
+  /// **'Galeriden Yükle'**
   String get lcod_lbl_upload_gallery;
 
   /// No description provided for @lcod_lbl_create_password.
   ///
   /// In tr, this message translates to:
-  /// **'Parolanızı oluşturun'**
+  /// **'Parolanızı Oluşturun'**
   String get lcod_lbl_create_password;
 
   /// No description provided for @lcod_lbl_create_username.
   ///
   /// In tr, this message translates to:
-  /// **'Kullanıcı adınızı oluşturun'**
+  /// **'Kullanıcı Adınızı Oluşturun'**
   String get lcod_lbl_create_username;
 
   /// No description provided for @lcod_lbl_enter_name.
   ///
   /// In tr, this message translates to:
-  /// **'Adınızı girin'**
+  /// **'Adınızı Girin'**
   String get lcod_lbl_enter_name;
 
   /// No description provided for @lcod_lbl_enter_surname.
   ///
   /// In tr, this message translates to:
-  /// **'Soyadınızı girin'**
+  /// **'Soyadınızı Girin'**
   String get lcod_lbl_enter_surname;
 
   /// No description provided for @lcod_lbl_enter_building.
   ///
   /// In tr, this message translates to:
-  /// **'Bina adını girin'**
+  /// **'Bina Adını Girin'**
   String get lcod_lbl_enter_building;
 
   /// No description provided for @lcod_lbl_enter_phonenumber.
   ///
   /// In tr, this message translates to:
-  /// **'Telefon numaranızı girin'**
+  /// **'Telefon Numaranızı Girin'**
   String get lcod_lbl_enter_phonenumber;
 
   /// No description provided for @main.
@@ -238,7 +238,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_to_pay.
   ///
   /// In tr, this message translates to:
-  /// **'Ödeme yap'**
+  /// **'Ödeme Yap'**
   String get lcod_lbl_to_pay;
 
   /// No description provided for @lcod_lbl_see_all.
@@ -280,7 +280,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_request_screen.
   ///
   /// In tr, this message translates to:
-  /// **'Taleplerim'**
+  /// **'Talepler'**
   String get lcod_lbl_request_screen;
 
   /// No description provided for @lcod_lbl_settings_screen.
@@ -322,7 +322,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_create_request.
   ///
   /// In tr, this message translates to:
-  /// **'Talep oluştur'**
+  /// **'Talep Oluştur'**
   String get lcod_lbl_create_request;
 
   /// No description provided for @lcod_lbl_subject.
@@ -340,7 +340,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_request_type.
   ///
   /// In tr, this message translates to:
-  /// **'Talep tipi'**
+  /// **'Talep Tipi'**
   String get lcod_lbl_request_type;
 
   /// No description provided for @lcod_lbl_request_list.
@@ -382,43 +382,43 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_add_image.
   ///
   /// In tr, this message translates to:
-  /// **'Resim ekle..'**
+  /// **'Resim Ekle'**
   String get lcod_lbl_add_image;
 
   /// No description provided for @lcod_lbl_shooting.
   ///
   /// In tr, this message translates to:
-  /// **'Çekim yap'**
+  /// **'Çekim Yap'**
   String get lcod_lbl_shooting;
 
   /// No description provided for @lcod_lbl_upload_from_gallery.
   ///
   /// In tr, this message translates to:
-  /// **'Galeriden yükle'**
+  /// **'Galeriden Yükle'**
   String get lcod_lbl_upload_from_gallery;
 
   /// No description provided for @lcod_lbl_send_request.
   ///
   /// In tr, this message translates to:
-  /// **'Talebi gönder..'**
+  /// **'Talebi Gönder'**
   String get lcod_lbl_send_request;
 
   /// No description provided for @lcod_lbl_new_request.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni talep'**
+  /// **'Yeni Talep'**
   String get lcod_lbl_new_request;
 
   /// No description provided for @lcod_lbl_current_request.
   ///
   /// In tr, this message translates to:
-  /// **'Güncel talepler'**
+  /// **'Güncel'**
   String get lcod_lbl_current_request;
 
   /// No description provided for @lcod_lbl_complete_request.
   ///
   /// In tr, this message translates to:
-  /// **'Tamamlanmış t.'**
+  /// **'Tamamlanmış'**
   String get lcod_lbl_complete_request;
 
   /// No description provided for @lcod_lbl_no_current_request.
@@ -448,37 +448,37 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_profile_screen.
   ///
   /// In tr, this message translates to:
-  /// **'Profil ekranı'**
+  /// **'Profil Ekranı'**
   String get lcod_lbl_profile_screen;
 
   /// No description provided for @lcod_lbl_update_profile_screen.
   ///
   /// In tr, this message translates to:
-  /// **'Profil resmini güncelle'**
+  /// **'Profil Resmini Güncelle'**
   String get lcod_lbl_update_profile_screen;
 
   /// No description provided for @lcod_lbl_name_surname.
   ///
   /// In tr, this message translates to:
-  /// **'İsim soyisim'**
+  /// **'İsim Soyisim'**
   String get lcod_lbl_name_surname;
 
   /// No description provided for @lcod_lbl_email_text.
   ///
   /// In tr, this message translates to:
-  /// **'E-mail'**
+  /// **'E-Mail'**
   String get lcod_lbl_email_text;
 
   /// No description provided for @lcod_lbl_new_email.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni e-mail adresini girin'**
+  /// **'Yeni e-mail Adresini Girin'**
   String get lcod_lbl_new_email;
 
   /// No description provided for @lcod_lbl_password_2.
   ///
   /// In tr, this message translates to:
-  /// **'Şifrenizi girin'**
+  /// **'Şifrenizi Girin'**
   String get lcod_lbl_password_2;
 
   /// No description provided for @lcod_lbl_updated_email.
@@ -502,19 +502,19 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_username.
   ///
   /// In tr, this message translates to:
-  /// **'Kullanıcı adı'**
+  /// **'Kullanıcı Adı'**
   String get lcod_lbl_username;
 
   /// No description provided for @lcod_lbl_new_username.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni kullanıcı adını girin'**
+  /// **'Yeni Kullanıcı Adını Girin'**
   String get lcod_lbl_new_username;
 
   /// No description provided for @lcod_lbl_phone_number.
   ///
   /// In tr, this message translates to:
-  /// **'Telefon numarası'**
+  /// **'Telefon Numarası'**
   String get lcod_lbl_phone_number;
 
   /// No description provided for @lcod_lbl_phone_text.
@@ -544,19 +544,19 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_current_password.
   ///
   /// In tr, this message translates to:
-  /// **'Güncel şifrenizi giriniz'**
+  /// **'Güncel Şifrenizi Giriniz'**
   String get lcod_lbl_current_password;
 
   /// No description provided for @lcod_lbl_new_password.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni şifrenizi oluşturun'**
+  /// **'Yeni Şifrenizi Oluşturun'**
   String get lcod_lbl_new_password;
 
   /// No description provided for @lcod_lbl_new_password_again.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni şifrenizi tekrar girin'**
+  /// **'Yeni Şifrenizi Tekrar Girin'**
   String get lcod_lbl_new_password_again;
 
   /// No description provided for @lcod_lbl_wrong_password_long.
@@ -568,13 +568,13 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_update_password.
   ///
   /// In tr, this message translates to:
-  /// **'Şifreyi güncelle'**
+  /// **'Şifreyi Güncelle'**
   String get lcod_lbl_update_password;
 
   /// No description provided for @lcod_lbl_logout.
   ///
   /// In tr, this message translates to:
-  /// **'Hesaptan çıkış yap'**
+  /// **'Hesaptan Çıkış Yap'**
   String get lcod_lbl_logout;
 
   /// No description provided for @statement.
@@ -592,19 +592,19 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_selected_amount.
   ///
   /// In tr, this message translates to:
-  /// **'Seçilen tutar'**
+  /// **'Seçilen Tutar'**
   String get lcod_lbl_selected_amount;
 
   /// No description provided for @lcod_lbl_card_number.
   ///
   /// In tr, this message translates to:
-  /// **'Kart numarası'**
+  /// **'Kart Numarası'**
   String get lcod_lbl_card_number;
 
   /// No description provided for @lcod_lbl_expiration.
   ///
   /// In tr, this message translates to:
-  /// **'Son kullanma tarihi'**
+  /// **'Son Kullanma Tarihi'**
   String get lcod_lbl_expiration;
 
   /// No description provided for @lcod_lbl_card_holder.
@@ -628,7 +628,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_confirm_payment.
   ///
   /// In tr, this message translates to:
-  /// **'Ödemeyi onayla '**
+  /// **'Ödemeyi Onayla '**
   String get lcod_lbl_confirm_payment;
 
   /// No description provided for @lcod_lbl_statement.
@@ -640,19 +640,19 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_paid_bills.
   ///
   /// In tr, this message translates to:
-  /// **'Ödenen faturalar'**
+  /// **'Ödenen Faturalar'**
   String get lcod_lbl_paid_bills;
 
   /// No description provided for @lcod_lbl_payment_bill.
   ///
   /// In tr, this message translates to:
-  /// **'Lütfen ödeme yapın..'**
+  /// **'Lütfen Ödeme Yapın..'**
   String get lcod_lbl_payment_bill;
 
   /// No description provided for @lcod_lbl_no_invoice_paid.
   ///
   /// In tr, this message translates to:
-  /// **'Ödenmiş faturanız bulunmamaktadır!!'**
+  /// **'Ödenmiş Faturanız Bulunmamaktadır!!'**
   String get lcod_lbl_no_invoice_paid;
 
   /// No description provided for @lcod_lbl_payment_date_paid.
@@ -706,7 +706,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_unpaid_bills.
   ///
   /// In tr, this message translates to:
-  /// **'Ödenmeyen faturalar'**
+  /// **'Ödenmeyen Faturalar'**
   String get lcod_lbl_unpaid_bills;
 
   /// No description provided for @lcod_lbl_thanks.
@@ -718,7 +718,7 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_no_invoice_unpaid.
   ///
   /// In tr, this message translates to:
-  /// **'Ödenmemiş faturanız bulunmamaktadır!!'**
+  /// **'Ödenmemiş Faturanız Bulunmamaktadır!!'**
   String get lcod_lbl_no_invoice_unpaid;
 
   /// No description provided for @lcod_lbl_payment_date_unpaid.
@@ -730,13 +730,13 @@ abstract class AppLocalizations {
   /// No description provided for @lcod_lbl_statement_unpaid.
   ///
   /// In tr, this message translates to:
-  /// **'Ödenmemişler'**
+  /// **'Ödenmeyen Faturalar'**
   String get lcod_lbl_statement_unpaid;
 
   /// No description provided for @lcod_lbl_statement_paid.
   ///
   /// In tr, this message translates to:
-  /// **'Ödenmişler'**
+  /// **'Ödenen Faturalar'**
   String get lcod_lbl_statement_paid;
 
   /// No description provided for @lcod_lbl_statement_total.

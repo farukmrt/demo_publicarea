@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/widgets/custom_listitem_big_request.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -80,6 +81,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
             _currentRequestType = trnslt.lcod_lbl_request_complaint;
           }
 
+          // ignore: unnecessary_null_comparison
           if (request == null) {
             return Scaffold(
               appBar: AppBar(
@@ -115,7 +117,9 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                       CustomTitle(
                         mainTitle: request.requestTitle,
                       ),
-                      CustomBigListItem(
+                      CustomRequestBigListItem(
+                        status: request.status,
+                        isPositive: request.isPositive,
                         image: request.imageUrl, //request.imageUrl,
                         title: trnslt.lcod_lbl_request_title(
                             userProvider.currentUser.name,
@@ -123,7 +127,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                             request.apartmentNumber),
 
                         subtitle: subtitleText,
-
+                        resultDescription: request.resultDescription,
                         text: request.requestExplanation,
                       ),
                     ],

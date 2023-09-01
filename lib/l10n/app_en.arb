@@ -158,8 +158,8 @@
     "lcod_lbl_no_invoice_unpaid": "You have no unpaid invoices!!",
     "lcod_lbl_payment_date_unpaid": "Payment date: ",
 
-    "lcod_lbl_statement_unpaid":"Unpaid",
-    "lcod_lbl_statement_paid":"Paid",
+    "lcod_lbl_statement_unpaid":"Unpaid Bills",
+    "lcod_lbl_statement_paid":"Paid Bills",
     "lcod_lbl_statement_total":"Total",
     "lcod_lbl_statement_chart":"Account Chart",
 

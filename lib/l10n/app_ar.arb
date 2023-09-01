@@ -157,8 +157,8 @@
     "lcod_lbl_payment_date_unpaid": "تاريخ الدفع: ",
 
    
-    "lcod_lbl_statement_unpaid":"غير مدفوعة الأجر",
-    "lcod_lbl_statement_paid":"مدفوع",
+    "lcod_lbl_statement_unpaid":"الفواتير غير المسددة",
+    "lcod_lbl_statement_paid":"فواتير مدفوعة",
     "lcod_lbl_statement_total":"المجموع",
     "lcod_lbl_statement_chart":"مخطط الحساب" ,
 

@@ -1,3 +1,5 @@
+import 'package:demo_publicarea/widgets/custom_button.dart';
+
 import 'request_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +25,7 @@ class RequestScreen extends StatefulWidget {
 }
 
 class _RequestScreenState extends State<RequestScreen> {
-  ScrollController _scrollController = ScrollController();
+  //ScrollController _scrollController = ScrollController();
 
   PagingController<int, Request> get pagingControllerTrue =>
       _pagingControllerTrue;
@@ -56,6 +58,7 @@ class _RequestScreenState extends State<RequestScreen> {
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
+        //_pagingControllerTrue.itemList = [];
 
         if (isLastPage) {
           _pagingControllerTrue.appendLastPage(tempList);
@@ -74,6 +77,7 @@ class _RequestScreenState extends State<RequestScreen> {
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
+        // _pagingControllerFalse.itemList = [];
 
         if (isLastPage) {
           _pagingControllerFalse.appendLastPage(tempList);
@@ -88,6 +92,8 @@ class _RequestScreenState extends State<RequestScreen> {
 
     var trnslt = AppLocalizations.of(context)!;
 
+    final size = MediaQuery.of(context).size;
+
     return DefaultTabController(
       length: 2,
       initialIndex: 0,
@@ -98,72 +104,124 @@ class _RequestScreenState extends State<RequestScreen> {
             backgroundColor: backgroundColor,
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              toolbarHeight: 20,
+              toolbarHeight: 0,
               backgroundColor: mainBackgroundColor,
-              title: CustomTitle(
-                mainTitle: trnslt.lcod_lbl_new_request,
-                button: Icons.add,
-                onTap: () {
-                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                    context,
-                    settings: RouteSettings(
-                      name: CreateRequestScreen.routeName,
-                      arguments: {
-                        'apartmentId': userProvider.currentUser.apartmentId,
-                        'userUid': userProvider.currentUser.uid
-                      },
-                    ),
-                    screen: const CreateRequestScreen(),
-                    withNavBar: true,
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
-              ),
+
+              // title: CustomTitle(
+              //   mainTitle: trnslt.lcod_lbl_new_request,
+              //   button: Icons.add,
+              //   onTap: () {
+              //     PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+              //       context,
+              //       settings: RouteSettings(
+              //         name: CreateRequestScreen.routeName,
+              //         arguments: {
+              //           'apartmentId': userProvider.currentUser.apartmentId,
+              //           'userUid': userProvider.currentUser.uid
+              //         },
+              //       ),
+              //       screen: const CreateRequestScreen(),
+              //       withNavBar: true,
+              //       pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              //     );
+              //   },
+              // ),
             ),
             body: Container(
+              width: double.infinity,
               color: mainBackgroundColor,
               child: Column(
                 children: <Widget>[
-                  ButtonsTabBar(
-                    backgroundColor: primaryColor,
-                    unselectedBackgroundColor: borderccc,
-                    unselectedLabelStyle: const TextStyle(color: buttonColor),
-                    //renk değeri verilmiyor
-                    labelStyle: const TextStyle(color: mainBackgroundColor),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                    radius: 30,
-                    tabs: [
-                      Tab(
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.pending_outlined,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              trnslt.lcod_lbl_current_request,
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                            ),
-                          ],
+                  Container(
+                    width: size.width,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: ButtonsTabBar(
+                            backgroundColor: backgroundColor,
+                            unselectedBackgroundColor: mainBackgroundColor,
+                            //unselectedLabelStyle: TextStyle(color: mainBackgroundColor),
+                            //renk değeri verilmiyor
+                            // labelStyle: TextStyle(
+                            //   color: Colors.red,
+                            //   //fontWeight: FontWeight.bold,
+                            // ),
+                            // unselectedLabelStyle: TextStyle(
+                            //   color: Colors.red,
+                            //   //fontWeight: FontWeight.bold,
+                            // ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            radius: 30,
+                            tabs: [
+                              Tab(
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.pending_outlined,
+                                      color: primaryColor,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      trnslt.lcod_lbl_current_request,
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Tab(
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.task_alt_outlined,
+                                      color: primaryColor,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      trnslt.lcod_lbl_complete_request,
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Tab(
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.task_alt_outlined,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              trnslt.lcod_lbl_complete_request,
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                            ),
-                          ],
+                        Positioned(
+                          right: size.width / 100,
+                          child: IconButton(
+                            iconSize: size.width / 12,
+                            onPressed: () {
+                              PersistentNavBarNavigator
+                                  .pushNewScreenWithRouteSettings(
+                                context,
+                                settings: RouteSettings(
+                                  name: CreateRequestScreen.routeName,
+                                  arguments: {
+                                    'apartmentId':
+                                        userProvider.currentUser.apartmentId,
+                                    'userUid': userProvider.currentUser.uid
+                                  },
+                                ),
+                                screen: const CreateRequestScreen(),
+                                withNavBar: true,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+                            },
+                            icon: const Icon(Icons.add),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Expanded(
                     child: TabBarView(

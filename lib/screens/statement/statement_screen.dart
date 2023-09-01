@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:demo_publicarea/screens/statement/credit_card_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/date_amount_formatter.dart';
@@ -15,7 +16,6 @@ import 'package:demo_publicarea/widgets/loading_indicator.dart';
 import 'package:demo_publicarea/widgets/custom_text_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 import 'package:demo_publicarea/screens/statement/itemized_account_screen.dart';
 import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
 
@@ -32,7 +32,7 @@ class _StatementScreenState extends State<StatementScreen> {
     _pagingControllerTrue.refresh();
   }
 
-  ScrollController _scrollController = ScrollController();
+//ScrollController _scrollController = ScrollController();
 
   PagingController<int, Bill> get pagingControllerTrue => _pagingControllerTrue;
   final PagingController<int, Bill> _pagingControllerTrue =
@@ -44,6 +44,7 @@ class _StatementScreenState extends State<StatementScreen> {
       PagingController(firstPageKey: 0);
 
   StreamSubscription<List<Bill>>? _billStreamSubscription;
+  // ignore: unused_field
   List<Bill> _bills = [];
 
   @override
@@ -57,17 +58,24 @@ class _StatementScreenState extends State<StatementScreen> {
     });
   }
 
+  List<Bill> selectedBill =
+      []; //liste olarak kredi kartı sayfasına verileri gönderdiğimiz değişken
+  num summary = 0; //listenin tutarının toplamını tutan değişken
+  num? amountt; //tek fatura gönderildiğinde bu değer gönderiliyor
+  List<Bill> selectBill =
+      []; //genel yapının bozulmaması adına tekli faturayı da listeye ekleyip gönderiyoruz
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     BillProvider billProviderT = Provider.of<BillProvider>(context);
     BillProvider billProviderF = Provider.of<BillProvider>(context);
-    BillProvider billProvider =
-        Provider.of<BillProvider>(context, listen: true);
+    // BillProvider billProvider =
+    //     Provider.of<BillProvider>(context, listen: true);
 
     _pagingControllerTrue.addPageRequestListener((pageKey) {
       billProviderT
-          .fetchPageBillByPaidStatus(true, userProvider.user.apartmentId,
+          .fetchPageBillByPaidStatus(true, userProvider.currentUser.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
@@ -85,7 +93,8 @@ class _StatementScreenState extends State<StatementScreen> {
 
     _pagingControllerFalse.addPageRequestListener((pageKey) {
       billProviderF
-          .fetchPageBillByPaidStatus(false, userProvider.user.apartmentId,
+          .fetchPageBillByPaidStatus(
+              false, userProvider.currentUser.apartmentId,
               limit: 6, pageKey: pageKey)
           .listen((tempList) {
         final isLastPage = tempList.length < 6;
@@ -182,17 +191,46 @@ class _StatementScreenState extends State<StatementScreen> {
                                 itemCount: bill.length,
                                 itemBuilder: (context, index) {
                                   var unpaidBills = bill[index];
-                                  return CustomListItem(
-                                    title: unpaidBills.name,
-                                    subtitle:
-                                        '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
-                                    color: unpaidc,
-                                    trailing: Text(NoyaFormatter.generateAmount(
-                                        unpaidBills.amount)),
-                                    leading: const Icon(
-                                      Icons.receipt_long_outlined,
+                                  return GestureDetector(
+                                    onTap: () {
+                                      amountt = unpaidBills.amount;
+                                      selectBill.add(unpaidBills);
+
+                                      print(NoyaFormatter.generateAmount(
+                                          amountt));
+                                      PersistentNavBarNavigator
+                                          .pushNewScreenWithRouteSettings(
+                                        context,
+                                        settings: RouteSettings(
+                                          name: CreditCardScreen.routeName,
+                                          arguments: {
+                                            'amount':
+                                                NoyaFormatter.generateAmount(
+                                                    amountt),
+                                            'selectBill': selectBill,
+                                          },
+                                        ),
+                                        screen: const CreditCardScreen(
+                                          arguments: {},
+                                        ),
+                                        withNavBar: true,
+                                        pageTransitionAnimation:
+                                            PageTransitionAnimation.cupertino,
+                                      );
+                                    },
+                                    child: CustomListItem(
+                                      title: unpaidBills.name,
+                                      subtitle:
+                                          '${trnslt.lcod_lbl_payment_date_bill} ${NoyaFormatter.generate(unpaidBills.date)}',
                                       color: unpaidc,
-                                      size: 30,
+                                      trailing: Text(
+                                          NoyaFormatter.generateAmount(
+                                              unpaidBills.amount)),
+                                      leading: const Icon(
+                                        Icons.receipt_long_outlined,
+                                        color: unpaidc,
+                                        size: 30,
+                                      ),
                                     ),
                                   );
                                 },
@@ -209,41 +247,46 @@ class _StatementScreenState extends State<StatementScreen> {
                   },
                 ),
               ),
-              Container(
-                width: double.infinity,
-                height: 40,
-                color: mainBackgroundColor,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(trnslt.lcod_lbl_statement_total),
-                      Consumer<BillProvider>(
-                        builder: (context, data, index) {
-                          return StreamBuilder<double>(
-                            stream: data.fetchAmountTotalStatus(
-                                false, userProvider.currentUser.apartmentId),
-                            builder: (BuildContext context, snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                    child: LoadingIndicator(),
-                                  );
-                                } else {
-                                  return Text(NoyaFormatter.generateAmount(
-                                      snapshot.data));
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width / 80),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(35),
+                      color: mainBackgroundColor),
+                  width: double.infinity,
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(trnslt.lcod_lbl_statement_total),
+                        Consumer<BillProvider>(
+                          builder: (context, data, index) {
+                            return FutureBuilder<double>(
+                              future: data.fetchAmountTotalStatus(
+                                  false, userProvider.currentUser.apartmentId),
+                              builder: (BuildContext context, snapshot) {
+                                if (snapshot.hasData) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: LoadingIndicator(),
+                                    );
+                                  } else {
+                                    return Text(NoyaFormatter.generateAmount(
+                                        snapshot.data));
+                                  }
+                                } else if (snapshot.hasError) {
+                                  return const Text('no data');
                                 }
-                              } else if (snapshot.hasError) {
-                                return const Text('no data');
-                              }
-                              return const LoadingIndicator();
-                            },
-                          );
-                        },
-                      ),
-                    ],
+                                return const LoadingIndicator();
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -347,6 +390,7 @@ class _StatementScreenState extends State<StatementScreen> {
                     Container(
                       width: size.width / 2,
                       child: CustomIconbutton(
+                        textAlign: TextAlign.center,
                         title: trnslt.lcod_lbl_statement,
                         icon: Icons.insert_chart_outlined,
                         onTap: () {},
@@ -355,6 +399,7 @@ class _StatementScreenState extends State<StatementScreen> {
                     Container(
                       width: size.width / 2,
                       child: CustomIconbutton(
+                        textAlign: TextAlign.center,
                         title: trnslt.lcod_lbl_to_pay,
                         icon: Icons.wallet_outlined,
                         onTap: () {
@@ -362,8 +407,8 @@ class _StatementScreenState extends State<StatementScreen> {
                               .pushNewScreenWithRouteSettings(
                             context,
                             settings: RouteSettings(
-                                name: PaymentSelectScreen.routeName),
-                            screen: const PaymentSelectScreen(),
+                                name: UnpaidItemizedAccountScreen.routeName),
+                            screen: const UnpaidItemizedAccountScreen(),
                             withNavBar: true,
                             pageTransitionAnimation:
                                 PageTransitionAnimation.cupertino,

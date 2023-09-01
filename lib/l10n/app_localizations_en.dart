@@ -324,10 +324,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lcod_lbl_payment_date_unpaid => 'Payment date: ';
 
   @override
-  String get lcod_lbl_statement_unpaid => 'Unpaid';
+  String get lcod_lbl_statement_unpaid => 'Unpaid Bills';
 
   @override
-  String get lcod_lbl_statement_paid => 'Paid';
+  String get lcod_lbl_statement_paid => 'Paid Bills';
 
   @override
   String get lcod_lbl_statement_total => 'Total';

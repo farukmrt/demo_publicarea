@@ -34,7 +34,7 @@ String _totalSelected(List<Bill> selectedBill) {
 }
 
 class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
-  ScrollController _scrollController = ScrollController();
+  //ScrollController _scrollController = ScrollController();
 
   PagingController<int, Bill> get pagingController => _pagingController;
 
@@ -183,8 +183,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                         children: [
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
-                              return StreamBuilder<double>(
-                                stream: data.fetchAmountTotalStatus(false,
+                              return FutureBuilder<double>(
+                                future: data.fetchAmountTotalStatus(false,
                                     userProvider.currentUser.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;
@@ -203,6 +203,7 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                                                   snapshot.data),
                                           icon: Icons.receipt_outlined,
                                           size: 60,
+                                          color: primaryColor.withOpacity(0.7),
                                         ),
                                       );
                                     }
@@ -221,6 +222,7 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                                   (NoyaFormatter.generateAmount(summary)),
                               icon: Icons.credit_card_outlined,
                               size: 60,
+                              color: primaryColor.withOpacity(0.7),
                             ),
                           ),
                         ],

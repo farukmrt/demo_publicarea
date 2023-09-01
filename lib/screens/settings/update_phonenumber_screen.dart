@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -19,6 +20,7 @@ class UpdatePhonenumberScreen extends StatefulWidget {
 class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
   bool changing = false;
   bool newPhoneNumberColor = false;
+  bool isLoading = false;
   TextEditingController currentValueController = TextEditingController();
   TextEditingController phoneNumberPassController = TextEditingController();
   TextEditingController newPhoneNumberController = TextEditingController();
@@ -66,125 +68,145 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     final size = MediaQuery.of(context).size;
-
     var trnslt = AppLocalizations.of(context)!;
 
-    return Container(
-      color: primaryColor,
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: primaryColor,
-            title: Text(
-              trnslt.lcod_lbl_update_phone_number,
-              style: TextStyle(color: mainBackgroundColor),
-            ),
-          ),
-          body: Center(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomTextField(
-                        readOnly: true,
-                        controller: currentValueController,
-                        hintText: userProvider.currentUser.phoneNumber,
-                      ),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      CustomTextField(
-                        controller: newPhoneNumberController,
-                        hintText: '05xx',
-                        labelText: trnslt.lcod_lbl_phone_text,
-                        keyboardType: TextInputType.phone,
-                        maxLength: 11,
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.characters.length != 11 ||
-                              !value.startsWith('05')) {
-                            return trnslt.lcod_lbl_control_phone_number;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        controller: phoneNumberPassController,
-                        labelText: trnslt.lcod_lbl_password_2,
-                        obscore: true,
-                        maxLength: 20,
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.characters.length < 6) {
-                            return trnslt.lcod_lbl_control_password;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      CustomMainButton(
-                        onTap: () async {
-                          setState(() {
-                            changing;
-                          });
-                          if (_formKey.currentState!.validate() && changing) {
-                            String currentPasswordPhone =
-                                phoneNumberPassController.text;
-                            String newPhoneNumber =
-                                newPhoneNumberController.text;
+    return Stack(
+      children: [
+        Container(
+          color: primaryColor,
+          child: SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: primaryColor,
+                title: Text(
+                  trnslt.lcod_lbl_update_phone_number,
+                  style: TextStyle(color: mainBackgroundColor),
+                ),
+              ),
+              body: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomTextField(
+                            textName: 'currentPhoneNumber',
+                            readOnly: true,
+                            controller: currentValueController,
+                            hintText: userProvider.currentUser.phoneNumber,
+                          ),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          CustomTextField(
+                            textName: 'updatePhoneNumber',
+                            controller: newPhoneNumberController,
+                            hintText: '05xx',
+                            labelText: trnslt.lcod_lbl_phone_text,
+                            keyboardType: TextInputType.phone,
+                            maxLength: 11,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.characters.length != 11 ||
+                                  !value.startsWith('05')) {
+                                return trnslt.lcod_lbl_control_phone_number;
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                            textName: 'updatePhoneNumberPass',
+                            controller: phoneNumberPassController,
+                            labelText: trnslt.lcod_lbl_password_2,
+                            obscore: true,
+                            maxLength: 20,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.characters.length < 6) {
+                                return trnslt.lcod_lbl_control_password;
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          CustomMainButton(
+                            onTap: () async {
+                              setState(() {
+                                changing;
+                              });
+                              if (_formKey.currentState!.validate() &&
+                                  changing) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                String currentPasswordPhone =
+                                    phoneNumberPassController.text;
+                                String newPhoneNumber =
+                                    newPhoneNumberController.text;
 
-                            bool isPasswordCorrectPhone = await userProvider
-                                .verifyPassword(currentPasswordPhone);
+                                bool isPasswordCorrectPhone = await userProvider
+                                    .verifyPassword(currentPasswordPhone);
 
-                            if (isPasswordCorrectPhone) {
-                              await userProvider.updatePhoneNumber(
-                                  userProvider.currentUser.uid,
-                                  newPhoneNumber,
-                                  currentPasswordPhone);
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      trnslt.lcod_lbl_updated_phone_number),
-                                  duration: Duration(seconds: 5),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(trnslt.lcod_lbl_wrong_password),
-                                  duration: Duration(seconds: 5),
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        color: changing
-                            ? primaryColor
-                            : primaryColor.withOpacity(0.5),
-                        text: trnslt.lcod_lbl_update,
-                        icon: CupertinoIcons.arrow_2_circlepath_circle,
-                        edgeInsets: const EdgeInsets.symmetric(horizontal: 23),
+                                if (isPasswordCorrectPhone) {
+                                  await userProvider.updatePhoneNumber(
+                                      userProvider.currentUser.uid,
+                                      newPhoneNumber,
+                                      currentPasswordPhone);
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          trnslt.lcod_lbl_updated_phone_number),
+                                      duration: Duration(seconds: 5),
+                                    ),
+                                  );
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content:
+                                          Text(trnslt.lcod_lbl_wrong_password),
+                                      duration: Duration(seconds: 5),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            color: changing
+                                ? primaryColor
+                                : primaryColor.withOpacity(0.5),
+                            text: trnslt.lcod_lbl_update,
+                            icon: CupertinoIcons.arrow_2_circlepath_circle,
+                            edgeInsets:
+                                const EdgeInsets.symmetric(horizontal: 23),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ),
-      ),
+        if (isLoading)
+          Center(
+            child: LoadingAnimationWidget.dotsTriangle(
+                color: primaryColor, size: size.width / 3),
+          ),
+      ],
     );
   }
 }

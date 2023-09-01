@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   final String uid;
   final String email;
@@ -9,6 +11,7 @@ class UserModel {
   final String buildingId;
   final String imageUrl;
   final String phoneNumber;
+  final Timestamp registrationTime;
 
   UserModel({
     required this.uid,
@@ -21,6 +24,7 @@ class UserModel {
     required this.buildingId,
     required this.imageUrl,
     required this.phoneNumber,
+    required this.registrationTime,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -35,6 +39,7 @@ class UserModel {
       buildingId: map['buildingId'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
       phoneNumber: map['phoneNumber'] ?? '',
+      registrationTime: map['registrationTime'] ?? '',
     );
   }
   factory UserModel.fromFirestore(Map<String, dynamic> map) {
@@ -49,6 +54,7 @@ class UserModel {
       buildingId: map['buildingId'],
       imageUrl: map['imageUrl'],
       phoneNumber: map['phoneNumber'],
+      registrationTime: map['registrationTime'],
     );
   }
 
@@ -64,21 +70,22 @@ class UserModel {
       'buildingId': buildingId,
       'imageUrl': imageUrl,
       'phoneNumber': phoneNumber,
+      'registrationTime': registrationTime,
     };
   }
 
-  UserModel copyWith({
-    String? uid,
-    String? email,
-    String? username,
-    String? name,
-    String? surname,
-    String? building,
-    String? apartmentId,
-    String? buildingId,
-    String? imageUrl,
-    String? phoneNumber,
-  }) {
+  UserModel copyWith(
+      {String? uid,
+      String? email,
+      String? username,
+      String? name,
+      String? surname,
+      String? building,
+      String? apartmentId,
+      String? buildingId,
+      String? imageUrl,
+      String? phoneNumber,
+      Timestamp? registrationTime}) {
     return UserModel(
       uid: uid ?? this.uid,
       email: email ?? this.email,
@@ -90,6 +97,7 @@ class UserModel {
       buildingId: buildingId ?? this.buildingId,
       imageUrl: imageUrl ?? this.imageUrl,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      registrationTime: registrationTime ?? this.registrationTime,
     );
   }
 }

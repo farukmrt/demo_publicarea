@@ -35,17 +35,18 @@ class CustomDropdownButton extends StatelessWidget {
           fillColor: mainBackgroundColor,
           labelText: dropdownLabelText,
           labelStyle: const TextStyle(color: secondaryBackgroundColor),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: buttonColor,
-              width: 2,
-            ),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: buttonColor,
-            ),
-          ),
+          // focusedBorder: const OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: buttonColor,
+          //     width: 2,
+          //   ),
+          // ),
+          // enabledBorder: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(35.0),
+          //   borderSide: const BorderSide(
+          //     color: buttonColor,
+          //   ),
+          // ),
         ),
         onChanged: onChanged,
         items: items?.map((item) {

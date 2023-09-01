@@ -1,4 +1,7 @@
+import 'package:demo_publicarea/providers/building_provider.dart';
+import 'package:demo_publicarea/screens/statement/unpaid_itemized_account_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/l10n/app_localizations.dart';
@@ -14,7 +17,6 @@ import 'package:demo_publicarea/widgets/custom_listitem_medium.dart';
 import 'package:demo_publicarea/providers/announcement_provider.dart';
 import 'package:demo_publicarea/screens/main/announcement_screen.dart';
 import 'package:demo_publicarea/screens/main/announcement_detail_screen.dart';
-import 'package:demo_publicarea/screens/statement/payment_select_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -28,6 +30,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: true);
+    BuildingProvider buildingProvider =
+        Provider.of<BuildingProvider>(context, listen: true);
 
     var trnslt = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
@@ -81,7 +85,9 @@ class _MainScreenState extends State<MainScreen> {
                                             color: mainBackgroundColor),
                                       ),
                                       Text(
-                                        userProvider.currentUser.building,
+                                        buildingProvider
+                                            .currentBuilding.buildName,
+                                        //userProvider.currentUser.building,
                                         style: const TextStyle(
                                           fontSize: 16,
                                           color: mainBackgroundColor,
@@ -90,12 +96,47 @@ class _MainScreenState extends State<MainScreen> {
                                     ],
                                   ),
                                 ),
+                                // Padding(
+                                //   padding: const EdgeInsets.all(10),
+                                //   child: CircleAvatar(
+                                //     foregroundImage: NetworkImage(
+                                //         userProvider.currentUser.imageUrl),
+                                //     radius: size.width / 8.6,
+                                //   ),
+                                // ),
+
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: CircleAvatar(
-                                    foregroundImage: NetworkImage(
-                                        userProvider.currentUser.imageUrl),
                                     radius: size.width / 8.6,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          size.width / 8.6),
+                                      child: AspectRatio(
+                                        aspectRatio: 1,
+                                        child: Image.network(
+                                          userProvider.currentUser.imageUrl,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            } else {
+                                              return Center(
+                                                child: LoadingAnimationWidget
+                                                    .inkDrop(
+                                                        color: backgroundColor,
+                                                        size: size.width / 7),
+                                              );
+
+                                              // LoadingIndicator(
+                                              //   size: size.width / 8.6,
+                                              // );
+                                            }
+                                          },
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -116,8 +157,8 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                       Consumer<BillProvider>(
                                         builder: (context, data, index) {
-                                          return StreamBuilder<double>(
-                                            stream: data.fetchAmountTotalStatus(
+                                          return FutureBuilder<double>(
+                                            future: data.fetchAmountTotalStatus(
                                               false,
                                               userProvider
                                                   .currentUser.apartmentId,
@@ -127,9 +168,17 @@ class _MainScreenState extends State<MainScreen> {
                                                     snapshot) {
                                               if (snapshot.connectionState ==
                                                   ConnectionState.waiting) {
-                                                return const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0),
+                                                  child: Center(
+                                                    child: LoadingAnimationWidget
+                                                        .prograssiveDots(
+                                                            color:
+                                                                mainBackgroundColor,
+                                                            size: 50),
+                                                  ),
                                                 );
                                               } else if (snapshot.hasError) {
                                                 return Text(trnslt
@@ -172,9 +221,9 @@ class _MainScreenState extends State<MainScreen> {
                 onTap: () {
                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                     context,
-                    settings:
-                        RouteSettings(name: PaymentSelectScreen.routeName),
-                    screen: const PaymentSelectScreen(),
+                    settings: RouteSettings(
+                        name: UnpaidItemizedAccountScreen.routeName),
+                    screen: const UnpaidItemizedAccountScreen(),
                     withNavBar: true,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -210,7 +259,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Consumer<AnnouncementProvider>(
                   builder: (context, data, index) {
                     return StreamBuilder(
-                      stream: data.fetchPage(
+                      stream: data.fetchPageAnnouncement(
                         userProvider.currentUser.buildingId,
                         limit: 6,
                       ),
@@ -246,7 +295,7 @@ class _MainScreenState extends State<MainScreen> {
                                   return GestureDetector(
                                     onTap: () {
                                       AnnouncementProvider()
-                                          .fetchAnAnnouncement(
+                                          .fetchAnnouncementDetails(
                                               announcementList.id.toString());
 
                                       PersistentNavBarNavigator
@@ -271,7 +320,7 @@ class _MainScreenState extends State<MainScreen> {
                                       trailing: IconButton(
                                         onPressed: () {
                                           AnnouncementProvider()
-                                              .fetchAnAnnouncement(
+                                              .fetchAnnouncementDetails(
                                                   announcementList.id
                                                       .toString());
 

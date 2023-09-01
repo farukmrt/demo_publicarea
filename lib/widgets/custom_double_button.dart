@@ -6,9 +6,9 @@ class CustomDoubleIconbutton extends StatefulWidget {
   final IconData icon;
   final VoidCallback? onTap;
   final Color? color;
-  final String rightText;
+  final String? rightText;
   final double? size;
-  final Opacity? opacity;
+  //final Opacity? opacity;
 
   const CustomDoubleIconbutton({
     Key? key,
@@ -16,9 +16,9 @@ class CustomDoubleIconbutton extends StatefulWidget {
     required this.icon,
     this.onTap,
     this.color,
-    required this.rightText,
+    this.rightText = '',
     this.size,
-    this.opacity,
+    //this.opacity,
   }) : super(key: key);
 
   @override
@@ -57,7 +57,7 @@ class _CustomDoubleIconbuttonState extends State<CustomDoubleIconbutton> {
               child: Column(
                 children: [
                   Text(
-                    widget.rightText,
+                    widget.rightText!,
                     overflow: TextOverflow.fade,
                     maxLines: 2,
                     style: const TextStyle(

@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/providers/building_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    BuildingProvider buildingProvider = Provider.of<BuildingProvider>(context);
     final size = MediaQuery.of(context).size;
     var trnslt = AppLocalizations.of(context)!;
     return Container(
@@ -47,7 +49,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             centerTitle: true,
             title: Text(
                 '${trnslt.lcod_lbl_dear_username_surname(userProvider.currentUser.name, userProvider.currentUser.surname)} \n${userProvider.currentUser.building}',
-                style: TextStyle(color: mainBackgroundColor)),
+                style: TextStyle(
+                    color: mainBackgroundColor, fontWeight: FontWeight.w800)),
           ),
           body: Center(
             child: Container(

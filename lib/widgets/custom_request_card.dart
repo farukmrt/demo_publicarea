@@ -38,6 +38,8 @@ class _CustomRequestCardState extends State<CustomRequestCard> {
     var trnslt = AppLocalizations.of(context)!;
     String statusText =
         widget.status ? trnslt.lcod_lbl_pending : trnslt.lcod_lbl_concluded;
+
+    // ignore: unused_local_variable
     Icon statusIcon = (widget.status
         ? const Icon(Icons.update_outlined)
         : const Icon(Icons.task_alt_outlined));
@@ -78,7 +80,7 @@ class _CustomRequestCardState extends State<CustomRequestCard> {
 
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(35),
       ),
       margin: const EdgeInsets.fromLTRB(5, 4, 5, 4),
       color: mainBackgroundColor,

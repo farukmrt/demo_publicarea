@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:demo_publicarea/utils/colors.dart';
+import 'package:flutter/material.dart';
 
 class CustomListItem extends StatefulWidget {
   final String title;
@@ -33,21 +33,26 @@ class _CustomListItemState extends State<CustomListItem> {
           children: [
             Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(35),
               ),
               margin: const EdgeInsets.fromLTRB(5, 3, 5, 3),
-              color: mainBackgroundColor,
+              color: CardTheme().color, //mainBackgroundColor,
               child: ListTile(
                 trailing: widget.trailing,
                 leading: widget.leading,
                 title: Text(
                   widget.title,
                   style: TextStyle(
+
+                      //fontFamily: 'JosefinSans',
                       fontStyle: widget.fontstyle,
                       overflow: TextOverflow.ellipsis),
                 ),
                 subtitle: Text(widget.subtitle,
-                    style: TextStyle(color: widget.color),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: widget.color,
+                    ),
                     // alttaki kod verilerin tek satir ve sonunda '...' olmasini sagliyor
                     overflow: TextOverflow.ellipsis),
               ),

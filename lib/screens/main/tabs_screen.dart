@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:demo_publicarea/models/user.dart';
 import 'package:demo_publicarea/utils/colors.dart';
 import 'package:demo_publicarea/utils/languages/lang.dart';
 import 'package:demo_publicarea/screens/main/main_screen.dart';
@@ -39,24 +38,28 @@ class _TabsScreenState extends State<TabsScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home_outlined),
         title: translation(context).lcod_lbl_main_screen,
+        textStyle: TextStyle(fontWeight: FontWeight.w900),
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.description_outlined),
         title: translation(context).lcod_lbl_statement_screen,
+        textStyle: TextStyle(fontWeight: FontWeight.w900),
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.textsms_outlined),
         title: translation(context).lcod_lbl_request_screen,
+        textStyle: TextStyle(fontWeight: FontWeight.w900),
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.view_headline_outlined),
         title: translation(context).lcod_lbl_settings_screen,
+        textStyle: TextStyle(fontWeight: FontWeight.w900),
         activeColorPrimary: buttonColor,
         inactiveColorPrimary: mainColor,
       ),
@@ -82,13 +85,18 @@ class _TabsScreenState extends State<TabsScreen> {
         backgroundColor: mainBackgroundColor,
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,
+        //durum yonetimi kapatildiginda tabbarda yapilan tiklama her defasında sayfanın ana kismini aciyor
         stateManagement: true,
         hideNavigationBarWhenKeyboardShows: true,
-        popAllScreensOnTapOfSelectedTab: true,
         navBarStyle: NavBarStyle.style1,
+        popAllScreensOnTapOfSelectedTab: true,
         popAllScreensOnTapAnyTabs: true,
         screenTransitionAnimation: const ScreenTransitionAnimation(
           animateTabTransition: true,
+          //curve: Curves.easeInOutCirc,
+          //curve: accelerateEasing,
+
+          //duration: Duration(milliseconds: 800),
         ),
       ),
     );

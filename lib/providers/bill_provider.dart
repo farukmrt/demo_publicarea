@@ -18,7 +18,8 @@ class BillProvider with ChangeNotifier {
     var collection = FirebaseFirestore.instance.collection('bills');
     var query = collection
         .where("isPaid", isEqualTo: paidStatus)
-        .where("apartmentId", isEqualTo: apartmentId);
+        .where("apartmentId", isEqualTo: apartmentId)
+        .orderBy('date', descending: true);
 
     query = limit != null ? query.limit(limit) : query;
 
@@ -46,7 +47,8 @@ class BillProvider with ChangeNotifier {
     var collection = FirebaseFirestore.instance.collection('bills');
     var query = collection
         .where("isPaid", isEqualTo: paidStatus)
-        .where("apartmentId", isEqualTo: apartmentId);
+        .where("apartmentId", isEqualTo: apartmentId)
+        .orderBy('date', descending: true);
 
     query = limit != null ? query.limit(limit) : query;
     if (pageKey != null) {
@@ -77,19 +79,21 @@ class BillProvider with ChangeNotifier {
   }
 
 //toplam fatura tutarını alıyoruz
-  Stream<double> fetchAmountTotalStatus(bool paidStatus, String apartmentId) {
+  Future<double> fetchAmountTotalStatus(
+      bool paidStatus, String apartmentId) async {
     var collection = FirebaseFirestore.instance.collection('bills');
     final query = collection
         .where("isPaid", isEqualTo: paidStatus)
         .where("apartmentId", isEqualTo: apartmentId);
 
-    return query.snapshots().map((querySnapshot) {
-      double total = 0;
-      querySnapshot.docs.forEach((bills) {
-        total += bills.data()['amount'];
-      });
-      return total;
+    var querySnapshot = await query.get();
+    // return query.snapshots().map((querySnapshot) {
+    double total = 0;
+    querySnapshot.docs.forEach((bills) {
+      total += bills.data()['amount'];
     });
+    return total;
+    // });
   }
 
   @override

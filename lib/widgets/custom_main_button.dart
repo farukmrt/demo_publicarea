@@ -33,11 +33,11 @@ class _CustomMainButtonState extends State<CustomMainButton> {
           .edgeInsets!, //custommain'e bu deger verilmediginde hata ekrani geliyor
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: widget.color,
-          foregroundColor: widget.color_act,
-          disabledForegroundColor: widget.color_dis,
-          minimumSize: const Size(double.infinity, 40),
-        ),
+            backgroundColor: widget.color,
+            foregroundColor: widget.color_act,
+            disabledForegroundColor: widget.color_dis,
+            minimumSize: const Size(double.infinity, 40),
+            fixedSize: Size(150, 40)),
         onPressed: widget.onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
