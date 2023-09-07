@@ -230,7 +230,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                               isHolderNameVisible: true,
                               isCardNumberVisible: true,
                               isExpiryDateVisible: true,
-                              cardHolderName: cardHolderName.text,
+                              cardHolderName: cardHolderName.text.trim(),
                               cardHolderValidator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return trnslt.lcod_lbl_control_double_name;
@@ -308,7 +308,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                                               listen: false)
                                           .checkPayment(
                                     cardNumber.text,
-                                    cardHolderName.text,
+                                    cardHolderName.text.trim().toUpperCase(),
                                     cvvCode.text,
                                     expiryDate.text,
                                   );
@@ -323,7 +323,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                                     await Provider.of<PaymentProvider>(context,
                                             listen: false)
                                         .updateBillPaidStatus(selectedBill);
-
+                                    Navigator.of(context).pop();
                                     PersistentNavBarNavigator
                                         .pushNewScreenWithRouteSettings(
                                       context,

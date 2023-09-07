@@ -39,6 +39,10 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Uygulama, galeriye erişim izni istemektedir.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Uygulama, kameraya erişim izni istemektedir.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Uygulama, mikrofona erişim izni istemektedir.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

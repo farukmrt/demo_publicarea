@@ -140,14 +140,12 @@
     "lcod_lbl_payment_date_paid": "Payment date: ",
 
    
-
     "lcod_lbl_debt": "Debt",
     "lcod_lbl_paid": "Paid",
     
     "lcod_lbl_payments": "Payments",
     "lcod_lbl_payment_date_bill": "Last payment date: ",
 
-    
 
     "lcod_lbl_continue": "Continue",
     "lcod_lbl_total_amount": "Total\namount",
@@ -170,7 +168,10 @@
     "lcod_lbl_question":"Question",
     "lcod_lbl_suggestion":"Suggestion",
     "lcod_lbl_complaint":"Complaint",
-
+    "lcod_lbl_request":"Request",
+    "lcod_lbl_satisfaction":"Satisfaction",
+    "lcod_lbl_other":"Other",
+    
     "lcod_lbl_update_profile_photo":"Profile Picture Update",
     "lcod_lbl_update_email":"E-Mail Update",
     "lcod_lbl_update_username":"Username Update",

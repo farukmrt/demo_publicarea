@@ -354,6 +354,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lcod_lbl_complaint => 'Şikayet';
 
   @override
+  String get lcod_lbl_request => 'Talep';
+
+  @override
+  String get lcod_lbl_satisfaction => 'Memnuniyet';
+
+  @override
+  String get lcod_lbl_other => 'Diğer';
+
+  @override
   String get lcod_lbl_update_profile_photo => 'Profil Resmi Güncelleme';
 
   @override

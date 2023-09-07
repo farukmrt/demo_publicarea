@@ -8,6 +8,7 @@ class PhotoProvider with ChangeNotifier {
   final imagePicker = ImagePicker();
 
   Future takeAPhoto() async {
+    selectedImage = null;
     final pickedImage =
         await imagePicker.pickImage(source: ImageSource.camera, maxHeight: 600);
     if (pickedImage == null) {
@@ -18,6 +19,7 @@ class PhotoProvider with ChangeNotifier {
   }
 
   Future getAPhoto() async {
+    selectedImage = null;
     final pickedImage = await imagePicker.pickImage(
         source: ImageSource.gallery, maxHeight: 600);
     if (pickedImage == null) {
@@ -58,5 +60,10 @@ class PhotoProvider with ChangeNotifier {
       print("Error uploading image to Firebase: $e");
       return null;
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

@@ -183,8 +183,8 @@ class _PaymentSelectScreenState extends State<PaymentSelectScreen> {
                         children: [
                           Consumer<BillProvider>(
                             builder: (context, data, index) {
-                              return FutureBuilder<double>(
-                                future: data.fetchAmountTotalStatus(false,
+                              return StreamBuilder<double>(
+                                stream: data.fetchAmountTotalStatus(false,
                                     userProvider.currentUser.apartmentId),
                                 builder: (BuildContext context, snapshot) {
                                   //var bill = snapshot.data?;

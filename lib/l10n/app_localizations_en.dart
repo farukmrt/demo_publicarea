@@ -354,6 +354,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lcod_lbl_complaint => 'Complaint';
 
   @override
+  String get lcod_lbl_request => 'Request';
+
+  @override
+  String get lcod_lbl_satisfaction => 'Satisfaction';
+
+  @override
+  String get lcod_lbl_other => 'Other';
+
+  @override
   String get lcod_lbl_update_profile_photo => 'Profile Picture Update';
 
   @override

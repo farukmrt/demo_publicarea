@@ -157,8 +157,8 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                       Consumer<BillProvider>(
                                         builder: (context, data, index) {
-                                          return FutureBuilder<double>(
-                                            future: data.fetchAmountTotalStatus(
+                                          return StreamBuilder<double>(
+                                            stream: data.fetchAmountTotalStatus(
                                               false,
                                               userProvider
                                                   .currentUser.apartmentId,
@@ -177,7 +177,8 @@ class _MainScreenState extends State<MainScreen> {
                                                         .prograssiveDots(
                                                             color:
                                                                 mainBackgroundColor,
-                                                            size: 50),
+                                                            size: size.width /
+                                                                10),
                                                   ),
                                                 );
                                               } else if (snapshot.hasError) {
@@ -234,23 +235,27 @@ class _MainScreenState extends State<MainScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomTextButton(
-                    onTap: () {
-                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                        context,
-                        settings: RouteSettings(
-                          arguments: {
-                            'buildingId': userProvider.currentUser.buildingId,
-                          },
-                          name: AnnouncementScreen.routeName,
-                        ),
-                        screen: const AnnouncementScreen(),
-                        withNavBar: true,
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                      );
-                    },
-                    text: trnslt.lcod_lbl_see_all,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomTextButton(
+                      onTap: () {
+                        PersistentNavBarNavigator
+                            .pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(
+                            arguments: {
+                              'buildingId': userProvider.currentUser.buildingId,
+                            },
+                            name: AnnouncementScreen.routeName,
+                          ),
+                          screen: const AnnouncementScreen(),
+                          withNavBar: true,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
+                      text: trnslt.lcod_lbl_see_all,
+                    ),
                   ),
                   const SizedBox(width: 10),
                 ],

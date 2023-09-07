@@ -21,7 +21,6 @@ class CustomTextField extends StatelessWidget {
   final OutlineInputBorder? errorBorder;
   final int? maxLength;
   final String? Function(String?)? validator;
-  final String? initialValue;
 
   // final FormBuilderValidators? validator;2
   final String textName;
@@ -48,7 +47,6 @@ class CustomTextField extends StatelessWidget {
     this.autovalidate,
     this.validator,
     required this.textName,
-    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -59,7 +57,10 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: FormBuilderTextField(
         name: textName,
-        validator: FormBuilderValidators.compose([validator!]),
+        validator: validator != null
+            ? FormBuilderValidators.compose([validator!])
+            : null,
+
         autovalidateMode: autovalidate,
         maxLength: maxLength,
         maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
@@ -76,7 +77,7 @@ class CustomTextField extends StatelessWidget {
         //obscore false iken deger gozukur, true iken gozukmez
         // bu sebeple varsayilan olarak false verdik sifre kisimlarinda true atadik
         obscureText: obscore!,
-        initialValue: initialValue,
+
         decoration: InputDecoration(
           focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
           enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,

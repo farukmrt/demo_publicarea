@@ -79,21 +79,20 @@ class BillProvider with ChangeNotifier {
   }
 
 //toplam fatura tutarını alıyoruz
-  Future<double> fetchAmountTotalStatus(
-      bool paidStatus, String apartmentId) async {
+  Stream<double> fetchAmountTotalStatus(bool paidStatus, String apartmentId) {
     var collection = FirebaseFirestore.instance.collection('bills');
     final query = collection
         .where("isPaid", isEqualTo: paidStatus)
         .where("apartmentId", isEqualTo: apartmentId);
 
-    var querySnapshot = await query.get();
-    // return query.snapshots().map((querySnapshot) {
-    double total = 0;
-    querySnapshot.docs.forEach((bills) {
-      total += bills.data()['amount'];
+    var querySnapshot = query.get();
+    return query.snapshots().map((querySnapshot) {
+      double total = 0;
+      querySnapshot.docs.forEach((bills) {
+        total += bills.data()['amount'];
+      });
+      return total;
     });
-    return total;
-    // });
   }
 
   @override

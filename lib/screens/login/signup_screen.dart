@@ -4,8 +4,13 @@ import 'dart:io';
 import 'package:demo_publicarea/models/building.dart';
 import 'package:demo_publicarea/providers/building_provider.dart';
 import 'package:demo_publicarea/screens/login/extra_signup_screen.dart';
+import 'package:demo_publicarea/screens/settings/kvkk_screen.dart';
+import 'package:demo_publicarea/screens/settings/user_agreement.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
+import 'package:firebase_database/ui/firebase_list.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -38,11 +43,13 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _buildingController = TextEditingController();
   final TextEditingController _buildingIdController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  // final TextEditingController _kvkkUserAController = TextEditingController();
 
   // ignore: unused_field
   final List<BuildingModel> _buildingList = [];
   bool changing = false;
   bool isLoading = false;
+  bool agree = false;
   File? selectedImage;
   String? imageUrl;
   String defaultImageUrl =
@@ -61,8 +68,6 @@ class _SignupScreenState extends State<SignupScreen> {
   signUpUser(UserProvider userProvider, PhotoProvider photoProvider,
       BuildingProvider buildingProvider) async {
     if (selectedImage == null) {
-      // Eğer resim yüklenmediyse default resmi URL'sini kullanmak istiyorum
-      // ancak olmuyor, sendPP içerisinde taskSnapshot kısmında patlıyor.
       selectedImage = File(defaultImageUrl);
       imageUrl = await photoProvider.sendPP(
         selectedImage!,
@@ -118,6 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _surnameController.addListener(_mailControllerListener);
     _buildingController.addListener(_mailControllerListener);
     _phoneNumberController.addListener(_mailControllerListener);
+    //_kvkkUserAController.addListener(_mailControllerListener);
 
     //_buildingListFuture = BuildingProvider().fetchBuildingList();
   }
@@ -130,6 +136,8 @@ class _SignupScreenState extends State<SignupScreen> {
     String surnameValue = _surnameController.text;
     String buildingValue = _buildingController.text;
     String phonenumberValue = _phoneNumberController.text;
+    // String kvkkandUserValue = _kvkkUserAController.text;
+    // kvkkandUserValue = agree.toString();
 
     print('e-posta değeri: $mailValue');
     print('kullanıcı adı: $usernameValue');
@@ -138,17 +146,21 @@ class _SignupScreenState extends State<SignupScreen> {
     print('soyisim değeri: $surnameValue');
     print('bina adı değeri: $buildingValue');
     print('telefon num değeri: $phonenumberValue');
+    print('KVKK & UserAng $agree');
 
     setState(() {
       if (mailValue.endsWith('.com') &&
-          mailValue.contains('@') &&
-          passValue.length > 5 &&
-          usernameValue.length > 3 &&
-          nameValue.length > 3 &&
-          surnameValue.length > 2 &&
-          buildingValue.length > 5 &&
-          phonenumberValue.startsWith('05') &&
-          phonenumberValue.length == 11) {
+              mailValue.contains('@') &&
+              passValue.length > 5 &&
+              usernameValue.length > 3 &&
+              nameValue.length > 3 &&
+              surnameValue.length > 2 &&
+              buildingValue.length > 5 &&
+              phonenumberValue.startsWith('05') &&
+              phonenumberValue.length == 11
+          // &&
+          // agree == 'true'
+          ) {
         print('$changing');
         changing = true;
       } else {
@@ -285,70 +297,35 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                 ),
-                CustomIconbutton(
-                  title: 'title',
-                  icon: Icons.g_mobiledata,
-                  onTap: () async {
-                    await userProvider.signInWithGoogle();
-                    setState(() {
-                      _emailController.text = userProvider.currentUser.email;
-                      _nameController.text = userProvider.currentUser.name;
-                      _phoneNumberController.text =
-                          userProvider.currentUser.phoneNumber;
-                      defaultImageUrl = userProvider.currentUser.imageUrl;
-                    });
-                    print('asd ${userProvider.currentUser.name}');
-                    // PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                    //   context,
-                    //   settings: RouteSettings(
-                    //       name: ExtraSignupScreen.routeName,
-                    //       arguments: userProvider),
-                    //   screen: const ExtraSignupScreen(),
-                    //   withNavBar: false,
-                    //   pageTransitionAnimation:
-                    //       PageTransitionAnimation.cupertino,
-                    // );
-                  },
+                SignInButton(
+                  Buttons.Apple,
+                  text: 'Apple ile giriş yap',
+                  padding: EdgeInsets.all(4),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35.0),
+                  ),
+                  onPressed: () {},
                 ),
-                GestureDetector(
-                  // onTap: () {
-                  //   // Navigator.of(context).prepareAuthEvent;
-                  //   userProvider.signInWithGoogle();
-                  // },
-                  child: CustomIconbutton(
-                    title: 'title',
-                    icon: Icons.g_mobiledata,
-                    onTap: () async {
-                      await userProvider.signInWithGoogle();
-                      setState(() {
+                SignInButton(
+                  Buttons.Google,
+                  text: 'Google ile giriş yap',
+                  padding: EdgeInsets.all(4),
+                  //padding uygulanmadığı zaman google butonunun sol tarafına radius değeri verildiğinde istenen görüntüyü alamıyoruz.
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35),
+                  ),
+                  onPressed: () async {
+                    await userProvider.signInWithGoogle();
+                    setState(
+                      () {
                         _emailController.text = userProvider.currentUser.email;
                         _nameController.text = userProvider.currentUser.name;
                         _phoneNumberController.text =
                             userProvider.currentUser.phoneNumber;
                         defaultImageUrl = userProvider.currentUser.imageUrl;
-                      });
-                      print('asd ${userProvider.currentUser.name}');
-                      // PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                      //   context,
-                      //   settings: RouteSettings(
-                      //       name: ExtraSignupScreen.routeName,
-                      //       arguments: userProvider),
-                      //   screen: const ExtraSignupScreen(),
-                      //   withNavBar: false,
-                      //   pageTransitionAnimation:
-                      //       PageTransitionAnimation.cupertino,
-                      // );
-                    },
-                  ),
-
-                  // CustomMainButton(
-                  //   icon: Icons.g_mobiledata,
-                  //   text: 'google ile giriş için tıklayın',
-                  //   edgeInsets: const EdgeInsets.symmetric(horizontal: 25),
-                  //   onTap: () {
-                  //     userProvider.signInWithGoogle();
-                  //   },
-                  // ),
+                      },
+                    );
+                  },
                 ),
                 CustomTextField(
                   textName: 'createEmail',
@@ -495,6 +472,68 @@ class _SignupScreenState extends State<SignupScreen> {
                     return null;
                   },
                 ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadiusDirectional.circular(35),
+                      border: Border.all(
+                          width: 2, color: agree ? primaryColor : negative)),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: agree,
+                        onChanged: (value) {
+                          setState(() {
+                            agree = value ?? false;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            text: 'Giriş yapabilmek için lütfen ',
+                            style: const TextStyle(color: textColorBlck),
+                            children: [
+                              TextSpan(
+                                text: 'KVKK Metnini',
+                                style: TextStyle(color: linkColor),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    PersistentNavBarNavigator
+                                        .pushNewScreenWithRouteSettings(
+                                      context,
+                                      settings: RouteSettings(
+                                          name: KvkkScreen.routeName),
+                                      screen: const KvkkScreen(),
+                                      withNavBar: true,
+                                    );
+                                  },
+                              ),
+                              TextSpan(text: ' ve '),
+                              TextSpan(
+                                text: 'Kullanıcı Sözleşmesini',
+                                style: TextStyle(color: linkColor),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    PersistentNavBarNavigator
+                                        .pushNewScreenWithRouteSettings(
+                                      context,
+                                      settings: RouteSettings(
+                                          name: UserAgreementScreen.routeName),
+                                      screen: const UserAgreementScreen(),
+                                      withNavBar: true,
+                                    );
+                                  },
+                              ),
+                              TextSpan(text: ' onaylayınız.')
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 15),
                 CustomMainButton(
                   onTap: () {
@@ -502,14 +541,17 @@ class _SignupScreenState extends State<SignupScreen> {
                       changing;
                     });
                     isLoading = true;
-                    if (_formKey.currentState!.validate() && changing) {
+                    if (_formKey.currentState!.validate() &&
+                        changing &&
+                        agree) {
                       signUpUser(userProvider, photoProvider, buildingProvider);
                     }
                   },
                   text: trnslt.lcod_lbl_signup,
                   edgeInsets: const EdgeInsets.symmetric(vertical: 8),
-                  color:
-                      changing ? primaryColor : primaryColor.withOpacity(0.5),
+                  color: changing && agree
+                      ? primaryColor
+                      : primaryColor.withOpacity(0.5),
                 )
               ],
             ),

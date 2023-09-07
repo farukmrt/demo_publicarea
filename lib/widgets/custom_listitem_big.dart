@@ -77,17 +77,40 @@ class _CustomBigListItemState extends State<CustomBigListItem> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Container(
-                    child: Image.network(
-                      widget.image!,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return LoadingIndicator();
-                        }
-                      },
+                  child:
+                      // Container(
+                      //   child: Image.network(
+                      //     widget.image!,
+                      //     loadingBuilder: (BuildContext context, Widget child,
+                      //         ImageChunkEvent? loadingProgress) {
+                      //       if (loadingProgress == null) {
+                      //         return child;
+                      //       } else {
+                      //         return LoadingIndicator();
+                      //       }
+                      //     },
+                      //   ),
+                      // ),
+                      Container(
+                    height: size.width,
+                    width: double.infinity,
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(35)),
+                        child: Image.network(
+                          widget.image!,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return LoadingIndicator();
+                            }
+                          },
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),

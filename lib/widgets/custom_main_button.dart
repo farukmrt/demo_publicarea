@@ -37,7 +37,7 @@ class _CustomMainButtonState extends State<CustomMainButton> {
             foregroundColor: widget.color_act,
             disabledForegroundColor: widget.color_dis,
             minimumSize: const Size(double.infinity, 40),
-            fixedSize: Size(150, 40)),
+            fixedSize: const Size(150, 40)),
         onPressed: widget.onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

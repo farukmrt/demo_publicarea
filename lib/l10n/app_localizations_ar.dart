@@ -354,6 +354,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lcod_lbl_complaint => 'شكوى';
 
   @override
+  String get lcod_lbl_request => 'طلب';
+
+  @override
+  String get lcod_lbl_satisfaction => 'إشباع';
+
+  @override
+  String get lcod_lbl_other => 'آخر';
+
+  @override
   String get lcod_lbl_update_profile_photo => 'تحديث صورة الملف الشخصي';
 
   @override

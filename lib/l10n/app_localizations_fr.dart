@@ -354,6 +354,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lcod_lbl_complaint => 'Plainte';
 
   @override
+  String get lcod_lbl_request => 'Demande';
+
+  @override
+  String get lcod_lbl_satisfaction => 'Satisfaction';
+
+  @override
+  String get lcod_lbl_other => 'Autre';
+
+  @override
   String get lcod_lbl_update_profile_photo => 'Mise à Jour de l\'Image de Profil';
 
   @override

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:demo_publicarea/providers/bill_provider.dart';
 import 'package:demo_publicarea/providers/building_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/apigeeregistry/v1.dart';
 
 import '../models/user.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,9 @@ import 'package:demo_publicarea/screens/login/onboard_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class UserProvider extends ChangeNotifier {
+  String defaultImageUrl =
+      'https://firebasestorage.googleapis.com/v0/b/fir-publicarea.appspot.com/o/images%2FprofilePhoto%2Fdefault_pp.jpg?alt=media&token=b01afd32-81fd-46ce-b972-88c5e7278c7b';
+
   UserModel _user = UserModel(
     uid: '',
     email: '',
@@ -131,17 +135,30 @@ class UserProvider extends ChangeNotifier {
   //   );
   //   return await FirebaseAuth.instance.signInWithCredential(credential);
   // }
+  Future<void> signInWithApple() async {
+    // final AppleAuthCredential
+  }
+
   Future<void> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn(
-      scopes: ['email', 'profile'],
+      scopes: [
+        'email',
+        //'openid',
+        'profile',
+        // 'https://www.googleapis.com/auth/contacts.readonly',
+        // "https://www.googleapis.com/auth/userinfo.profile",
+        'https://www.googleapis.com/auth/user.phonenumbers.read',
+      ],
     ).signIn();
-
+//googleUser.
     final GoogleSignInAuthentication googleAuth =
         await googleUser!.authentication;
+
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
+
     // final GoogleSignInAccount? account = await GoogleSignIn().signInSilently();
     // final GoogleSignInAuthentication auth = await account!.authentication;
     //final String? phoneNumber = account.phoneNumber;
@@ -149,6 +166,7 @@ class UserProvider extends ChangeNotifier {
       final email = googleUser.email;
       final displayName = googleUser.displayName;
       final photoUrl = googleUser.photoUrl;
+      // final phoneNumber=googleUser.,
       final uid = googleUser.id;
 
       UserModel user = UserModel(
@@ -160,13 +178,14 @@ class UserProvider extends ChangeNotifier {
           building: '',
           apartmentId: '',
           buildingId: '',
-          imageUrl: googleUser.photoUrl ?? '',
+          imageUrl: googleUser.photoUrl ?? defaultImageUrl,
           phoneNumber: '',
           registrationTime: Timestamp.now());
 
       updateCurrentUser(user);
     }
-
+//  //tıklama ile üyelik oluşturma
+    //
     // final authResult =
     //     await FirebaseAuth.instance.signInWithCredential(credential);
     // if (authResult.user != null) {

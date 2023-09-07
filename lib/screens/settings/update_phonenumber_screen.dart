@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -108,15 +109,21 @@ class _UpdatePhonenumberScreenState extends State<UpdatePhonenumberScreen> {
                             labelText: trnslt.lcod_lbl_phone_text,
                             keyboardType: TextInputType.phone,
                             maxLength: 11,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  value.characters.length != 11 ||
-                                  !value.startsWith('05')) {
-                                return trnslt.lcod_lbl_control_phone_number;
-                              }
-                              return null;
-                            },
+                            validator: FormBuilderValidators.compose(
+                              [
+                                FormBuilderValidators.numeric(
+                                    errorText: 'Lütfen yalnızca rakam giriniz'),
+                                (value) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      value.characters.length != 11 ||
+                                      !value.startsWith('05')) {
+                                    return trnslt.lcod_lbl_control_phone_number;
+                                  }
+                                  return null;
+                                },
+                              ],
+                            ),
                           ),
                           const SizedBox(
                             height: 10,

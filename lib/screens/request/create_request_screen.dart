@@ -113,6 +113,27 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
         selectedValueType = listenSelectedValue;
         selectedValueType = 'lcod_lbl_request_complaint';
       }
+      if (listenSelectedValue == 'Talep' ||
+          listenSelectedValue == 'Demande' ||
+          listenSelectedValue == 'Request' ||
+          listenSelectedValue == 'طلب') {
+        selectedValueType = listenSelectedValue;
+        selectedValueType = 'lcod_lbl_request_request';
+      }
+      if (listenSelectedValue == 'Memnuniyet' ||
+          listenSelectedValue == 'Satisfaction' ||
+          listenSelectedValue == 'Satisfaction' ||
+          listenSelectedValue == 'إشباع') {
+        selectedValueType = listenSelectedValue;
+        selectedValueType = 'lcod_lbl_request_satisfaction';
+      }
+      if (listenSelectedValue == 'Diğer' ||
+          listenSelectedValue == 'Plainte' ||
+          listenSelectedValue == 'Autre' ||
+          listenSelectedValue == 'آخر') {
+        selectedValueType = listenSelectedValue;
+        selectedValueType = 'lcod_lbl_request_other';
+      }
     });
   }
 
@@ -151,19 +172,36 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
           child: Stack(
             children: [
               GestureDetector(
-                child: Container(
-                  color: primaryColor.withOpacity(0.5),
-                  // decoration: BoxDecoration(
-                  //     borderRadius: BorderRadiusDirectional.circular(1)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.file(
-                        selectedImage!,
-                        fit: BoxFit.scaleDown,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Container(
+                    height: size.width,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: mainBackgroundColor,
+                      borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(25), bottom: Radius.zero),
+                    ),
+                    // decoration: BoxDecoration(
+                    //     borderRadius: BorderRadiusDirectional.circular(1)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: size.width,
                         width: double.infinity,
-                        //height: 400,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(25), bottom: Radius.zero),
+                            child: Image.file(
+                              selectedImage!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              //height: 400,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -454,7 +492,10 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                             trnslt.lcod_lbl_fault,
                             trnslt.lcod_lbl_question,
                             trnslt.lcod_lbl_suggestion,
-                            trnslt.lcod_lbl_complaint
+                            trnslt.lcod_lbl_complaint,
+                            trnslt.lcod_lbl_request,
+                            trnslt.lcod_lbl_satisfaction,
+                            trnslt.lcod_lbl_other,
                           ],
 
                           onChanged: (String? newValue) {

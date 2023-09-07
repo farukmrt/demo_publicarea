@@ -787,6 +787,24 @@ abstract class AppLocalizations {
   /// **'Şikayet'**
   String get lcod_lbl_complaint;
 
+  /// No description provided for @lcod_lbl_request.
+  ///
+  /// In tr, this message translates to:
+  /// **'Talep'**
+  String get lcod_lbl_request;
+
+  /// No description provided for @lcod_lbl_satisfaction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Memnuniyet'**
+  String get lcod_lbl_satisfaction;
+
+  /// No description provided for @lcod_lbl_other.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer'**
+  String get lcod_lbl_other;
+
   /// No description provided for @lcod_lbl_update_profile_photo.
   ///
   /// In tr, this message translates to:

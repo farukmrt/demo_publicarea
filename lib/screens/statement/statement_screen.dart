@@ -263,8 +263,8 @@ class _StatementScreenState extends State<StatementScreen> {
                         Text(trnslt.lcod_lbl_statement_total),
                         Consumer<BillProvider>(
                           builder: (context, data, index) {
-                            return FutureBuilder<double>(
-                              future: data.fetchAmountTotalStatus(
+                            return StreamBuilder<double>(
+                              stream: data.fetchAmountTotalStatus(
                                   false, userProvider.currentUser.apartmentId),
                               builder: (BuildContext context, snapshot) {
                                 if (snapshot.hasData) {

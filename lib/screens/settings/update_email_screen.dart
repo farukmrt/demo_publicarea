@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -102,16 +103,32 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                             controller: newMailController,
                             labelText: trnslt.lcod_lbl_new_email,
                             maxLength: 33,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  !value.endsWith('.com') ||
-                                  !value.contains('@') ||
-                                  value.characters.length < 9) {
-                                return trnslt.lcod_lbl_control_email;
-                              }
-                              return null;
-                            },
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.email(
+                                  errorText:
+                                      'Lütfen E-Mail adresinizi kontrol ediniz'), //trnslt.lcod_lbl_email;
+                              FormBuilderValidators.required(
+                                  errorText: 'Lütfen E-Mail adresinizi girin'),
+                              (value) {
+                                if (value != null &&
+                                    (value.length < 7 ||
+                                        !value.endsWith('.com') ||
+                                        !value.contains('@'))) {
+                                  return 'Lütfen E-Mail adresinizi kontrol ediniz3'; //trnslt.lcod_lbl_email;
+                                }
+                                return null;
+                              },
+                            ]),
+                            //  (value) {
+                            //   if (value == null ||
+                            //       value.isEmpty ||
+                            //       !value.endsWith('.com') ||
+                            //       !value.contains('@') ||
+                            //       value.characters.length < 9) {
+                            //     return trnslt.lcod_lbl_control_email;
+                            //   }
+                            //   return null;
+                            // },
                           ),
                           const SizedBox(
                             height: 10,

@@ -1,3 +1,4 @@
+import 'package:demo_publicarea/providers/photo_provider.dart';
 import 'package:demo_publicarea/widgets/custom_button.dart';
 
 import 'request_detail_screen.dart';
@@ -44,6 +45,7 @@ class _RequestScreenState extends State<RequestScreen> {
 
   @override
   void dispose() {
+    PhotoProvider;
     super.dispose();
   }
 
@@ -256,6 +258,9 @@ class _RequestScreenState extends State<RequestScreen> {
                                         );
                                       },
                                       child: CustomRequestCard(
+                                        color: index % 2 == 0
+                                            ? primarytheme1
+                                            : primarytheme2,
                                         requestType: requestT.requestType,
                                         requestTitle: requestT.requestTitle,
                                         apartmentNumber:
@@ -318,6 +323,10 @@ class _RequestScreenState extends State<RequestScreen> {
                                         );
                                       },
                                       child: CustomRequestCard(
+                                        color: index % 2 == 0
+                                            ? Color(0xFFFFFFFF) //primarytheme2
+                                            : Color(
+                                                0xFFFFFFFF), //primarytheme1,
                                         requestType: requestF.requestType,
                                         requestTitle: requestF.requestTitle,
                                         apartmentNumber:

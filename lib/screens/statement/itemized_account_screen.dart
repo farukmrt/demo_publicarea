@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:demo_publicarea/models/bill.dart';
 import 'package:demo_publicarea/utils/colors.dart';
@@ -123,85 +124,82 @@ class _ItemizedAccountScreenState extends State<ItemizedAccountScreen> {
                 color: mainBackgroundColor,
                 child: Padding(
                   padding: const EdgeInsets.all(1.0),
-                  child: Column(
+                  child: Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          //toplam borc ve odenen tutarlari gosterebilmek icin verileri cekiyoruz
-                          //??? tekrara dusuldu hatali bir islem mi
-                          Container(
-                            width: size.width / 2 - 2,
-                            child: Consumer<BillProvider>(
-                              builder: (context, data, index) {
-                                return FutureBuilder<double>(
-                                  future: data.fetchAmountTotalStatus(false,
-                                      userProvider.currentUser.apartmentId),
-                                  builder: (BuildContext context, snapshot) {
-                                    //var bill = snapshot.data?;
-                                    if (snapshot.hasData) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: LoadingIndicator(),
-                                        );
-                                      } else {
-                                        return CustomDoubleIconbutton(
-                                          color: negative.shade200,
-                                          title: trnslt.lcod_lbl_debt,
-                                          rightText:
-                                              NoyaFormatter.generateAmount(
-                                                  snapshot.data),
-                                          icon: Icons.payments_outlined,
-                                          size: 60,
-                                        );
-                                      }
-                                    } else if (snapshot.hasError) {
-                                      return const Text('no data');
-                                    }
-                                    return const LoadingIndicator();
-                                  },
-                                );
+                      Container(
+                        width: size.width / 2 - 2,
+                        child: Consumer<BillProvider>(
+                          builder: (context, data, index) {
+                            return StreamBuilder<double>(
+                              stream: data.fetchAmountTotalStatus(
+                                  false, userProvider.currentUser.apartmentId),
+                              builder: (BuildContext context, snapshot) {
+                                //var bill = snapshot.data?;
+                                if (snapshot.hasData) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: LoadingAnimationWidget
+                                          .prograssiveDots(
+                                              color: positive, size: 60),
+                                    );
+                                  } else {
+                                    return CustomDoubleIconbutton(
+                                      color: negative.shade200,
+                                      title: trnslt.lcod_lbl_debt,
+                                      rightText: NoyaFormatter.generateAmount(
+                                          snapshot.data),
+                                      icon: Icons.payments_outlined,
+                                      size: 60,
+                                    );
+                                  }
+                                } else if (snapshot.hasError) {
+                                  return const Text('no data');
+                                }
+                                return LoadingAnimationWidget.prograssiveDots(
+                                    color: positive, size: 60);
                               },
-                            ),
-                          ),
-                          Container(
-                            width: size.width / 2 - 2,
-                            child: Consumer<BillProvider>(
-                              builder: (context, data, index) {
-                                return FutureBuilder<double>(
-                                  future: data.fetchAmountTotalStatus(true,
-                                      userProvider.currentUser.apartmentId),
-                                  builder: (BuildContext context, snapshot) {
-                                    //var bill = snapshot.data?;
-                                    if (snapshot.hasData) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: LoadingIndicator(),
-                                        );
-                                      } else {
-                                        return CustomDoubleIconbutton(
-                                          title: trnslt.lcod_lbl_paid,
-                                          color: positive.shade200,
-                                          rightText:
-                                              NoyaFormatter.generateAmount(
-                                                  snapshot.data),
-                                          icon: Icons.credit_score_outlined,
-                                          size: 60,
-                                        );
-                                      }
-                                    } else if (snapshot.hasError) {
-                                      return const Text('no data');
-                                    }
-                                    return const LoadingIndicator();
-                                  },
-                                );
+                            );
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: size.width / 2 - 2,
+                        child: Consumer<BillProvider>(
+                          builder: (context, data, index) {
+                            return StreamBuilder<double>(
+                              stream: data.fetchAmountTotalStatus(
+                                  true, userProvider.currentUser.apartmentId),
+                              builder: (BuildContext context, snapshot) {
+                                //var bill = snapshot.data?;
+                                if (snapshot.hasData) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: LoadingAnimationWidget
+                                          .prograssiveDots(
+                                              color: negative, size: 60),
+                                    );
+                                  } else {
+                                    return CustomDoubleIconbutton(
+                                      title: trnslt.lcod_lbl_paid,
+                                      color: positive.shade200,
+                                      rightText: NoyaFormatter.generateAmount(
+                                          snapshot.data),
+                                      icon: Icons.credit_score_outlined,
+                                      size: 60,
+                                    );
+                                  }
+                                } else if (snapshot.hasError) {
+                                  return const Text('no data');
+                                }
+                                return LoadingAnimationWidget.prograssiveDots(
+                                    color: negative, size: 60);
                               },
-                            ),
-                          ),
-                        ],
-                      )
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),

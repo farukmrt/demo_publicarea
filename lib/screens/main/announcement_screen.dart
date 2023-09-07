@@ -273,25 +273,27 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<Announcement>(
                 itemBuilder: (context, announcement, index) => Container(
-                  child: StreamBuilder<Announcement?>(
-                    stream: announcementProvider
-                        .fetchAnnouncementDetails(announcement.id),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        loading = true;
-                        print(snapshot.connectionState);
-                        return loading
-                            ? getShimmerLoading()
-                            : datascreen(snapshot.data);
-                      } else {
-                        loading = false;
-                        return //loading
-                            //? getShimmerLoading()
-                            datascreen(snapshot.data);
-                      }
-                    },
-                  ),
-                ),
+                    child: datascreen(announcement)
+
+                    //     StreamBuilder<Announcement?>(
+                    //   stream: announcementProvider
+                    //       .fetchAnnouncementDetails(announcement.id),
+                    //   builder: (context, snapshot) {
+                    //     if (snapshot.connectionState == ConnectionState.waiting) {
+                    //       loading = true;
+                    //       print(snapshot.connectionState);
+                    //       return loading
+                    //           ? getShimmerLoading()
+                    //           : datascreen(snapshot.data);
+                    //     } else {
+                    //       loading = false;
+                    //       return //loading
+                    //           //? getShimmerLoading()
+                    //           datascreen(snapshot.data);
+                    //     }
+                    //   },
+                    // ),
+                    ),
 
                 // Padding(
                 //   padding: const EdgeInsets.all(1.0),
@@ -359,17 +361,18 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                 },
                 animateTransitions: true,
                 transitionDuration: Duration(milliseconds: 450),
+
                 firstPageProgressIndicatorBuilder: (context) {
                   return Column(
                     children: createShimmerLoadings(
-                        6), // İlk açılışta 6 adet ShimmerLoading oluşturur
+                        6), // İlk açılışta 6 adet ShimmerLoading oluştur
                   );
                 },
 
                 newPageProgressIndicatorBuilder: (context) {
                   return Column(
                     children: createShimmerLoadings(
-                        6), // İlk açılışta 6 adet ShimmerLoading oluşturur
+                        6), // Yeni liste yüklendiğinde 6 adet ShimmerLoading oluşturur
                   );
                 },
               ),

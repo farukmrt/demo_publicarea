@@ -172,6 +172,9 @@
     "lcod_lbl_question":"Soru",
     "lcod_lbl_suggestion":"Öneri",
     "lcod_lbl_complaint":"Şikayet",
+    "lcod_lbl_request":"Talep",
+    "lcod_lbl_satisfaction":"Memnuniyet",
+    "lcod_lbl_other":"Diğer",
 
     "lcod_lbl_update_profile_photo":"Profil Resmi Güncelleme",
     "lcod_lbl_update_email":"E-Mail Güncelleme",

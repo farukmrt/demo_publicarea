@@ -1,6 +1,7 @@
 import 'package:demo_publicarea/providers/building_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -182,17 +183,55 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         if (isLoading)
           Positioned(
-              top: size.width,
-              left: size.width / 3,
-              child: Center(
-                child: LoadingAnimationWidget.prograssiveDots(
-                    color: primaryColor, size: size.width / 3),
-              ))
+            top: size.width,
+            left: size.width / 3,
+            child: Center(
+              child: LoadingAnimationWidget.prograssiveDots(
+                  color: primaryColor, size: size.width / 3),
+            ),
+          ),
         // if (isLoading)
         //   Center(
         //     child: LoadingAnimationWidget.prograssiveDots(
         //         color: mainBackgroundColor, size: size.width / 3),
         //   ),
+        Positioned(
+          bottom: size.width / 5,
+          child: Container(
+            width: size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SignInButton(
+                  Buttons.Apple,
+                  text: 'Apple ile giriş yap',
+                  padding: EdgeInsets.all(4),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35),
+                  ),
+                  onPressed: () {},
+                ),
+                SignInButton(
+                  Buttons.Google,
+                  text: 'Google ile giriş yap',
+                  padding: EdgeInsets.all(4),
+                  //padding uygulanmadığı zaman google butonunun sol tarafına radius değeri verildiğinde istenen görüntüyü alamıyoruz.
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35),
+                  ),
+                  onPressed: () async {
+                    await userProvider.signInWithGoogle();
+                    setState(
+                      () {
+                        _emailController.text = userProvider.currentUser.email;
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
